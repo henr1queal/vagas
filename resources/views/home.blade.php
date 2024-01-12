@@ -85,7 +85,7 @@
                 </form>
             </div>
             <div class="col-lg-11 overflow-auto content ps-0">
-                <h2 class="montserrat fs-24 text-center pb-4"><strong>Vagas em aberto (325):</strong></h2>
+                <h2 class="montserrat fs-24 text-center pb-4"><strong>Vagas em aberto (525):</strong></h2>
                 <div class="row bg-white my-6 py-5 m-0 position-relative rounded-3 daily">
                     <div class="py-2"></div>
                     <div
