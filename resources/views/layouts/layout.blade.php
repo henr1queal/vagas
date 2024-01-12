@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt" class="h-100">
 
 <head>
     <meta charset="UTF-8">
@@ -25,6 +25,10 @@
             font-size: 62.5%;
         }
         
+        .fs-14 {
+            font-size: 1.4rem;
+        }
+
         .fs-15 {
             font-size: 1.5rem;
         }
@@ -60,14 +64,31 @@
         }
 
         header {
-            height: 25dvh;
+            height: 20dvh;
             background-color: #003366;
+        }
+
+        @media (min-width: 1024px) {
+            nav {
+                height: 5dvh;
+            }
         }
     </style>
     @yield('css')
 </head>
 
-<body>
+<body class="h-100">
+    <nav class="py-3 d-flex gap-4 justify-content-center align-items-center justify-content-md-end px-lg-5">
+        <a class="text-black d-inline-block roboto fs-18 fw-normal" href="http://">Publicar uma vaga</a>
+        <hr class="vr my-0">
+        <a class="text-black d-inline-block roboto fs-18 fw-normal" href="http://">Painel</a>
+    </nav>
+    <header class="d-flex justify-content-center align-items-center">
+        <div class="col text-center">
+            <h1 class="text-white roboto fs-32"><strong>Vagas Maceió</strong></h1>
+            <h2 class="text-white montserrat fs-20 fw-normal mb-0">Conectando você com o futuro.</h2>
+        </div>
+    </header>
     @yield('content')
     @yield('scripts')
 </body>
