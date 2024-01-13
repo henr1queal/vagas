@@ -1,2 +1,2 @@
-<?php header("Location: localhost://");
+<?php header("Location: https://vagasmaceio.com.br/");
 exit;
