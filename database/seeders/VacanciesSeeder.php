@@ -20,7 +20,7 @@ class VacanciesSeeder extends Seeder
         $faker = Faker::create();
 
         // Insere 100 vagas com dados aleatórios
-        for ($i = 0; $i < 1500; $i++) {
+        for ($i = 0; $i < 150; $i++) {
             DB::table('vacancies')->insert([
                 'title' => $faker->randomElement([
                     'Engenheiro Civil',
