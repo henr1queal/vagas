@@ -36,6 +36,10 @@
         .fs-16 {
             font-size: 1.6rem;
         }
+       
+        .fs-17 {
+            font-size: 1.61rem;
+        }
         
         .fs-18 {
             font-size: 1.8rem;
