@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [VacanciesController::class, 'index'])->name('home');
+Route::get('/vaga/{vacancy}', [VacanciesController::class, 'show'])->name('vacancy');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -157,8 +157,8 @@
                 <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body pt-0 pb-5">
                         <div class="filter-wrapper pt-lg-5 text-center text-lg-start filter-mobile">
-                            <form action="" method="get"
-                                class="d-flex flex-column h-100 gap-4 position-relative" id="form-filters">
+                            <form action="" method="get" class="d-flex flex-column h-100 gap-4 position-relative"
+                                id="form-filters">
                                 <h4 class="text-black montserrat fs-20 fw-normal text-center d-none d-lg-block">
                                     <strong>Filtros:</strong>
                                 </h4>
@@ -254,28 +254,35 @@
             <div class="col-11 overflow-auto content px-0 pe-lg-3 pe-xxl-2 pt-4 pt-lg-0">
                 <h2 class="montserrat fs-24 text-center pb-4 mt-4 mb-5"><strong>Vagas em aberto (9):</strong></h2>
                 <div class="d-flex flex-column gap-4">
-                    <div class="row bg-white py-5 m-0 position-relative rounded-3 daily mt-5 mb-4 mt-5">
-                        <div class="py-2"></div>
-                        <div
-                            class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
-                            <p class="text-black montserrat fs-18 mb-0"><strong>10</strong></p>
-                            <p class="text-black montserrat fs-15 mb-0">Jan.</p>
+                    @php
+                        $date = null;
+                    @endphp
+                    @foreach ($highlighted_vacancies as $vacancy)
+                        <div class="row bg-white py-5 m-0 position-relative rounded-3 daily mt-5 mb-4 mt-5">
+                            <div class="py-2"></div>
+                            <div
+                                class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
+                                <p class="text-black montserrat fs-18 mb-0">
+                                    <strong>{{$vacancy->formatted_created_at['day']}}</strong></p>
+                                <p class="text-black montserrat fs-15 mb-0">{{$vacancy->formatted_created_at['month']}}</p>
+                            </div>
+                            <div
+                                class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute destaque">
+                                <p class="text-white montserrat fs-18 mb-0"><strong>Vaga em destaque</strong></p>
+                            </div>
+                            <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
+                                onmouseout="downSizeFont(this)" onclick="viewVacancy()">
+                                <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"><strong>ANALISTA DE
+                                        SISTEMAS
+                                        JÚNIOR</strong></h2>
+                                <h3 class="montserrat fs-16 subtitle">Tipo de empregos: Tempo Integral</h3>
+                                <h3 class="montserrat fs-16 subtitle">Regime: CLT</h3>
+                                <h3 class="montserrat fs-16 subtitle">Carga horária: 44h semanais</h3>
+                                <h3 class="montserrat fs-16 subtitle">Salário: A combinar</h3>
+                                <h3 class="montserrat fs-16 subtitle mb-0">Empresa: Confidencial.</h3>
+                            </div>
                         </div>
-                        <div
-                            class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute destaque">
-                            <p class="text-white montserrat fs-18 mb-0"><strong>Vaga em destaque</strong></p>
-                        </div>
-                        <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                            onmouseout="downSizeFont(this)" onclick="viewVacancy()">
-                            <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"><strong>ANALISTA DE SISTEMAS
-                                    JÚNIOR</strong></h2>
-                            <h3 class="montserrat fs-16 subtitle">Tipo de empregos: Tempo Integral</h3>
-                            <h3 class="montserrat fs-16 subtitle">Regime: CLT</h3>
-                            <h3 class="montserrat fs-16 subtitle">Carga horária: 44h semanais</h3>
-                            <h3 class="montserrat fs-16 subtitle">Salário: A combinar</h3>
-                            <h3 class="montserrat fs-16 subtitle mb-0">Empresa: Confidencial.</h3>
-                        </div>
-                    </div>
+                    @endforeach
                     <div class="row gap-2 bg-white py-5 m-0 position-relative rounded-3 daily mt-5 mb-4 mt-5">
                         <div class="py-2"></div>
                         <div

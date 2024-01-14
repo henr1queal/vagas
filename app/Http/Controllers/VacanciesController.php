@@ -12,7 +12,48 @@ class VacanciesController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $vacancies = Vacancy::select([
+            'title',
+            'employment_type',
+            'job_type',
+            'workload',
+            'salary',
+            'company_name',
+            'choiced_plan',
+            'created_at',
+        ])
+            ->whereIn('choiced_plan', ['Destaque', 'Normal'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Mapeia as datas formatadas para português abreviado em 3 letras
+        // Mapeia as datas formatadas para português abreviado em 3 letras
+        $formattedVacancies = $vacancies->map(function ($vacancy) {
+            $formattedDate = $vacancy->created_at->translatedFormat('M, d Y'); // Formata a data para "M, d Y"
+            [$month, $day, $year] = explode(' ', $formattedDate);
+
+            // Adiciona as propriedades de dia, mês e ano diretamente no objeto Eloquent
+            $vacancy->formatted_created_at = [
+                'month' => ucfirst(rtrim($month, ',')),
+                'day' => $day,
+                'year' => $year,
+            ];
+
+            return $vacancy;
+        });
+
+        $highlightedVacancies = $formattedVacancies->filter(function ($vacancy) {
+            return $vacancy->choiced_plan === 'Destaque';
+        });
+
+        $normalVacancies = $formattedVacancies->filter(function ($vacancy) {
+            return $vacancy->choiced_plan === 'Normal';
+        });
+
+        return view('home', [
+            'highlighted_vacancies' => $highlightedVacancies,
+            'normal_vacancies' => $normalVacancies,
+        ]);
     }
 
     /**
@@ -36,7 +77,7 @@ class VacanciesController extends Controller
      */
     public function show(Vacancy $vacancy)
     {
-        //
+        dd('xd');
     }
 
     /**
