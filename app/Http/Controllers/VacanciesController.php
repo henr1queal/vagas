@@ -27,14 +27,16 @@ class VacanciesController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $groupedVacancies = $vacancies->groupBy([
+        $count_vacancies = $vacancies->count();
+
+        $grouped_vacancies = $vacancies->groupBy([
             'choiced_plan',
             function ($vacancy) {
                 return $vacancy->created_at->toDateString();
             },
         ]);
 
-        $groupedVacancies['Destaque']->map(function ($vacancies) {
+        $grouped_vacancies['Destaque']->map(function ($vacancies) {
             return $vacancies->map(function ($vacancy) {
                 $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
                 $vacancy->formatted_created_at = [
@@ -46,7 +48,7 @@ class VacanciesController extends Controller
             });
         });
 
-        $groupedVacancies['Normal']->map(function ($vacancies) {
+        $grouped_vacancies['Normal']->map(function ($vacancies) {
             return $vacancies->map(function ($vacancy) {
                 $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
                 $vacancy->formatted_created_at = [
@@ -59,8 +61,9 @@ class VacanciesController extends Controller
         });
 
         return view('home', [
-            'highlighted_vacancies' => $groupedVacancies['Destaque'],
-            'normal_vacancies' => $groupedVacancies['Normal'],
+            'highlighted_vacancies' => $grouped_vacancies['Destaque'],
+            'normal_vacancies' => $grouped_vacancies['Normal'],
+            'count_vacancies' => $count_vacancies,
         ]);
     }
 
