@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vacancy;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class VacanciesController extends Controller
@@ -26,35 +27,43 @@ class VacanciesController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // Mapeia as datas formatadas para português abreviado em 3 letras
-        // Mapeia as datas formatadas para português abreviado em 3 letras
-        $formattedVacancies = $vacancies->map(function ($vacancy) {
-            $formattedDate = $vacancy->created_at->translatedFormat('M, d Y'); // Formata a data para "M, d Y"
-            [$month, $day, $year] = explode(' ', $formattedDate);
+        $groupedVacancies = $vacancies->groupBy([
+            'choiced_plan',
+            function ($vacancy) {
+                return $vacancy->created_at->toDateString();
+            },
+        ]);
 
-            // Adiciona as propriedades de dia, mês e ano diretamente no objeto Eloquent
-            $vacancy->formatted_created_at = [
-                'month' => ucfirst(rtrim($month, ',')),
-                'day' => $day,
-                'year' => $year,
-            ];
-
-            return $vacancy;
+        $groupedVacancies['Destaque']->map(function ($vacancies) {
+            return $vacancies->map(function ($vacancy) {
+                $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
+                $vacancy->formatted_created_at = [
+                    'month' => ucfirst(substr($date->translatedFormat('F'), 0, 3)),
+                    'day' => $date->day,
+                    'year' => $date->year,
+                ];
+                return $vacancy;
+            });
         });
 
-        $highlightedVacancies = $formattedVacancies->filter(function ($vacancy) {
-            return $vacancy->choiced_plan === 'Destaque';
-        });
-
-        $normalVacancies = $formattedVacancies->filter(function ($vacancy) {
-            return $vacancy->choiced_plan === 'Normal';
+        $groupedVacancies['Normal']->map(function ($vacancies) {
+            return $vacancies->map(function ($vacancy) {
+                $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
+                $vacancy->formatted_created_at = [
+                    'month' => ucfirst(substr($date->translatedFormat('F'), 0, 3)),
+                    'day' => $date->day,
+                    'year' => $date->year,
+                ];
+                return $vacancy;
+            });
         });
 
         return view('home', [
-            'highlighted_vacancies' => $highlightedVacancies,
-            'normal_vacancies' => $normalVacancies,
+            'highlighted_vacancies' => $groupedVacancies['Destaque'],
+            'normal_vacancies' => $groupedVacancies['Normal'],
         ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
