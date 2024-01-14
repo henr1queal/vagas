@@ -38,7 +38,7 @@ class VacanciesController extends Controller
             return $vacancies->map(function ($vacancy) {
                 $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
                 $vacancy->formatted_created_at = [
-                    'month' => ucfirst(substr($date->translatedFormat('F'), 0, 3)),
+                    'month' => substr($date->translatedFormat('F'), 0, 3),
                     'day' => $date->day,
                     'year' => $date->year,
                 ];
@@ -50,7 +50,7 @@ class VacanciesController extends Controller
             return $vacancies->map(function ($vacancy) {
                 $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
                 $vacancy->formatted_created_at = [
-                    'month' => ucfirst(substr($date->translatedFormat('F'), 0, 3)),
+                    'month' => substr($date->translatedFormat('F'), 0, 3),
                     'day' => $date->day,
                     'year' => $date->year,
                 ];

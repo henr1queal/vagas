@@ -83,6 +83,14 @@
             }
         }
 
+        .month {
+            text-transform: capitalize;
+        }
+
+        .title {
+            text-transform: uppercase;
+        }
+
         #input-search {
             background-image: url(https://www.w3schools.com/css/searchicon.png);
             background-position: center left 10px;
@@ -262,9 +270,7 @@
                                 <p class="text-black montserrat fs-18 mb-0">
                                     <strong>{{ $vacancies->first()->created_at->format('d') }}</strong>
                                 </p>
-                                <p class="text-black montserrat fs-15 mb-0">
-                                    {{ $vacancies->first()->formatted_created_at['month'] }}
-                                </p>
+                                <p class="text-black montserrat fs-15 mb-0 month">{{ $vacancies->first()->formatted_created_at['month'] }}.</p>
                             </div>
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute destaque">
@@ -295,7 +301,7 @@
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
                                 <p class="text-black montserrat fs-18 mb-0"><strong>{{ $vacancies->first()->created_at->format('d') }}</strong></p>
-                                <p class="text-black montserrat fs-15 mb-0">{{ $vacancies->first()->formatted_created_at['month'] }}</p>
+                                <p class="text-black montserrat fs-15 mb-0 month">{{ $vacancies->first()->formatted_created_at['month'] }}.</p>
                             </div>
                             @foreach ($vacancies as $vacancy)
                                 @if (!$loop->first)
