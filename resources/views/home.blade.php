@@ -254,115 +254,68 @@
             <div class="col-11 overflow-auto content px-0 pe-lg-3 pe-xxl-2 pt-4 pt-lg-0">
                 <h2 class="montserrat fs-24 text-center pb-4 mt-4 mb-5"><strong>Vagas em aberto (9):</strong></h2>
                 <div class="d-flex flex-column gap-4">
-                    @php
-                        $date = null;
-                    @endphp
-                    @foreach ($highlighted_vacancies as $vacancy)
+                    @foreach ($highlighted_vacancies as $vacancies)
                         <div class="row bg-white py-5 m-0 position-relative rounded-3 daily mt-5 mb-4 mt-5">
                             <div class="py-2"></div>
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
                                 <p class="text-black montserrat fs-18 mb-0">
-                                    <strong>{{$vacancy->formatted_created_at['day']}}</strong></p>
-                                <p class="text-black montserrat fs-15 mb-0">{{$vacancy->formatted_created_at['month']}}</p>
+                                    <strong>{{ $vacancies->first()->created_at->format('d') }}</strong>
+                                </p>
+                                <p class="text-black montserrat fs-15 mb-0">
+                                    {{ $vacancies->first()->formatted_created_at['month'] }}
+                                </p>
                             </div>
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute destaque">
                                 <p class="text-white montserrat fs-18 mb-0"><strong>Vaga em destaque</strong></p>
                             </div>
-                            <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                                onmouseout="downSizeFont(this)" onclick="viewVacancy()">
-                                <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"><strong>ANALISTA DE
-                                        SISTEMAS
-                                        JÚNIOR</strong></h2>
-                                <h3 class="montserrat fs-16 subtitle">Tipo de empregos: Tempo Integral</h3>
-                                <h3 class="montserrat fs-16 subtitle">Regime: CLT</h3>
-                                <h3 class="montserrat fs-16 subtitle">Carga horária: 44h semanais</h3>
-                                <h3 class="montserrat fs-16 subtitle">Salário: A combinar</h3>
-                                <h3 class="montserrat fs-16 subtitle mb-0">Empresa: Confidencial.</h3>
-                            </div>
+                            @foreach ($vacancies as $vacancy)
+                                @if (!$loop->first)
+                                    <hr>
+                                @endif
+                                <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
+                                    onmouseout="downSizeFont(this)" onclick="viewVacancy()">
+                                    <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;">
+                                        <strong>{{ $vacancy->title }}</strong>
+                                    </h2>
+                                    <h3 class="montserrat fs-16 subtitle">Tipo de empregos: {{ $vacancy->job_type }}</h3>
+                                    <h3 class="montserrat fs-16 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
+                                    <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h semanais
+                                    </h3>
+                                    <h3 class="montserrat fs-16 subtitle">Salário: R$ {{ $vacancy->salary }}</h3>
+                                    <h3 class="montserrat fs-16 subtitle mb-0">Empresa: {{ $vacancy->company_name }}.</h3>
+                                </div>
+                            @endforeach
                         </div>
                     @endforeach
-                    <div class="row gap-2 bg-white py-5 m-0 position-relative rounded-3 daily mt-5 mb-4 mt-5">
-                        <div class="py-2"></div>
-                        <div
-                            class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
-                            <p class="text-black montserrat fs-18 mb-0"><strong>12</strong></p>
-                            <p class="text-black montserrat fs-15 mb-0">Jan.</p>
+                    @foreach ($normal_vacancies as $vacancies)
+                        <div class="row gap-2 bg-white py-5 m-0 position-relative rounded-3 daily mt-5 mb-4 mt-5">
+                            <div class="py-2"></div>
+                            <div
+                                class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
+                                <p class="text-black montserrat fs-18 mb-0"><strong>{{ $vacancies->first()->created_at->format('d') }}</strong></p>
+                                <p class="text-black montserrat fs-15 mb-0">{{ $vacancies->first()->formatted_created_at['month'] }}</p>
+                            </div>
+                            @foreach ($vacancies as $vacancy)
+                                @if (!$loop->first)
+                                    <hr class="my-4">
+                                @endif
+                                <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
+                                    onmouseout="downSizeFont(this)" onclick="viewVacancy()">
+                                    <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;">
+                                        <strong>{{ $vacancy->title }}</strong>
+                                    </h2>
+                                    <h3 class="montserrat fs-16 subtitle">Tipo de empregos: {{ $vacancy->job_type }}</h3>
+                                    <h3 class="montserrat fs-16 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
+                                    <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h semanais
+                                    </h3>
+                                    <h3 class="montserrat fs-16 subtitle">Salário: R$ {{ $vacancy->salary }}</h3>
+                                    <h3 class="montserrat fs-16 subtitle mb-0">Empresa: {{ $vacancy->company_name }}.</h3>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                            onmouseout="downSizeFont(this)" onclick="viewVacancy()">
-                            <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"><strong>ANALISTA DE SISTEMAS
-                                    JÚNIOR</strong></h2>
-                            <h3 class="montserrat fs-16 subtitle">Tipo de emprego: Tempo Integral</h3>
-                            <h3 class="montserrat fs-16 subtitle">Regime: CLT</h3>
-                            <h3 class="montserrat fs-16 subtitle">Carga horária: 44h semanais</h3>
-                            <h3 class="montserrat fs-16 subtitle">Salário: A combinar</h3>
-                            <h3 class="montserrat fs-16 subtitle mb-0">Empresa: Confidencial.</h3>
-                        </div>
-                        <hr class="my-4">
-                        <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                            onmouseout="downSizeFont(this)" onclick="viewVacancy()">
-                            <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"><strong>ANALISTA DE SISTEMAS
-                                    JÚNIOR</strong></h2>
-                            <h3 class="montserrat fs-16 subtitle">Tipo de emprego: Tempo Integral</h3>
-                            <h3 class="montserrat fs-16 subtitle">Regime: CLT</h3>
-                            <h3 class="montserrat fs-16 subtitle">Carga horária: 44h semanais</h3>
-                            <h3 class="montserrat fs-16 subtitle">Salário: A combinar</h3>
-                            <h3 class="montserrat fs-16 subtitle mb-0">Empresa: Confidencial.</h3>
-                        </div>
-                        <hr class="my-4">
-                        <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                            onmouseout="downSizeFont(this)" onclick="viewVacancy()">
-                            <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"><strong>ANALISTA DE SISTEMAS
-                                    JÚNIOR</strong></h2>
-                            <h3 class="montserrat fs-16 subtitle">Tipo de emprego: Tempo Integral</h3>
-                            <h3 class="montserrat fs-16 subtitle">Regime: CLT</h3>
-                            <h3 class="montserrat fs-16 subtitle">Carga horária: 44h semanais</h3>
-                            <h3 class="montserrat fs-16 subtitle">Salário: A combinar</h3>
-                            <h3 class="montserrat fs-16 subtitle mb-0">Empresa: Confidencial.</h3>
-                        </div>
-                    </div>
-                    <div class="row gap-2 bg-white py-5 m-0 position-relative rounded-3 daily mt-5 mb-4">
-                        <div class="py-2"></div>
-                        <div
-                            class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
-                            <p class="text-black montserrat fs-18 mb-0"><strong>12</strong></p>
-                            <p class="text-black montserrat fs-15 mb-0">Jan.</p>
-                        </div>
-                        <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                            onmouseout="downSizeFont(this)" onclick="viewVacancy()">
-                            <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"><strong>ANALISTA DE SISTEMAS
-                                    JÚNIOR</strong></h2>
-                            <h3 class="montserrat fs-16 subtitle">Tipo de emprego: Tempo Integral</h3>
-                            <h3 class="montserrat fs-16 subtitle">Regime: CLT</h3>
-                            <h3 class="montserrat fs-16 subtitle">Carga horária: 44h semanais</h3>
-                            <h3 class="montserrat fs-16 subtitle">Salário: A combinar</h3>
-                            <h3 class="montserrat fs-16 subtitle mb-0">Empresa: Confidencial.</h3>
-                        </div>
-                        <hr class="my-4">
-                        <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                            onmouseout="downSizeFont(this)" onclick="viewVacancy()">
-                            <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"><strong>ANALISTA DE SISTEMAS
-                                    JÚNIOR</strong></h2>
-                            <h3 class="montserrat fs-16 subtitle">Tipo de emprego: Tempo Integral</h3>
-                            <h3 class="montserrat fs-16 subtitle">Regime: CLT</h3>
-                            <h3 class="montserrat fs-16 subtitle">Carga horária: 44h semanais</h3>
-                            <h3 class="montserrat fs-16 subtitle">Salário: A combinar</h3>
-                            <h3 class="montserrat fs-16 subtitle mb-0">Empresa: Confidencial.</h3>
-                        </div>
-                        <hr class="my-4">
-                        <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                            onmouseout="downSizeFont(this)" onclick="viewVacancy()">
-                            <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"><strong>ANALISTA DE SISTEMAS
-                                    JÚNIOR</strong></h2>
-                            <h3 class="montserrat fs-16 subtitle">Tipo de emprego: Tempo Integral</h3>
-                            <h3 class="montserrat fs-16 subtitle">Regime: CLT</h3>
-                            <h3 class="montserrat fs-16 subtitle">Carga horária: 44h semanais</h3>
-                            <h3 class="montserrat fs-16 subtitle">Salário: A combinar</h3>
-                            <h3 class="montserrat fs-16 subtitle mb-0">Empresa: Confidencial.</h3>
-                        </div>
-                    </div>
+                    @endforeach
                     <div class="d-flex">
                         <div class="col text-center">
                             <p class="title roboto fs-16">Tem algum assunto? Entre em contato por: <a
