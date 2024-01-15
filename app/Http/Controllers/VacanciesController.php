@@ -14,6 +14,7 @@ class VacanciesController extends Controller
     public function index()
     {
         $vacancies = Vacancy::select([
+            'id',
             'title',
             'employment_type',
             'job_type',
@@ -89,7 +90,7 @@ class VacanciesController extends Controller
      */
     public function show(Vacancy $vacancy)
     {
-        dd('xd');
+        return view('vacancy', ['vacancy' => $vacancy]);
     }
 
     /**
