@@ -36,6 +36,10 @@
         .fs-16 {
             font-size: 1.6rem;
         }
+        
+        .fs-16-mobile {
+            font-size: 1.6rem;
+        }
        
         .fs-17 {
             font-size: 1.61rem;
@@ -43,6 +47,10 @@
         
         .fs-18 {
             font-size: 1.8rem;
+        }
+        
+        .fs-19 {
+            font-size: 1.9rem;
         }
         
         .fs-20 {
@@ -72,7 +80,7 @@
             background-color: #003366;
         }
 
-        @media (min-width: 1024px) {
+        @media (min-width: 992px) {
             nav {
                 height: 5dvh;
             }
