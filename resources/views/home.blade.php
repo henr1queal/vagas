@@ -81,10 +81,6 @@
                 width: auto;
             }
 
-            .button-submit {
-                position: absolute;
-                bottom: 0;
-            }
         }
 
         .month {
@@ -166,76 +162,79 @@
                 <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body pt-0 pb-5">
                         <div class="filter-wrapper pt-lg-5 text-center text-lg-start filter-mobile">
-                            <form action="" method="get" class="d-flex flex-column h-100 gap-4 position-relative"
+                            <form action="" method="get" class="d-flex flex-column h-100 gap-4"
                                 id="form-filters">
                                 <h4 class="text-black montserrat fs-20 fw-normal text-center d-none d-lg-block">
                                     <strong>Filtros:</strong>
                                 </h4>
-                                <div class="work_type">
-                                    <p class="fs-18 montserrat text-black mb-0">Tipo de trabalho:</p>
-                                    <div class="form-check align-items-center d-flex gap-3">
-                                        <input class="form-check-input" type="radio" name="work_type" id="estagio"
-                                            value="Estágio" style="width: 15px; height: 15px;">
-                                        <label class="form-check-label text-black montserrat fs-16"
-                                            for="estagio">Estágio</label>
+                                <div class="d-flex flex-column gap-3">
+                                    <div class="work_type">
+                                        <p class="fs-18 montserrat text-black mb-0">Tipo de trabalho:</p>
+                                        <div class="form-check align-items-center d-flex gap-3">
+                                            <input class="form-check-input" type="radio" name="work_type" id="estagio"
+                                                value="Estágio" style="width: 15px; height: 15px;">
+                                            <label class="form-check-label text-black montserrat fs-16"
+                                                for="estagio">Estágio</label>
+                                        </div>
+                                        <div class="form-check align-items-center d-flex gap-3">
+                                            <input class="form-check-input" type="radio" name="work_type" id="trainee"
+                                                value="Trainee" style="width: 15px; height: 15px;">
+                                            <label class="form-check-label text-black montserrat fs-16"
+                                                for="trainee">Trainee</label>
+                                        </div>
+                                        <div class="form-check align-items-center d-flex gap-3">
+                                            <input class="form-check-input" type="radio" name="work_type" id="Freelance"
+                                                value="Freelance" style="width: 15px; height: 15px;">
+                                            <label class="form-check-label text-black montserrat fs-16"
+                                                for="Freelance">Freelance</label>
+                                        </div>
+                                        <div class="form-check align-items-center d-flex gap-3">
+                                            <input class="form-check-input" type="radio" name="work_type"
+                                                id="tempo_integral" value="Tempo integral"
+                                                style="width: 15px; height: 15px;">
+                                            <label class="form-check-label text-black montserrat fs-16"
+                                                for="tempo_integral">Tempo
+                                                integral</label>
+                                        </div>
                                     </div>
-                                    <div class="form-check align-items-center d-flex gap-3">
-                                        <input class="form-check-input" type="radio" name="work_type" id="trainee"
-                                            value="Trainee" style="width: 15px; height: 15px;">
-                                        <label class="form-check-label text-black montserrat fs-16"
-                                            for="trainee">Trainee</label>
+                                    <div class="contract_type">
+                                        <p class="fs-18 montserrat text-black mb-0">Regime de contratação:</p>
+                                        <div class="form-check align-items-center d-flex gap-3">
+                                            <input class="form-check-input" type="radio" name="contract_type"
+                                                id="clt" value="CLT" style="width: 15px; height: 15px;">
+                                            <label class="form-check-label text-black montserrat fs-16"
+                                                for="clt">CLT</label>
+                                        </div>
+                                        <div class="form-check align-items-center d-flex gap-3">
+                                            <input class="form-check-input" type="radio" name="contract_type"
+                                                id="pj" value="PJ" style="width: 15px; height: 15px;">
+                                            <label class="form-check-label text-black montserrat fs-16"
+                                                for="pj">PJ</label>
+                                        </div>
                                     </div>
-                                    <div class="form-check align-items-center d-flex gap-3">
-                                        <input class="form-check-input" type="radio" name="work_type" id="Freelance"
-                                            value="Freelance" style="width: 15px; height: 15px;">
-                                        <label class="form-check-label text-black montserrat fs-16"
-                                            for="Freelance">Freelance</label>
-                                    </div>
-                                    <div class="form-check align-items-center d-flex gap-3">
-                                        <input class="form-check-input" type="radio" name="work_type" id="tempo_integral"
-                                            value="Tempo integral" style="width: 15px; height: 15px;">
-                                        <label class="form-check-label text-black montserrat fs-16"
-                                            for="tempo_integral">Tempo
-                                            integral</label>
+                                    <div class="journey_hour">
+                                        <p class="fs-18 montserrat text-black mb-0">Jornada de trabalho:</p>
+                                        <div class="form-check align-items-center d-flex gap-3">
+                                            <input class="form-check-input" type="radio" name="journey_hour"
+                                                id="daytime" value="Diurno" style="width: 15px; height: 15px;">
+                                            <label class="form-check-label text-black montserrat fs-16"
+                                                for="daytime">Diurno</label>
+                                        </div>
+                                        <div class="form-check align-items-center d-flex gap-3">
+                                            <input class="form-check-input" type="radio" name="journey_hour"
+                                                id="nocturnal" value="Noturno" style="width: 15px; height: 15px;">
+                                            <label class="form-check-label text-black montserrat fs-16"
+                                                for="nocturnal">Noturno</label>
+                                        </div>
+                                        <div class="form-check align-items-center d-flex gap-3">
+                                            <input class="form-check-input" type="radio" name="journey_hour"
+                                                id="flex" value="Flexível" style="width: 15px; height: 15px;">
+                                            <label class="form-check-label text-black montserrat fs-16"
+                                                for="flex">Flexível</label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="contract_type">
-                                    <p class="fs-18 montserrat text-black mb-0">Regime de contratação:</p>
-                                    <div class="form-check align-items-center d-flex gap-3">
-                                        <input class="form-check-input" type="radio" name="contract_type" id="clt"
-                                            value="CLT" style="width: 15px; height: 15px;">
-                                        <label class="form-check-label text-black montserrat fs-16"
-                                            for="clt">CLT</label>
-                                    </div>
-                                    <div class="form-check align-items-center d-flex gap-3">
-                                        <input class="form-check-input" type="radio" name="contract_type" id="pj"
-                                            value="PJ" style="width: 15px; height: 15px;">
-                                        <label class="form-check-label text-black montserrat fs-16"
-                                            for="pj">PJ</label>
-                                    </div>
-                                </div>
-                                <div class="journey_hour">
-                                    <p class="fs-18 montserrat text-black mb-0">Jornada de trabalho:</p>
-                                    <div class="form-check align-items-center d-flex gap-3">
-                                        <input class="form-check-input" type="radio" name="journey_hour" id="daytime"
-                                            value="Diurno" style="width: 15px; height: 15px;">
-                                        <label class="form-check-label text-black montserrat fs-16"
-                                            for="daytime">Diurno</label>
-                                    </div>
-                                    <div class="form-check align-items-center d-flex gap-3">
-                                        <input class="form-check-input" type="radio" name="journey_hour" id="nocturnal"
-                                            value="Noturno" style="width: 15px; height: 15px;">
-                                        <label class="form-check-label text-black montserrat fs-16"
-                                            for="nocturnal">Noturno</label>
-                                    </div>
-                                    <div class="form-check align-items-center d-flex gap-3">
-                                        <input class="form-check-input" type="radio" name="journey_hour"
-                                            id="flex" value="Flexível" style="width: 15px; height: 15px;">
-                                        <label class="form-check-label text-black montserrat fs-16"
-                                            for="flex">Flexível</label>
-                                    </div>
-                                </div>
-                                <div class="button-submit mt-3 mt-lg-0 pb-lg-4 w-100 gap-3 d-flex flex-column">
+                                <div class="button-submit mt-3 mt-lg-0 w-100 gap-3 d-flex flex-column">
                                     <button type="submit"
                                         class="btn btn-submit text-white fs-18 montserrat w-100 align-self-end"><strong>Encontrar
                                             minha
@@ -248,11 +247,11 @@
                 </div>
             </div>
         </div>
-        <aside class="d-none d-lg-flex justify-content-center flex-wrap py-4 py-lg-0">
+        <aside class="d-none d-lg-flex justify-content-center flex-wrap py-4 py-lg-0 overflow-auto">
             <div class="filter-wrapper pt-lg-5 text-center text-lg-start filter-desktop">
             </div>
         </aside>
-        <main class="row m-0 justify-content-center align-items-center h-100 w-100" style="background-color: #e5e5e5;">
+        <main class="row m-0 justify-content-center align-items-center h-100 w-100">
             <div class="col-11 search px-0 pt-5 pt-lg-0">
                 <form class="d-flex flex-column flex-lg-row montserrat h-100 gap-2 gap-lg-4">
                     <input class="form-control me-2 fs-16 fw-normal border-dark" type="search" id="input-search"
@@ -261,17 +260,19 @@
                 </form>
             </div>
             <div class="col-11 overflow-auto content px-0 pe-lg-3 pe-xxl-2 pt-4 pt-lg-0">
-                <h2 class="montserrat fs-24 text-center pb-4 mt-4 mb-5"><strong>Vagas em aberto ({{$count_vacancies}}):</strong></h2>
+                <h2 class="montserrat fs-24 text-center pb-4 mt-4 mb-5"><strong>Vagas em aberto
+                        ({{ $count_vacancies }}):</strong></h2>
                 <div class="d-flex flex-column gap-4">
                     @foreach ($highlighted_vacancies as $vacancies)
-                        <div class="row bg-white py-5 m-0 position-relative rounded-3 daily mt-5 mb-4 mt-5">
+                        <div class="row bg-white py-5 pb-lg-4 m-0 position-relative rounded-3 daily mt-5 mb-4 mt-5">
                             <div class="py-2"></div>
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
                                 <p class="text-black montserrat fs-18 mb-0">
                                     <strong>{{ $vacancies->first()->created_at->format('d') }}</strong>
                                 </p>
-                                <p class="text-black montserrat fs-15 mb-0 month">{{ $vacancies->first()->formatted_created_at['month'] }}.</p>
+                                <p class="text-black montserrat fs-15 mb-0 month">
+                                    {{ $vacancies->first()->formatted_created_at['month'] }}.</p>
                             </div>
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute destaque">
@@ -282,9 +283,11 @@
                                     <hr class="my-4">
                                 @endif
                                 <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                                    onmouseout="downSizeFont(this)" onclick="viewVacancy('{{route('vacancy', $vacancy->id)}}')">
-                                    <a href="{{route('vacancy', $vacancy->id)}}" class="text-decoration-none">
-                                        <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;">
+                                    onmouseout="downSizeFont(this)"
+                                    onclick="viewVacancy('{{ route('vacancy', $vacancy->id) }}')">
+                                    <a href="{{ route('vacancy', $vacancy->id) }}" class="text-decoration-none">
+                                        <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"
+                                            title="{{ $vacancy->title }}">
                                             <strong>{{ $vacancy->title }}</strong>
                                         </h2>
                                     </a>
@@ -303,23 +306,28 @@
                             <div class="py-2"></div>
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
-                                <p class="text-black montserrat fs-18 mb-0"><strong>{{ $vacancies->first()->created_at->format('d') }}</strong></p>
-                                <p class="text-black montserrat fs-15 mb-0 month">{{ $vacancies->first()->formatted_created_at['month'] }}.</p>
+                                <p class="text-black montserrat fs-18 mb-0">
+                                    <strong>{{ $vacancies->first()->created_at->format('d') }}</strong></p>
+                                <p class="text-black montserrat fs-15 mb-0 month">
+                                    {{ $vacancies->first()->formatted_created_at['month'] }}.</p>
                             </div>
                             @foreach ($vacancies as $vacancy)
                                 @if (!$loop->first)
                                     <hr class="my-4">
                                 @endif
                                 <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                                    onmouseout="downSizeFont(this)" onclick="viewVacancy('{{route('vacancy', $vacancy->id)}}')">
-                                    <a href="{{route('vacancy', $vacancy->id)}}" class="text-decoration-none">
-                                        <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;">
+                                    onmouseout="downSizeFont(this)"
+                                    onclick="viewVacancy('{{ route('vacancy', $vacancy->id) }}')">
+                                    <a href="{{ route('vacancy', $vacancy->id) }}" class="text-decoration-none">
+                                        <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"
+                                            title="{{ $vacancy->title }}">
                                             <strong>{{ $vacancy->title }}</strong>
                                         </h2>
                                     </a>
                                     <h3 class="montserrat fs-16 subtitle">Tipo de emprego: {{ $vacancy->job_type }}</h3>
                                     <h3 class="montserrat fs-16 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
-                                    <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h semanais
+                                    <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h
+                                        semanais
                                     </h3>
                                     <h3 class="montserrat fs-16 subtitle">Salário: R$ {{ $vacancy->salary }}</h3>
                                     <h3 class="montserrat fs-16 subtitle mb-0">Empresa: {{ $vacancy->company_name }}.</h3>
