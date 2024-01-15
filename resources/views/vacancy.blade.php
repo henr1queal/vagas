@@ -49,23 +49,27 @@
             <div class="d-flex flex-column gap-5 text-lg-center" id="details">
                 <h2 class="fs-20 montserrat text-black d-none d-lg-block"><strong>Detalhes sobre a vaga:</strong></h2>
                 <div class="d-flex flex-column gap-3">
-                    <div class="company d-flex flex-column">
+                    <div class="d-flex flex-column">
+                        <h2 class="fs-18 montserrat text-black"><strong>Postada em:</strong></h2>
+                        <h3 class="fs-16 montserrat text-black">{{ $vacancy->created_at->format('d/m/Y') }}</h3>
+                    </div>
+                    <div class="d-flex flex-column">
                         <h2 class="fs-18 montserrat text-black"><strong>Empresa:</strong></h2>
                         <h3 class="fs-16 montserrat text-black">{{ $vacancy->company_name }}</h3>
                     </div>
-                    <div class="company d-flex flex-column">
+                    <div class="d-flex flex-column">
                         <h2 class="fs-18 montserrat text-black"><strong>Tipo de trabalho:</strong></h2>
                         <h3 class="fs-16 montserrat text-black">{{ $vacancy->job_type }}</h3>
                     </div>
-                    <div class="company d-flex flex-column">
+                    <div class="d-flex flex-column">
                         <h2 class="fs-18 montserrat text-black"><strong>Regime de contratação:</strong></h2>
                         <h3 class="fs-16 montserrat text-black">{{ $vacancy->employment_type }}</h3>
                     </div>
-                    <div class="company d-flex flex-column">
+                    <div class="d-flex flex-column">
                         <h2 class="fs-18 montserrat text-black"><strong>Carga horária:</strong></h2>
                         <h3 class="fs-16 montserrat text-black">{{ $vacancy->workload }}h semanais</h3>
                     </div>
-                    <div class="company d-flex flex-column">
+                    <div class="d-flex flex-column">
                         <h2 class="fs-18 montserrat text-black"><strong>Salário:</strong></h2>
                         <h3 class="fs-16 montserrat text-black">R$ {{ $vacancy->salary }}</h3>
                     </div>
