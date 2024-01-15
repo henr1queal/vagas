@@ -133,8 +133,8 @@
             background-color: #003366;
         }
 
-        .btn-submit:hover {
-            background-color: #157347;
+        .btn-submit:hover, .btn-submit:active, .btn-submit:focus-visible {
+            background-color: #157347 !important;
         }
 
         button[type="reset"],
