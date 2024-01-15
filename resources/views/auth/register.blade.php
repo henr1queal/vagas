@@ -1,4 +1,7 @@
 @extends('layouts.layout')
+@section('title')
+Cadastro - Vagas Maceió
+@endsection
 @section('css')
     <style>
         input {
