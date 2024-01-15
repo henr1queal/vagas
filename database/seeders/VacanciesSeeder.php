@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Uuid;
 
 class VacanciesSeeder extends Seeder
 {
@@ -22,6 +23,7 @@ class VacanciesSeeder extends Seeder
         // Insere 100 vagas com dados aleatórios
         for ($i = 0; $i < 150; $i++) {
             DB::table('vacancies')->insert([
+                'id' => Uuid::uuid4()->toString(),
                 'title' => $faker->randomElement([
                     'Engenheiro Civil',
                     'Desenvolvedor de Software',
