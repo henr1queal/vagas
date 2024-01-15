@@ -283,9 +283,11 @@
                                 @endif
                                 <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
                                     onmouseout="downSizeFont(this)" onclick="viewVacancy('{{route('vacancy', $vacancy->id)}}')">
-                                    <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;">
-                                        <strong>{{ $vacancy->title }}</strong>
-                                    </h2>
+                                    <a href="{{route('vacancy', $vacancy->id)}}" class="text-decoration-none">
+                                        <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;">
+                                            <strong>{{ $vacancy->title }}</strong>
+                                        </h2>
+                                    </a>
                                     <h3 class="montserrat fs-16 subtitle">Tipo de emprego: {{ $vacancy->job_type }}</h3>
                                     <h3 class="montserrat fs-16 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
                                     <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h semanais
@@ -310,9 +312,11 @@
                                 @endif
                                 <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
                                     onmouseout="downSizeFont(this)" onclick="viewVacancy('{{route('vacancy', $vacancy->id)}}')">
-                                    <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;">
-                                        <strong>{{ $vacancy->title }}</strong>
-                                    </h2>
+                                    <a href="{{route('vacancy', $vacancy->id)}}" class="text-decoration-none">
+                                        <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;">
+                                            <strong>{{ $vacancy->title }}</strong>
+                                        </h2>
+                                    </a>
                                     <h3 class="montserrat fs-16 subtitle">Tipo de emprego: {{ $vacancy->job_type }}</h3>
                                     <h3 class="montserrat fs-16 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
                                     <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h semanais
