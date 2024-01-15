@@ -43,7 +43,11 @@
             background-color: #fbfbfb;
         }
 
-        @media (min-width: 1024px) {
+        .unique-vacancy {
+            cursor: pointer;
+        }
+
+        @media (min-width: 992px) {
             .unique-vacancy {
                 height: 150px;
             }
@@ -87,10 +91,6 @@
             text-transform: capitalize;
         }
 
-        .title {
-            text-transform: uppercase;
-        }
-
         #input-search {
             background-image: url(https://www.w3schools.com/css/searchicon.png);
             background-position: center left 10px;
@@ -130,6 +130,7 @@
 
         .title {
             color: #003366;
+            text-transform: uppercase;
         }
 
         .btn-submit {
@@ -281,7 +282,7 @@
                                     <hr class="my-4">
                                 @endif
                                 <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                                    onmouseout="downSizeFont(this)" onclick="viewVacancy()">
+                                    onmouseout="downSizeFont(this)" onclick="viewVacancy('{{route('vacancy', $vacancy->id)}}')">
                                     <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;">
                                         <strong>{{ $vacancy->title }}</strong>
                                     </h2>
@@ -308,7 +309,7 @@
                                     <hr class="my-4">
                                 @endif
                                 <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
-                                    onmouseout="downSizeFont(this)" onclick="viewVacancy()">
+                                    onmouseout="downSizeFont(this)" onclick="viewVacancy('{{route('vacancy', $vacancy->id)}}')">
                                     <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;">
                                         <strong>{{ $vacancy->title }}</strong>
                                     </h2>
@@ -363,8 +364,8 @@
         });
     </script>
     <script>
-        function viewVacancy() {
-            // window.location.href = "./";
+        function viewVacancy(url) {
+            window.location.href = url;
         }
     </script>
     <script>
