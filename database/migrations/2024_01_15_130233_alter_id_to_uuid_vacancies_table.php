@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('vacancies', function (Blueprint $table) {
-            $table->uuid('id')->primary()
-            ->change();
+            $table->uuid('id')->change();
         });
     }
 
