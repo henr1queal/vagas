@@ -19,12 +19,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [VacanciesController::class, 'index'])->name('home');
 Route::get('/vaga/{vacancy}', [VacanciesController::class, 'show'])->name('vacancy');
-Route::get('/testroute', function() {
-    $name = "Funny Coder";
-
-    // The email sending is done using the to method on the Mail facade
-    Mail::to('henriquersilva.al@gmail.com’')->send(new SendCurriculum($name));
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
