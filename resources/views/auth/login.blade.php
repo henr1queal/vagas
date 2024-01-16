@@ -28,15 +28,24 @@
     </style>
 @endsection
 @section('content')
-    <main>
-        <div class="container">
-            <div class="row justify-content-center h-100 align-items-lg-center">
-                <div class="col-11 col-lg-6 text-center roboto fw-medium py-5 py-lg-5">
-                    <h2 class="fs-20 text-black">Realizar login:</h2>
-                    <form method="POST" action="{{ route('login') }}" class="needs-validation gap-2 d-flex flex-column mt-5"
-                        novalidate>
-                        @csrf
-                        <div class="row">
+<main>
+    <div class="container">
+        <div class="row justify-content-center h-100 align-items-lg-center">
+            <div class="col-11 col-lg-6 text-center roboto fw-medium py-5 py-lg-5">
+                <h2 class="fs-20 text-black">Realizar login:</h2>
+                <form method="POST" action="{{ route('login') }}" class="needs-validation gap-2 d-flex flex-column mt-5"
+                novalidate>
+                @csrf
+                <div class="row">
+                            @if ($errors->any())
+                                <div class="col-12 mb-3">
+                                    <span class="fs-14 text-danger invalid-feedback d-block">E-mail ou senha incorretos.&nbsp;</span>
+                                    @if (Route::has('password.request'))
+                                        <span class="fs-14">Caso precise recuperar sua senha, </span><a class="fs-14"
+                                            href="{{ route('password.request') }}"><strong>clique aqui</strong></a>.
+                                    @endif
+                                </div>
+                            @endif
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
                                     <input type="email" class="form-control border-secondary rounded-0 fs-15"
@@ -61,15 +70,9 @@
                             <div class="col-12 mb-3">
                                 <button type="submit" class="btn btn-success fs-18 py-3 w-100">Login</button>
                             </div>
-                            @if ($errors->any())
-                                <div class="col-12">
-                                    <span class="fs-14 invalid-feedback d-block">E-mail ou senha incorretos.&nbsp;</span>
-                                    @if (Route::has('password.request'))
-                                        <span class="fs-14">Caso precise recuperar sua senha, </span><a class="fs-14"
-                                            href="{{ route('password.request') }}"><strong>clique aqui</strong>.</a>
-                                    @endif
-                                </div>
-                            @endif
+                            <div class="col-12">
+                                <p class="fs-14 text-black">Caso não possua cadastro, <a href="{{route('register')}}"><strong>clique aqui</strong></a>.</p>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -114,9 +114,9 @@
 
 <body class="h-100">
     <nav class="py-3 d-flex gap-4 justify-content-center align-items-center justify-content-md-end px-md-5">
-        <a class="text-black d-inline-block roboto fs-18 fw-normal" href="http://">Publicar uma vaga</a>
+        <a class="text-black d-inline-block roboto fs-18 fw-normal" href="{{route('dashboard')}}">Publicar uma vaga</a>
         <hr class="vr my-0">
-        <a class="text-black d-inline-block roboto fs-18 fw-normal me-lg-4" href="http://">Painel</a>
+        <a class="text-black d-inline-block roboto fs-18 fw-normal me-lg-4" href="{{route('dashboard')}}">Painel</a>
     </nav>
     <header class="d-flex justify-content-center align-items-center">
         <div class="col text-center">
