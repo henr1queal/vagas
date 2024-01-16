@@ -25,7 +25,7 @@
             font-size: 62.5%;
         }
 
-        main {
+        main, body {
             background-color: #e5e5e5;
         }
 

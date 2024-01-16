@@ -258,12 +258,14 @@
         </aside>
         <main class="row m-0 justify-content-center align-items-center h-100 w-100">
             <div class="col-11 search px-0 pt-5 pt-lg-0">
-                <form action="{{route('home')}}" method="get" class="d-flex flex-column flex-lg-row montserrat h-100 gap-2 gap-lg-4" id="search">
-                    <input class="form-control me-2 fs-16 fw-normal border-dark" name="search" type="search" id="input-search"
-                        placeholder="Busque aqui pela área de seu interesse..." value="{{$last_search === null ? null : $last_search}}" aria-label="Search">
-                    <button class="btn btn-success fs-16" type="submit" id="search-button" disabled><strong>Buscar</strong></button>
+                <form action="{{route('home')}}" method="get" class="montserrat h-100" id="search">
+                    <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-4">
+                        <input class="form-control me-2 fs-16 fw-normal border-dark" name="search" type="search" id="input-search"
+                            placeholder="Busque aqui pela área de seu interesse..." value="{{$last_search === null ? null : $last_search}}" aria-label="Search">
+                        <button class="btn btn-success fs-16" type="submit" id="search-button" disabled><strong>Buscar</strong></button>
+                    </div>
                     @if ($last_search !== null)
-                    <a class="fs-14 text-center montserrat text-decoration-none" href="{{route('home')}}"><span class="text-danger">x</span> limpar pesquisa</a>
+                    <a class="fs-14 text-center montserrat text-decoration-none d-block mt-4" href="{{route('home')}}"><span class="text-danger">x</span> limpar pesquisa</a>
                     @endif
                 </form>
             </div>
