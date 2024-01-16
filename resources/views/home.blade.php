@@ -95,7 +95,7 @@
             background-image: url(https://www.w3schools.com/css/searchicon.png);
             background-position: center left 10px;
             background-repeat: no-repeat;
-            padding: 12px 0px 12px 40px;
+            padding: 12px 20px 12px 40px;
         }
 
         .date,
@@ -258,10 +258,13 @@
         </aside>
         <main class="row m-0 justify-content-center align-items-center h-100 w-100">
             <div class="col-11 search px-0 pt-5 pt-lg-0">
-                <form class="d-flex flex-column flex-lg-row montserrat h-100 gap-2 gap-lg-4">
-                    <input class="form-control me-2 fs-16 fw-normal border-dark" type="search" id="input-search"
-                        placeholder="Busque aqui pela área de seu interesse..." aria-label="Search">
-                    <button class="btn btn-success fs-16" type="submit"><strong>Buscar</strong></button>
+                <form action="{{route('home')}}" method="get" class="d-flex flex-column flex-lg-row montserrat h-100 gap-2 gap-lg-4" id="search">
+                    <input class="form-control me-2 fs-16 fw-normal border-dark" name="search" type="search" id="input-search"
+                        placeholder="Busque aqui pela área de seu interesse..." value="{{$last_search === null ? null : $last_search}}" aria-label="Search">
+                    <button class="btn btn-success fs-16" type="submit" id="search-button" disabled><strong>Buscar</strong></button>
+                    @if ($last_search !== null)
+                    <a class="fs-14 text-center montserrat text-decoration-none" href="{{route('home')}}"><span class="text-danger">x</span> limpar pesquisa</a>
+                    @endif
                 </form>
             </div>
             <div class="col-11 overflow-auto content px-0 pe-lg-3 pe-xxl-2 pt-4 pt-lg-0">
@@ -403,4 +406,26 @@
             }
         }
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtém referências aos elementos do DOM
+            var inputSearch = document.getElementById('input-search');
+            var searchButton = document.getElementById('search-button');
+    
+            // Adiciona um ouvinte de evento para detectar mudanças no input-search
+            inputSearch.addEventListener('input', function() {
+                // Habilita ou desabilita o botão com base no valor do input
+                searchButton.disabled = !inputSearch.value.trim();
+            });
+    
+            // Adiciona um ouvinte de evento para desabilitar o botão quando o formulário é enviado
+            document.querySelector('form').addEventListener('submit', function() {
+                searchButton.disabled = true;
+            });
+        });
+    
+        function disableSearchButton() {
+            document.getElementById('search-button').disabled = true;
+        }
+    </script>    
 @endsection

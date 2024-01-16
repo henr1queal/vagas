@@ -11,62 +11,74 @@ class VacanciesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $vacancies = Vacancy::select([
-            'id',
-            'title',
-            'employment_type',
-            'job_type',
-            'workload',
-            'salary',
-            'company_name',
-            'choiced_plan',
-            'created_at',
-        ])
-            ->whereIn('choiced_plan', ['Destaque', 'Normal'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+    public function index(Request $request)
+{
+    $query = Vacancy::select([
+        'id',
+        'title',
+        'employment_type',
+        'job_type',
+        'workload',
+        'salary',
+        'company_name',
+        'choiced_plan',
+        'created_at',
+    ])
+        ->whereIn('choiced_plan', ['Destaque', 'Normal'])
+        ->orderBy('created_at', 'desc');
 
-        $count_vacancies = $vacancies->count();
-
-        $grouped_vacancies = $vacancies->groupBy([
-            'choiced_plan',
-            function ($vacancy) {
-                return $vacancy->created_at->toDateString();
-            },
-        ]);
-
-        $grouped_vacancies['Destaque']->map(function ($vacancies) {
-            return $vacancies->map(function ($vacancy) {
-                $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
-                $vacancy->formatted_created_at = [
-                    'month' => substr($date->translatedFormat('F'), 0, 3),
-                    'day' => $date->day,
-                    'year' => $date->year,
-                ];
-                return $vacancy;
-            });
-        });
-
-        $grouped_vacancies['Normal']->map(function ($vacancies) {
-            return $vacancies->map(function ($vacancy) {
-                $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
-                $vacancy->formatted_created_at = [
-                    'month' => substr($date->translatedFormat('F'), 0, 3),
-                    'day' => $date->day,
-                    'year' => $date->year,
-                ];
-                return $vacancy;
-            });
-        });
-
-        return view('home', [
-            'highlighted_vacancies' => $grouped_vacancies['Destaque'],
-            'normal_vacancies' => $grouped_vacancies['Normal'],
-            'count_vacancies' => $count_vacancies,
-        ]);
+    if ($request->has('search')) {
+        $searchTerm = $request->input('search');
+        $query->where('title', 'like', '%' . $searchTerm . '%');
     }
+
+    $vacancies = $query->get();
+
+    $count_vacancies = $vacancies->count();
+
+    $grouped_vacancies = $vacancies->groupBy([
+        'choiced_plan',
+        function ($vacancy) {
+            return $vacancy->created_at->toDateString();
+        },
+    ]);
+
+    $highlighted_vacancies = $grouped_vacancies['Destaque'] ?? collect();
+    $normal_vacancies = $grouped_vacancies['Normal'] ?? collect();
+
+    $highlighted_vacancies->map(function ($vacancies) {
+        return $vacancies->map(function ($vacancy) {
+            $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
+            $vacancy->formatted_created_at = [
+                'month' => substr($date->translatedFormat('F'), 0, 3),
+                'day' => $date->day,
+                'year' => $date->year,
+            ];
+            return $vacancy;
+        });
+    });
+
+    $normal_vacancies->map(function ($vacancies) {
+        return $vacancies->map(function ($vacancy) {
+            $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
+            $vacancy->formatted_created_at = [
+                'month' => substr($date->translatedFormat('F'), 0, 3),
+                'day' => $date->day,
+                'year' => $date->year,
+            ];
+            return $vacancy;
+        });
+    });
+    
+
+    return view('home', [
+        'highlighted_vacancies' => $highlighted_vacancies,
+        'normal_vacancies' => $normal_vacancies,
+        'count_vacancies' => $count_vacancies,
+        'last_search' => $request->search
+    ]);
+}
+
 
 
     /**
