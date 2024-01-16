@@ -3,7 +3,11 @@
 Cadastro - Vagas Maceió
 @endsection
 @section('css')
-    <style>
+<style>
+        body {
+         background-color: #e5e5e5;   
+        }
+
         input {
             height: 58px !important;
             color: black !important;
@@ -26,7 +30,7 @@ Cadastro - Vagas Maceió
 @section('content')
     <div class="container">
         <div class="row justify-content-center h-100 align-items-lg-center">
-            <div class="col-11 col-lg-8 text-center roboto fw-medium py-5 py-lg-5">
+            <div class="col-11 col-lg-6 text-center roboto fw-medium py-5 py-lg-5">
                 <h2 class="fs-20 text-black">Cadastre-se para publicar uma vaga:</h2>
                 <form method="POST" action="{{ route('register') }}" class="needs-validation gap-2 d-flex flex-column mt-5"
                     novalidate>

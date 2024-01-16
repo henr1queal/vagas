@@ -109,7 +109,7 @@
     </nav>
     <header class="d-flex justify-content-center align-items-center">
         <div class="col text-center">
-            <h1 class="text-white roboto fs-32"><strong>Vagas Maceió</strong></h1>
+            <h1 class="roboto fs-32"><a class="text-decoration-none text-white" href="{{route('home')}}"><strong>Vagas Maceió</a></strong></h1>
             <h2 class="text-white montserrat fs-20 fw-normal mb-0">Conectando você com o futuro.</h2>
         </div>
     </header>

@@ -1,47 +1,122 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.layout')
+@section('title')
+    Login - Vagas Maceió
+@endsection
+@section('css')
+    <style>
+        body {
+            background-color: #e5e5e5;
+        }
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+        input {
+            height: 58px !important;
+            color: black !important;
+        }
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        input::placeholder {
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) and (min-height: 768px) {
+            footer {
+                position: fixed;
+                width: 100%;
+                bottom: 0%;
+            }
+        }
+    </style>
+@endsection
+@section('content')
+    <main>
+        <div class="container">
+            <div class="row justify-content-center h-100 align-items-lg-center">
+                <div class="col-11 col-lg-6 text-center roboto fw-medium py-5 py-lg-5">
+                    <h2 class="fs-20 text-black">Realizar login:</h2>
+                    <form method="POST" action="{{ route('login') }}" class="needs-validation gap-2 d-flex flex-column mt-5"
+                        novalidate>
+                        @csrf
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control border-secondary rounded-0 fs-15"
+                                        id="floatingInput" placeholder="E-mail" name="email" value="{{ old('email') }}"
+                                        required>
+                                    <label class="fs-15 text-black" for="floatingInput">E-mail</label>
+                                    <div class="invalid-feedback fs-14">
+                                        Digite o e-mail cadastrado.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control border-secondary rounded-0 fs-15"
+                                        id="password" placeholder="Senha" name="password" required>
+                                    <label class="fs-15 text-black" for="password">Senha</label>
+                                    <div class="invalid-feedback fs-14">
+                                        Digite sua senha.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <button type="submit" class="btn btn-success fs-18 py-3 w-100">Login</button>
+                            </div>
+                            @if ($errors->any())
+                                <div class="col-12">
+                                    <span class="fs-14 invalid-feedback d-block">E-mail ou senha incorretos.&nbsp;</span>
+                                    @if (Route::has('password.request'))
+                                        <span class="fs-14">Caso precise recuperar sua senha, </span><a class="fs-14"
+                                            href="{{ route('password.request') }}"><strong>clique aqui</strong>.</a>
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+    </main>
+@endsection
+@section('scripts')
+    <script>
+        (() => {
+            'use strict'
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            const forms = document.querySelectorAll('.needs-validation')
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+    <script>
+        function hasVerticalScroll() {
+            return document.body.scrollHeight > window.innerHeight;
+        }
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+        function setFooterStyle() {
+            const footer = document.querySelector('footer');
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+            if (hasVerticalScroll()) {
+                footer.style.position = 'static';
+            } else {
+                footer.style.position = 'fixed';
+                footer.style.bottom = '0';
+                footer.style.width = '100%';
+            }
+        }
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+        window.addEventListener('load', setFooterStyle);
+        window.addEventListener('scroll', setFooterStyle);
+        window.addEventListener('resize', setFooterStyle);
+    </script>
+    <script src="./public/build/assets/jquery.min.js"></script>
+    <script src="./public/build/assets/jquery.mask.js"></script>
+@endsection
