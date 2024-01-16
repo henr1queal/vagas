@@ -2,9 +2,20 @@
 <html lang="pt" class="h-100">
 
 <head>
+    <title>Vagas em Maceió | VagasMaceio.com.br</title>
+    <meta name="description"
+    content="Encontre as melhores vagas de emprego em Maceió. Vagas atualizadas diariamente. Cadastre seu currículo agora!">
+    <meta name="keywords" content="vagas em Maceió, empregos Maceió, oportunidades de trabalho, vagas de emprego">
+    <meta name="robots" content="index, follow">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="canonical" href="https://www.vagasmaceio.com.br/">
+    <meta property="og:title" content="Vagas em Maceió | VagasMaceio.com.br">
+    <meta property="og:description"
+        content="Encontre as melhores vagas de emprego em Maceió. Vagas atualizadas diariamente. Cadastre seu currículo agora!">
+    <meta property="og:url" content="https://www.vagasmaceio.com.br/">
+    {{-- <meta property="og:image" content="URL_DA_SUA_IMAGEM"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
