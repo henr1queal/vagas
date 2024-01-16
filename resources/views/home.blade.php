@@ -169,9 +169,9 @@
                     <div class="accordion-body pt-0 pb-5">
                         <div class="filter-wrapper pt-lg-5 text-center text-lg-start filter-mobile">
                             <form action="" method="get" class="d-flex flex-column h-100 gap-4" id="form-filters">
-                                <h4 class="text-black montserrat fs-20 fw-normal text-center d-none d-lg-block">
+                                <h2 class="text-black montserrat fs-20 fw-normal text-center d-none d-lg-block">
                                     <strong>Filtros:</strong>
-                                </h4>
+                                </h2>
                                 <div class="d-flex flex-column gap-3">
                                     <div class="work_type">
                                         <p class="fs-18 montserrat text-black mb-0">Tipo de trabalho:</p>
@@ -286,7 +286,7 @@
                             </div>
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute destaque">
-                                <p class="text-white montserrat fs-18 mb-0"><strong>Vaga em destaque</strong></p>
+                                <p class="text-black montserrat fs-18 mb-0"><strong>Vaga em destaque</strong></p>
                             </div>
                             @foreach ($vacancies as $vacancy)
                                 @if (!$loop->first)

@@ -130,7 +130,7 @@
             <p class="text-white montserrat fs-16 mb-0">Vagas Maceió - {{ date('Y') }}</p>
         </div>
         <div class="col-2 text-end pe-5">
-            <a href="https://www.instagram.com/vagasmaceio.com.br/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/vagasmaceio.com.br/" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso instagram">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-instagram text-white" viewBox="0 0 16 16">
                     <path
