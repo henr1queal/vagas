@@ -52,6 +52,10 @@
                 height: 150px;
             }
 
+            #input-search::placeholder {
+                font-size: 1.6rem;
+            }
+
             .vacancy-wrapper {
                 height: 75dvh;
             }
@@ -133,7 +137,9 @@
             background-color: #003366;
         }
 
-        .btn-submit:hover, .btn-submit:active, .btn-submit:focus-visible {
+        .btn-submit:hover,
+        .btn-submit:active,
+        .btn-submit:focus-visible {
             background-color: #157347 !important;
         }
 
@@ -162,8 +168,7 @@
                 <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body pt-0 pb-5">
                         <div class="filter-wrapper pt-lg-5 text-center text-lg-start filter-mobile">
-                            <form action="" method="get" class="d-flex flex-column h-100 gap-4"
-                                id="form-filters">
+                            <form action="" method="get" class="d-flex flex-column h-100 gap-4" id="form-filters">
                                 <h4 class="text-black montserrat fs-20 fw-normal text-center d-none d-lg-block">
                                     <strong>Filtros:</strong>
                                 </h4>
@@ -234,7 +239,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="button-submit mt-3 mt-lg-0 w-100 gap-3 d-flex flex-column">
+                                <div class="button-submit mt-3 mt-xxl-5 w-100 gap-3 d-flex flex-column">
                                     <button type="submit"
                                         class="btn btn-submit text-white fs-18 montserrat w-100 align-self-end"><strong>Encontrar
                                             minha
@@ -307,7 +312,8 @@
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
                                 <p class="text-black montserrat fs-18 mb-0">
-                                    <strong>{{ $vacancies->first()->created_at->format('d') }}</strong></p>
+                                    <strong>{{ $vacancies->first()->created_at->format('d') }}</strong>
+                                </p>
                                 <p class="text-black montserrat fs-15 mb-0 month">
                                     {{ $vacancies->first()->formatted_created_at['month'] }}.</p>
                             </div>
