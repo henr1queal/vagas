@@ -265,7 +265,7 @@
                         <button class="btn btn-success fs-16" type="submit" id="search-button" disabled><strong>Buscar</strong></button>
                     </div>
                     @if ($last_search !== null)
-                    <a class="fs-14 text-center montserrat text-decoration-none d-block mt-4" href="{{route('home')}}"><span class="text-danger">x</span> limpar pesquisa</a>
+                    <a class="fs-14 text-center text-lg-start montserrat text-decoration-none d-block mt-4" href="{{route('home')}}"><span class="text-danger">x</span> limpar pesquisa</a>
                     @endif
                 </form>
             </div>
