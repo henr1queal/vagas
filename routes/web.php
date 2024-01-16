@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VacanciesController;
-use App\Mail\SendCurriculum;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
