@@ -139,6 +139,9 @@ Cadastro - Vagas Maceió
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success fs-18 py-3">Cadastrar-se</button>
+                    <div class="mt-5">
+                        <p class="text-black fs-16">Caso já tenha cadastro, <a href="{{route('login')}}"><strong>clique aqui</strong></a>.</p>
+                    </div>
                 </form>
             </div>
         </div>
