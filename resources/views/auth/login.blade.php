@@ -8,9 +8,14 @@
             background-color: #e5e5e5;
         }
 
-        input {
+        input:not([type=checkbox]) {
             height: 58px !important;
             color: black !important;
+        }
+
+        .form-check-input {
+            height: 20px;
+            width: 20px;
         }
 
         input::placeholder {
@@ -72,6 +77,10 @@
                                         Digite sua senha.
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <input id="remember_me" class="form-check-input px-3 align-self border-1 border-secondary" type="checkbox" name="remember" checked>
+                                <label class="fs-15 text-black align-self ms-2" for="remember_me">Lembrar login</label>
                             </div>
                             <div class="col-12 mb-3">
                                 <button type="submit" class="btn btn-success fs-18 py-3 w-100">Login</button>
