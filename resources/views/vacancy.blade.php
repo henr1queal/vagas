@@ -1,9 +1,35 @@
 @extends('layouts.layout')
 @section('title')
-    {{$vacancy->title}} - Vagas Maceió
+    {{ $vacancy->title }} - Vagas Maceió
 @endsection
 @section('css')
     <style>
+        .btn-whatsapp-pulse {
+            position: fixed;
+            bottom: 11.5%;
+            right: 5%;
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 50%;
+            animation-name: pulse;
+            animation-duration: 1.5s;
+            animation-timing-function: ease-out;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+            }
+
+            80% {
+                box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
+            }
+        }
+
         aside {
             background-color: #CFC6C6;
             height: 100%;
@@ -15,6 +41,10 @@
         }
 
         @media(min-width: 992px) {
+            .btn-whatsapp-pulse {
+                bottom: 9%;
+                right: 5%;
+            }
             aside {
                 width: 30%;
                 max-width: 500px;
@@ -73,7 +103,7 @@
             </div>
         </aside>
         <main class="row m-0 justify-content-center pt-5 py-lg-5 h-100 w-100">
-            <div class="col-11 h-100 overflow-auto pb-5 pb-lg-0">
+            <div class="col-11 h-100 overflow-auto pb-5 pb-lg-0 mb-4 mb-lg-0">
                 <div class="d-flex flex-column gap-5">
                     <div class="d-flex flex-row justify-content-center gap-4 align-items-center">
                         <div class="d-none d-lg-flex flex-column justify-content-center cursor-pointer" onclick="goBack()"
@@ -99,9 +129,9 @@
                         </div>
                         <button type="button" class="btn btn-submit text-white fs-18 montserrat py-4"><strong>Eu quero
                                 esta vaga!</strong></button>
-                                
-                        <div class="d-flex d-lg-none flex-column justify-content-center cursor-pointer text-center" onclick="goBack()"
-                            type="button">
+
+                        <div class="d-flex d-lg-none flex-column justify-content-center cursor-pointer text-center w-25 mx-auto"
+                            onclick="goBack()" type="button">
                             <span class="fs-14 montserrat text-black">voltar</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto" width="30" height="30"
                                 fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
@@ -113,6 +143,9 @@
                 </div>
             </div>
         </main>
+        <a href="{{ route('whatsapp') }}" target="_blank" class="btn-whatsapp-pulse">
+            <img src="../public/build/images/whatsapp.png" alt="Receba vagas pelo Whatsapp" class="img-fluid">
+        </a>
     </div>
 @endsection
 @section('scripts')

@@ -6,7 +6,7 @@
     <style>
         .btn-whatsapp-pulse {
             position: fixed;
-            bottom: 3%;
+            bottom: 4.5%;
             right: 5%;
             font-size: 40px;
             display: flex;
