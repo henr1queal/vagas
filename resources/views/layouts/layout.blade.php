@@ -146,7 +146,7 @@
 
 <body class="h-100">
     <nav class="py-3">
-        <div class="d-flex gap-4 justify-content-center align-items-center justify-content-lg-end mx-auto">
+        <div class="d-flex gap-4 justify-content-center align-items-center justify-content-lg-end mx-auto h-100">
             <a class="text-black d-inline-block roboto fs-18 fw-normal" href="{{ route('dashboard') }}">Publicar uma
                 vaga</a>
             <hr class="vr my-0">
