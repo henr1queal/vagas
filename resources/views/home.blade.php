@@ -6,7 +6,7 @@
     <style>
         .btn-whatsapp-pulse {
             position: fixed;
-            bottom: 4.5%;
+            bottom: 11.5%;
             right: 5%;
             font-size: 40px;
             display: flex;
@@ -108,7 +108,7 @@
             }
 
             aside {
-                width: 30%;
+                width: 25%;
                 max-width: 500px;
             }
 
@@ -289,7 +289,7 @@
         </aside>
         <main class="row m-0 justify-content-center align-items-center h-100 w-100">
             <div class="col-11 search px-0 pt-5 pt-lg-0">
-                <form action="{{ route('home') }}" method="get" class="montserrat h-100" id="search">
+                <form action="{{ route('home') }}" method="get" class="montserrat h-100 pe-lg-2" id="search">
                     <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-4">
                         <input class="form-control me-2 fs-16 fw-normal border-dark" name="search" type="search"
                             id="input-search" placeholder="Busque aqui pela área de seu interesse..."
@@ -303,7 +303,7 @@
                     @endif
                 </form>
             </div>
-            <div class="col-11 overflow-auto content px-0 pe-lg-3 pe-xxl-2 pt-4 pt-lg-0">
+            <div class="col-11 overflow-auto content px-0 pe-lg-2 pt-4 pt-lg-0">
                 <h2 class="montserrat fs-24 text-center pb-4 mt-4 mb-5"><strong>Vagas em aberto
                         ({{ $count_vacancies }}):</strong></h2>
                 <div class="d-flex flex-column gap-4">
