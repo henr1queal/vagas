@@ -67,12 +67,6 @@
         .btn-submit:hover {
             background-color: #157347;
         }
-
-        @media(min-width: 1921px) {
-            main {
-                border-right: 2px solid #CFC6C6;
-            }
-        }
     </style>
 @endsection
 @section('content')
