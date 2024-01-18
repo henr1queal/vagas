@@ -169,7 +169,7 @@
             <div class="col-lg-4 text-end pe-lg-0">
                 <div class="d-flex flex-row gap-4 justify-content-center justify-content-lg-end align-items-center">
                     <p class="mb-0 fs-15 text-white montserrat me-lg-4">Nossas redes sociais:</p>
-                    <a href="https://www.instagram.com/vagasmaceio.com.br/" target="_blank" rel="noopener noreferrer"
+                    <a href="https://wa.me/558287738539" target="_blank" rel="noopener noreferrer"
                         aria-label="Visite nosso instagram">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-whatsapp text-white" viewBox="0 0 16 16">
