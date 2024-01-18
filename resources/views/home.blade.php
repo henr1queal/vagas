@@ -3,21 +3,15 @@
     Vagas Maceió
 @endsection
 @section('css')
-<link rel="stylesheet" href="./public/build/assets/bootstrap-icons.min.css">
     <style>
         .btn-whatsapp-pulse {
-            background: #25d366;
-            color: white;
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 3%;
+            right: 5%;
             font-size: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 0;
-            height: 0;
-            padding: 35px;
             text-decoration: none;
             border-radius: 50%;
             animation-name: pulse;
@@ -33,22 +27,6 @@
 
             80% {
                 box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
-            }
-        }
-
-        @keyframes pulse-border {
-            0% {
-                padding: 25px;
-                opacity: 0.75;
-            }
-
-            75% {
-                padding: 50px;
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 0;
             }
         }
 
@@ -96,6 +74,11 @@
         }
 
         @media (min-width: 992px) {
+            .btn-whatsapp-pulse {
+                bottom: 9%;
+                right: 5%;
+            }
+
             .unique-vacancy {
                 height: 150px;
             }
@@ -407,8 +390,8 @@
                 </div>
             </div>
         </main>
-        <a href="" class="btn-whatsapp-pulse">
-            <i class="bi bi-whatsapp"></i>
+        <a href="{{route('whatsapp')}}" target="_blank" class="btn-whatsapp-pulse">
+            <img src="./public/build/images/whatsapp.png" alt="Receba vagas pelo Whatsapp" class="img-fluid">
         </a>
     </div>
 @endsection

@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [VacanciesController::class, 'index'])->name('home');
 Route::get('/vaga/{vacancy}', [VacanciesController::class, 'show'])->name('vacancy');
 
+Route::get('/grupo-whatsapp', function(){
+    return redirect('https://chat.whatsapp.com/GmYVwNOzS9v62GOlfMwXQJ');
+})->name('whatsapp');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
