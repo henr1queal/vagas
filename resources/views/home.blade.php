@@ -3,7 +3,55 @@
     Vagas Maceió
 @endsection
 @section('css')
+<link rel="stylesheet" href="./public/build/assets/bootstrap-icons.min.css">
     <style>
+        .btn-whatsapp-pulse {
+            background: #25d366;
+            color: white;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 0;
+            height: 0;
+            padding: 35px;
+            text-decoration: none;
+            border-radius: 50%;
+            animation-name: pulse;
+            animation-duration: 1.5s;
+            animation-timing-function: ease-out;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+            }
+
+            80% {
+                box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
+            }
+        }
+
+        @keyframes pulse-border {
+            0% {
+                padding: 25px;
+                opacity: 0.75;
+            }
+
+            75% {
+                padding: 50px;
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
         aside {
             background-color: #CFC6C6;
             height: 100%;
@@ -258,14 +306,17 @@
         </aside>
         <main class="row m-0 justify-content-center align-items-center h-100 w-100">
             <div class="col-11 search px-0 pt-5 pt-lg-0">
-                <form action="{{route('home')}}" method="get" class="montserrat h-100" id="search">
+                <form action="{{ route('home') }}" method="get" class="montserrat h-100" id="search">
                     <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-4">
-                        <input class="form-control me-2 fs-16 fw-normal border-dark" name="search" type="search" id="input-search"
-                            placeholder="Busque aqui pela área de seu interesse..." value="{{$last_search === null ? null : $last_search}}" aria-label="Search">
-                        <button class="btn btn-success fs-16" type="submit" id="search-button" disabled><strong>Buscar</strong></button>
+                        <input class="form-control me-2 fs-16 fw-normal border-dark" name="search" type="search"
+                            id="input-search" placeholder="Busque aqui pela área de seu interesse..."
+                            value="{{ $last_search === null ? null : $last_search }}" aria-label="Search">
+                        <button class="btn btn-success fs-16" type="submit" id="search-button"
+                            disabled><strong>Buscar</strong></button>
                     </div>
                     @if ($last_search !== null)
-                    <a class="fs-14 text-center text-lg-start montserrat text-decoration-none d-block mt-4" href="{{route('home')}}"><span class="text-danger">x</span> limpar pesquisa</a>
+                        <a class="fs-14 text-center text-lg-start montserrat text-decoration-none d-block mt-4"
+                            href="{{ route('home') }}"><span class="text-danger">x</span> limpar pesquisa</a>
                     @endif
                 </form>
             </div>
@@ -303,7 +354,8 @@
                                     </a>
                                     <h3 class="montserrat fs-16 subtitle">Tipo de emprego: {{ $vacancy->job_type }}</h3>
                                     <h3 class="montserrat fs-16 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
-                                    <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h semanais
+                                    <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h
+                                        semanais
                                     </h3>
                                     <h3 class="montserrat fs-16 subtitle">Salário: R$ {{ $vacancy->salary }}</h3>
                                     <h3 class="montserrat fs-16 subtitle mb-0">Empresa: {{ $vacancy->company_name }}.</h3>
@@ -355,6 +407,9 @@
                 </div>
             </div>
         </main>
+        <a href="" class="btn-whatsapp-pulse">
+            <i class="bi bi-whatsapp"></i>
+        </a>
     </div>
 @endsection
 @section('scripts')
@@ -413,21 +468,21 @@
             // Obtém referências aos elementos do DOM
             var inputSearch = document.getElementById('input-search');
             var searchButton = document.getElementById('search-button');
-    
+
             // Adiciona um ouvinte de evento para detectar mudanças no input-search
             inputSearch.addEventListener('input', function() {
                 // Habilita ou desabilita o botão com base no valor do input
                 searchButton.disabled = !inputSearch.value.trim();
             });
-    
+
             // Adiciona um ouvinte de evento para desabilitar o botão quando o formulário é enviado
             document.querySelector('form').addEventListener('submit', function() {
                 searchButton.disabled = true;
             });
         });
-    
+
         function disableSearchButton() {
             document.getElementById('search-button').disabled = true;
         }
-    </script>    
+    </script>
 @endsection
