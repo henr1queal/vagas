@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [VacanciesController::class, 'index'])->name('home');
-Route::get('/vaga/{vacancy}', [VacanciesController::class, 'show'])->name('vacancy');
+Route::get('/vaga/{vacancy}', [VacanciesController::class, 'show'])->name('vacancy.show');
 
 Route::get('/grupo-whatsapp', function(){
     return redirect('https://chat.whatsapp.com/GmYVwNOzS9v62GOlfMwXQJ');
@@ -25,6 +25,7 @@ Route::get('/grupo-whatsapp', function(){
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/publicar-vaga', [VacanciesController::class, 'store'])->middleware('auth')->name('vacancy.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
