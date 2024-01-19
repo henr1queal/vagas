@@ -1,11 +1,11 @@
 @extends('layouts.layout')
 @section('title')
-<title>Cadastro - Vagas Maceió</title>
+    <title>Cadastro - Vagas Maceió</title>
 @endsection
 @section('css')
-<style>
+    <style>
         body {
-         background-color: #e5e5e5;   
+            background-color: #e5e5e5;
         }
 
         input {
@@ -37,7 +37,7 @@
                     @csrf
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control border-secondary rounded-0 fs-15 " id="company_name"
-                            placeholder="Nome da empresa" name="company_name" value="{{old('company_name')}}" required>
+                            placeholder="Nome da empresa" name="company_name" value="{{ old('company_name') }}" required>
                         <label class="fs-15 text-black" for="company_name">Nome da empresa</label>
                         <div class="invalid-feedback fs-14">
                             O nome da empresa é obrigatório.
@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control border-secondary rounded-0 fs-15" id="cnpj"
-                            placeholder="CNPJ" name="cnpj" value="{{old('cnpj')}}" required>
+                            placeholder="CNPJ" name="cnpj" value="{{ old('cnpj') }}" required>
                         <label class="fs-15 text-black" for="cnpj">CNPJ</label>
                         <div class="invalid-feedback fs-14">
                             Caso não tenha CNPJ, entre em contato por e-mail: contato@vagasmaceio.com.br
@@ -63,7 +63,7 @@
                     </div>
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control border-secondary rounded-0 fs-15" id="floatingInput"
-                            placeholder="E-mail" name="email" value="{{old('email')}}" required>
+                            placeholder="E-mail" name="email" value="{{ old('email') }}" required>
                         <label class="fs-15 text-black" for="floatingInput">E-mail empresarial</label>
                         <div class="invalid-feedback fs-14">
                             Utilize seu e-mail empresarial.
@@ -93,7 +93,8 @@
                         <div class="col-lg-6">
                             <div class="form-floating mb-3">
                                 <input type="password" class="form-control border-secondary rounded-0 fs-15"
-                                    id="password_confirmation" name="password_confirmation" placeholder="Confirme a senha" required minlength="8">
+                                    id="password_confirmation" name="password_confirmation" placeholder="Confirme a senha"
+                                    required minlength="8">
                                 <label class="fs-15 text-black" for="password_confirmation">Confirme a senha</label>
                                 <div class="invalid-feedback fs-14">
                                     Confirme sua senha.
@@ -110,7 +111,7 @@
                         <div class="col-lg-6">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control border-secondary rounded-0 fs-15" id="name"
-                                    placeholder="Responsável pelo RH" name="name" value="{{old('name')}}" required>
+                                    placeholder="Responsável pelo RH" name="name" value="{{ old('name') }}" required>
                                 <label class="fs-15 text-black" for="name">Responsável pelo RH</label>
                                 <div class="invalid-feedback fs-14">
                                     O nome da pessoa responsável pela vaga é obrigatória.
@@ -125,7 +126,7 @@
                         <div class="col-lg-6">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control border-secondary rounded-0 fs-15" id="phone"
-                                    placeholder="Telefone ou celular" name="phone" value="{{old('phone')}}" required>
+                                    placeholder="Telefone ou celular" name="phone" value="{{ old('phone') }}" required>
                                 <label class="fs-15 text-black" for="phone">Telefone ou celular</label>
                                 <div class="invalid-feedback fs-14">
                                     Por favor, digite seu telefone para contato.
@@ -140,7 +141,8 @@
                     </div>
                     <button type="submit" class="btn btn-success fs-18 py-3">Cadastrar-se</button>
                     <div class="mt-5">
-                        <p class="text-black fs-16">Caso já tenha cadastro, <a href="{{route('login')}}"><strong>clique aqui</strong></a>.</p>
+                        <p class="text-black fs-16">Caso já tenha cadastro, <a href="{{ route('login') }}"><strong>clique
+                                    aqui</strong></a>.</p>
                     </div>
                 </form>
             </div>
@@ -166,27 +168,27 @@
             })
         })()
     </script>
-        <script>
-            function hasVerticalScroll() {
-                return document.body.scrollHeight > window.innerHeight;
+    <script>
+        function hasVerticalScroll() {
+            return document.body.scrollHeight > window.innerHeight;
+        }
+
+        function setFooterStyle() {
+            const footer = document.querySelector('footer');
+
+            if (hasVerticalScroll()) {
+                footer.style.position = 'static';
+            } else {
+                footer.style.position = 'fixed';
+                footer.style.bottom = '0';
+                footer.style.width = '100%';
             }
-    
-            function setFooterStyle() {
-                const footer = document.querySelector('footer');
-    
-                if (hasVerticalScroll()) {
-                    footer.style.position = 'static';
-                } else {
-                    footer.style.position = 'fixed';
-                    footer.style.bottom = '0';
-                    footer.style.width = '100%';
-                }
-            }
-    
-            window.addEventListener('load', setFooterStyle);
-            window.addEventListener('scroll', setFooterStyle);
-            window.addEventListener('resize', setFooterStyle);
-        </script>
+        }
+
+        window.addEventListener('load', setFooterStyle);
+        window.addEventListener('scroll', setFooterStyle);
+        window.addEventListener('resize', setFooterStyle);
+    </script>
     <script src="./public/build/assets/jquery.min.js"></script>
     <script src="./public/build/assets/jquery.mask.js"></script>
     <script>
