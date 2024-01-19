@@ -71,7 +71,7 @@
                             <div class="col-lg-6">
                                 <div class="form-floating mb-3">
                                     <input type="password" class="form-control border-secondary rounded-0 fs-15"
-                                        id="password" placeholder="Senha" name="password" required>
+                                        id="password" placeholder="Senha" name="password" required minlength="8">
                                     <label class="fs-15 text-black" for="password">Senha</label>
                                     <div class="invalid-feedback fs-14">
                                         Digite sua senha.

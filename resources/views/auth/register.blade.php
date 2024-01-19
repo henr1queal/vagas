@@ -78,7 +78,7 @@
                         <div class="col-lg-6">
                             <div class="form-floating mb-3">
                                 <input type="password" class="form-control border-secondary rounded-0 fs-15" id="password"
-                                    placeholder="Senha" name="password" required>
+                                    placeholder="Senha" name="password" required minlength="8">
                                 <label class="fs-15 text-black" for="password">Senha</label>
                                 <div class="invalid-feedback fs-14">
                                     A senha é obrigatória.
@@ -93,7 +93,7 @@
                         <div class="col-lg-6">
                             <div class="form-floating mb-3">
                                 <input type="password" class="form-control border-secondary rounded-0 fs-15"
-                                    id="password_confirmation" name="password_confirmation" placeholder="Confirme a senha" required>
+                                    id="password_confirmation" name="password_confirmation" placeholder="Confirme a senha" required minlength="8">
                                 <label class="fs-15 text-black" for="password_confirmation">Confirme a senha</label>
                                 <div class="invalid-feedback fs-14">
                                     Confirme sua senha.
