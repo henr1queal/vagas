@@ -2,26 +2,36 @@
 <html lang="pt" class="h-100">
 
 <head>
-    <title>Vagas em Maceió | VagasMaceio.com.br</title>
-    <meta name="description"
-        content="Encontre as melhores vagas de emprego em Maceió. Vagas atualizadas diariamente. Cadastre seu currículo agora!">
-    <meta name="keywords" content="vagas em Maceió, empregos Maceió, oportunidades de trabalho, vagas de emprego">
     <meta name="robots" content="index, follow">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="canonical" href="https://www.vagasmaceio.com.br/">
-    <meta property="og:title" content="Vagas em Maceió | VagasMaceio.com.br">
-    <meta property="og:description"
-        content="Encontre as melhores vagas de emprego em Maceió. Vagas atualizadas diariamente. Cadastre seu currículo agora!">
-    <meta property="og:url" content="https://www.vagasmaceio.com.br/">
+    @if (Route::current()->getName() === 'vacancy')
+        <meta name="keywords"
+            content="{{ $vacancy->title }}, vagas em Maceió, empregos Maceió, vagas de emprego em maceió, vagas em alagoas, vagas de emprego em alagoas, oportunidades de trabalho, vagas de emprego">
+        <meta name="description"
+            content="Vaga de {{ $vacancy->title }} em Maceió/Alagoas aberta! Envie seu currículo até {{ $vacancy->days_avaliable->format('d/m/Y') }}!">
+        <meta property="og:title" content="{{ $vacancy->title }} | VagasMaceio.com.br">
+        <meta property="og:description"
+            content="Vaga de {{ $vacancy->title }} em Maceió/Alagoas aberta! Envie seu currículo até {{ $vacancy->days_avaliable->format('d/m/Y') }}!">
+    @else
+        <meta name="keywords"
+            content="vagas em Maceió, empregos Maceió, vagas de emprego em maceió, vagas em alagoas, vagas de emprego em alagoas, oportunidades de trabalho, vagas de emprego">
+        <meta name="description"
+            content="Encontre as melhores vagas de emprego em Maceió. Vagas atualizadas diariamente. Envie seu currículo agora!">
+        <meta property="og:title" content="Vagas de emprego em Maceió | VagasMaceio.com.br">
+        <meta property="og:description"
+            content="Encontre as melhores vagas de emprego em Maceió. Vagas atualizadas diariamente. Envie seu currículo agora!">
+    @endif
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta property="og:url" content="{{ url()->current() }}">
     {{-- <meta property="og:image" content="URL_DA_SUA_IMAGEM"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Roboto:wght@400;700&display=swap"
         rel="stylesheet">
-    <title>@yield('title')</title>
+    @yield('title')
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <style>
         .roboto {
@@ -103,9 +113,11 @@
         footer {
             height: 10dvh;
         }
-        
+
         @media (min-width: 992px) and (max-width: 1920px) {
-            footer .first-div-footer, nav div {
+
+            footer .first-div-footer,
+            nav div {
                 max-width: 93% !important;
             }
         }
@@ -119,21 +131,23 @@
                 height: 5dvh;
             }
         }
-        
+
         .vacancy-wrapper {
             max-width: 1920px !important;
         }
 
-        footer .first-div-footer, nav div {
+        footer .first-div-footer,
+        nav div {
             max-width: 1783px;
         }
 
         @media (min-width: 1921px) {
-            footer > div {
+            footer>div {
                 margin-left: auto !important;
                 margin-right: auto !important;
                 margin: 0 auto !important;
             }
+
             nav div,
             .vacancy-wrapper {
                 margin: 0 auto !important;
@@ -155,7 +169,8 @@
     </nav>
     <header class="d-flex justify-content-center align-items-center">
         <div class="col text-center">
-            <h1 class="roboto fs-32"><a class="text-decoration-none text-white" href="{{ route('home') }}"><strong>Vagas
+            <h1 class="roboto fs-32"><a class="text-decoration-none text-white"
+                    href="{{ route('home') }}"><strong>Vagas
                         Maceió</a></strong></h1>
             <h2 class="text-white montserrat fs-20 fw-normal mb-0">Conectando você com o futuro.</h2>
         </div>

@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @section('title')
-    {{ $vacancy->title }} - Vagas Maceió
+    <title>Vaga de {{ $vacancy->title }} em Maceió | VagasMaceio.com.br</title>
 @endsection
 @section('css')
     <style>
@@ -45,8 +45,9 @@
                 bottom: 9%;
                 right: 5%;
             }
+
             aside {
-                width: 30%;
+                width: 25%;
                 max-width: 500px;
             }
 

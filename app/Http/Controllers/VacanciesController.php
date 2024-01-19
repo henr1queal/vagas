@@ -69,7 +69,6 @@ class VacanciesController extends Controller
             return $vacancy;
         });
     });
-    
 
     return view('home', [
         'highlighted_vacancies' => $highlighted_vacancies,

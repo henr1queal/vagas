@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @section('title')
-    Vagas Maceió
+<title>Vagas de emprego em Maceió | VagasMaceio.com.br</title>
 @endsection
 @section('css')
     <style>
