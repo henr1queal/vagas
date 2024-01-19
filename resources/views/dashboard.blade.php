@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @section('title')
-    Gerenciamento - Vagas Maceió
+    <title>Gerenciamento - Vagas Maceió</title>
 @endsection
 @section('css')
     <style>
