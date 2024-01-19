@@ -328,8 +328,8 @@
                                 @endif
                                 <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
                                     onmouseout="downSizeFont(this)"
-                                    onclick="viewVacancy('{{ route('vacancy', $vacancy->id) }}')">
-                                    <a href="{{ route('vacancy', $vacancy->id) }}" class="text-decoration-none">
+                                    onclick="viewVacancy('{{ route('vacancy.show', $vacancy->id) }}')">
+                                    <a href="{{ route('vacancy.show', $vacancy->id) }}" class="text-decoration-none">
                                         <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"
                                             title="{{ $vacancy->title }}">
                                             <strong>{{ $vacancy->title }}</strong>
@@ -363,8 +363,8 @@
                                 @endif
                                 <div class="col-12 px-4 unique-vacancy" onmouseover="upSizeFont(this)"
                                     onmouseout="downSizeFont(this)"
-                                    onclick="viewVacancy('{{ route('vacancy', $vacancy->id) }}')">
-                                    <a href="{{ route('vacancy', $vacancy->id) }}" class="text-decoration-none">
+                                    onclick="viewVacancy('{{ route('vacancy.show', $vacancy->id) }}')">
+                                    <a href="{{ route('vacancy.show', $vacancy->id) }}" class="text-decoration-none">
                                         <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"
                                             title="{{ $vacancy->title }}">
                                             <strong>{{ $vacancy->title }}</strong>
