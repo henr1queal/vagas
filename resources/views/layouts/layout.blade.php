@@ -6,10 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @php
-        $current_route = Route::current()->getName();
-    @endphp
-    @if ($current_route === 'vacancy')
+    @if (Route::current()->getName())
         <meta name="keywords"
             content="{{ $vacancy->title }}, vagas em Maceió, empregos Maceió, vagas de emprego em maceió, vagas em alagoas, vagas de emprego em alagoas, oportunidades de trabalho, vagas de emprego">
         <meta name="description"
@@ -26,12 +23,8 @@
         <meta property="og:description"
             content="Encontre as melhores vagas de emprego em Maceió. Vagas atualizadas diariamente. Envie seu currículo agora!">
     @endif
-    @if ($current_route === 'home')
-        <link rel="canonical" href="https://www.vagasmaceio.com.br/">
-    @else
-        <link rel="canonical" href="{{ url()->current() }}">
-    @endif
-    <meta property="og:url" content="{{ url()->current() }}">
+    <link rel="canonical" href="{{ url()->full() }}">
+    <meta property="og:url" content="{{ url()->full() }}">
     {{-- <meta property="og:image" content="URL_DA_SUA_IMAGEM"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
