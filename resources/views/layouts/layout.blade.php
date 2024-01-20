@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @if (Route::current()->getName())
+    @if (Route::current()->getName() === 'vacancy')
         <meta name="keywords"
             content="{{ $vacancy->title }}, vagas em Maceió, empregos Maceió, vagas de emprego em maceió, vagas em alagoas, vagas de emprego em alagoas, oportunidades de trabalho, vagas de emprego">
         <meta name="description"
