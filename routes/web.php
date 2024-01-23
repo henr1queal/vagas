@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/efetuar-pagamento/{vacancy}', [MercadoPagoController::class, 'checkout'])->name('payment.checkout');
     Route::post('/processar-pagamento/{vacancy}', [MercadoPagoController::class, 'process'])->name('payment.process');
-    Route::get('/webhook', [MercadoPagoController::class, 'webhook'])->name('payment.webhook');
+    Route::post('/webhook-mercado-pago-vaga-change-status', [MercadoPagoController::class, 'webhook'])->name('payment.webhook');
     Route::get('/previsualizar-vaga/{vacancy}', [VacanciesController::class, 'preview'])->name('vacancy.preview');
 });
 
