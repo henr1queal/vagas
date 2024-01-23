@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use MercadoPago\Client\Common\RequestOptions;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
@@ -42,8 +41,6 @@ class MercadoPagoController extends Controller
             )
         ]);
 
-        $client->external_reference = "Reference_1234";
-
         $client->payer = array(
             "name" => $request->user()->name,
             "email" => $request->user()->email,
@@ -52,14 +49,6 @@ class MercadoPagoController extends Controller
         $client->payment_methods = array(
             "installments" => 2
         );
-
-        $client->back_urls = array(
-            "success" => "https://www.google.com/success",
-            "failure" => "https://www.google.com/error",
-            "pending" => "https://www.google.com/pending"
-        );
-
-        $client->auto_return = "approved";
 
         return view('preview-and-payment', [
             'preference' => $client,
@@ -112,6 +101,7 @@ class MercadoPagoController extends Controller
             }
             return response()->json($payment);
         } catch (\Throwable $th) {
+            dd($th);
             return redirect()->back()->with('error', $th);
         }
     }
@@ -123,6 +113,7 @@ class MercadoPagoController extends Controller
             "description" => $vacancy->choiced_plan,
             "payment_method_id" => $request->payment_method_id,
             "external_reference" => $vacancy->id,
+            'notification_url' => route('payment.webhook'),
             "payer" => [
                 "email" => $request->payer['email'],
             ]

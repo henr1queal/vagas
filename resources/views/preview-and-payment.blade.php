@@ -109,17 +109,11 @@
                     }
                 },
                 callbacks: {
-                    onReady: () => {
-                        /*
-                         Callback chamado quando o Brick estiver pronto.
-                         Aqui você pode ocultar loadings do seu site, por exemplo.
-                        */
-                    },
+                    onReady: () => {},
                     onSubmit: ({
                         selectedPaymentMethod,
                         formData
                     }) => {
-                        // callback chamado ao clicar no botão de submissão dos dados
                         const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
                         return new Promise((resolve, reject) => {
                             fetch("{{ route('payment.process', ['vacancy' => $vacancy]) }}", {
@@ -132,39 +126,40 @@
                                 })
                                 .then((response) => response.json())
                                 .then((response) => {
-                                    // receber o resultado do pagamento
-                                    console.log(response.id)
-
                                     const renderStatusScreenBrick = async (bricksBuilder) => {
                                         const settings = {
                                             initialization: {
                                                 paymentId: response
-                                                    .id, // Payment identifier, from which the status will be checked
+                                                    .id,
                                             },
                                             customization: {
                                                 visual: {
                                                     hideStatusDetails: false,
                                                     hideTransactionDate: false,
                                                     style: {
-                                                        theme: 'default', // 'default' | 'dark' | 'bootstrap' | 'flat'
-                                                    }
+                                                        theme: 'default',
+                                                    },
+                                                    texts: {
+                                                        ctaReturnLabel: "Retornar ao painel",
+                                                    },
                                                 },
                                                 backUrls: {
-                                                    'error': '{{ route('dashboard') }}',
-                                                    'return': '{{ route('home') }}'
+                                                    'error': window.location.href,
+                                                    'return': "{{ route('dashboard') }}"
                                                 }
                                             },
                                             callbacks: {
                                                 onReady: () => {
-                                                    /*
-                                                      Callback chamado quando o Brick estiver pronto.
-                                                      Aqui você pode ocultar loadings do seu site, por exemplo.
-                                                    */
+                                                    let statusBrick = document
+                                                        .getElementById(
+                                                            'statusScreenBrick_container'
+                                                            );
+
+                                                    statusBrick.scrollIntoView({
+                                                        behavior: 'smooth'
+                                                    });
                                                 },
-                                                onError: (error) => {
-                                                    // callback chamado para todos os casos de erro do Brick
-                                                    console.error(error);
-                                                },
+                                                onError: (error) => {},
                                             },
                                         };
                                         window.statusScreenBrickController =
@@ -179,15 +174,11 @@
                                     resolve();
                                 })
                                 .catch((error) => {
-                                    // lidar com a resposta de erro ao tentar criar o pagamento
                                     reject();
                                 });
                         });
                     },
-                    onError: (error) => {
-                        // callback chamado para todos os casos de erro do Brick
-                        console.error(error);
-                    },
+                    onError: (error) => {},
                 },
             };
             window.paymentBrickController = await bricksBuilder.create(
