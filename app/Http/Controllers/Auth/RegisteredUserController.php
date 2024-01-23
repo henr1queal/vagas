@@ -37,14 +37,20 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:100', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'company_name' => ['required', 'string', 'max:100'],
-            'cnpj' => ['required', new FormatoCnpj],
-            'phone' => ['required', new CelularComDdd],
+            'cnpj' => ['required', new FormatoCnpj, 'unique:' . User::class],
+            'phone' => ['required', new CelularComDdd, 'unique:' . User::class],
+        ],[
+            'cnpj.unique' => 'O CNPJ digitado já existe. Caso já tenha cadastro, efetue login, ou recupere sua senha. Caso seja uma responsável diferente por este CNPJ, envie um e-mail para contato@vagasmaceio.com.br e aguarde o nosso retorno.',
+            'phone.unique' => 'O telefone/celular digitado já existe. Caso já tenha cadastro, efetue login, ou recupere sua senha. Se está trabalhando em uma outra empresa e está tentando cadastrar o número da conta anterior, envie um e-mail para contato@vagasmaceio.com.br e aguarde o nosso retorno.',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'company_name' => $request->company_name,
+            'cnpj' => $request->cnpj,
+            'phone' => $request->phone,
         ]);
 
         event(new Registered($user));
