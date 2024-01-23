@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'mercado_pago' => [
+        'base_uri' => env('MP_BASE_URI', 'https://api.mercadopago.com'),
+        'public_key' => env('MP_PUBLIC_KEY'),
+        'access_token' => env('MP_ACCESS_TOKEN'),
+    ],    
+
 ];
