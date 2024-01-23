@@ -159,8 +159,7 @@
                     @endif
                     <div class="d-flex flex-column">
                         <h3 class="fs-18 montserrat text-black"><strong>Salário:</strong></h3>
-                        <h4 class="fs-16 montserrat text-black">R$
-                            {{ $vacancy->company_salary ? $vacancy->salary : 'A combinar' }}</h4>
+                        <h4 class="fs-16 montserrat text-black">{{ $vacancy->show_salary ? 'R$ ' . $vacancy->salary : 'A combinar' }}</h4>
                     </div>
                 </div>
             </div>
