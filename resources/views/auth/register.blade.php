@@ -81,7 +81,7 @@
                                     placeholder="Senha" name="password" required minlength="8">
                                 <label class="fs-15 text-black" for="password">Senha</label>
                                 <div class="invalid-feedback fs-14">
-                                    A senha é obrigatória.
+                                    A senha deve ter no mínimo 8 dígitos.
                                 </div>
                                 @if ($errors->get('password'))
                                     @foreach ($errors->get('password') as $error)
