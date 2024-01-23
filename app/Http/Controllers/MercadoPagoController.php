@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use MercadoPago\Client\Common\RequestOptions;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
@@ -75,8 +76,12 @@ class MercadoPagoController extends Controller
         $unique_id = uniqid();
         $request_options->setCustomHeaders(["X-Idempotency-Key: {$unique_id}"]);
         $client = new PaymentClient();
+        
         $payment_id = $request->data->id;
         $payment = $client->get($payment_id, $request_options);
+
+        return Log::debug('Teste', ['payment' => $payment]);
+        
         if ($payment->status === 'approved') {
             $vacancy = Vacancy::find($payment->external_reference);
             $vacancy->paid_status = 'paid out';
@@ -107,7 +112,7 @@ class MercadoPagoController extends Controller
             }
             return response()->json($payment);
         } catch (\Throwable $th) {
-            dd($th);
+            return redirect()->back()->with('error', $th);
         }
     }
 
@@ -115,7 +120,7 @@ class MercadoPagoController extends Controller
     {
         $payment = $client->create([
             "transaction_amount" => (float) $request->transaction_amount,
-            "description" => "Vaga em exibição durante 30 dias (normal).",
+            "description" => $vacancy->choiced_plan,
             "payment_method_id" => $request->payment_method_id,
             "external_reference" => $vacancy->id,
             "payer" => [
@@ -131,7 +136,7 @@ class MercadoPagoController extends Controller
             "transaction_amount" => (float) $request->transaction_amount,
             "token" => $request->token,
             "installments" => $request->installments,
-            "description" => "Vaga em exibição durante 30 dias (normal).",
+            "description" => $vacancy->choiced_plan,
             "payment_method_id" => $request->payment_method_id,
             "external_reference" => $vacancy->id,
             "issuer_id" => $request->issuer_id,
@@ -152,7 +157,7 @@ class MercadoPagoController extends Controller
         $payment = $client->create([
             "transaction_amount" => (float) $request->transaction_amount,
             "issuer_id" => $request->issuer_id,
-            "description" => "Vaga em exibição durante 30 dias (normal).",
+            "description" => $vacancy->choiced_plan,
             "payment_method_id" => $request->payment_method_id,
             "external_reference" => $vacancy->id,
             'notification_url' => route('payment.webhook'),
