@@ -12,6 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        'webhook-mercado-pago-vaga-change-status'
+        'https://vagasmaceio.com.br/webhook-mercado-pago-vaga-change-status'
     ];
 }
