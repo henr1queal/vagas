@@ -16,21 +16,30 @@ class Vacancy extends Model
     protected $fillable = [
         'title',
         'company_name',
-        'workload',
         'work_schedule',
+        'workload',
         'salary',
         'employment_type',
-        'education_level',
         'job_type',
         'description',
-        'days_avaliable',
+        'days_available',
         'choiced_plan',
+        'email_receiver',
+        'hour_receive_email',
+        'limit_candidates',
         'max_candidates',
-        'notify_after_candidates',
+        'receive_notification',
+        'notification_views',
         'view_count',
+        'show_company',
+        'show_salary',
+        'user_id',
+        'paid_status',
+        'paid_value',
+        'approved_by_admin'
     ];
 
     protected $casts = [
-        'days_avaliable' => 'datetime',
+        'days_available' => 'datetime',
     ];
 }
