@@ -165,7 +165,7 @@
                 </div>
             </div>
         </aside>
-        <main class="row m-0 justify-content-center {{ !$preview_mode ? 'pt-5 py-lg-5' : '' }} h-100 w-100">
+        <main class="row m-0 justify-content-center {{ !isset($preview_mode) ? 'pt-5 py-lg-5' : '' }} h-100 w-100">
             <div class="col-12 position-relative">
                 <div class="preview-banner">
                     <div class="banner-content">
@@ -174,7 +174,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-11 h-100 overflow-auto pb-5 pb-lg-0 mb-4 mb-lg-0 {{ $preview_mode ? 'pt-5 mt-5' : '' }}">
+            <div class="col-11 h-100 overflow-auto pb-5 pb-lg-0 mb-4 mb-lg-0 {{ isset($preview_mode) ? 'pt-5 mt-5' : '' }}">
                 <div class="d-flex flex-column gap-5">
                     <div class="d-flex flex-row justify-content-center gap-4 align-items-center">
                         <div class="d-none d-lg-flex flex-column justify-content-center cursor-pointer" onclick="goBack()"
