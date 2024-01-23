@@ -77,7 +77,7 @@ class MercadoPagoController extends Controller
         $request_options->setCustomHeaders(["X-Idempotency-Key: {$unique_id}"]);
         $client = new PaymentClient();
         
-        $payment_id = $request->data->id;
+        $payment_id = $request->data['id'];
         $payment = $client->get($payment_id, $request_options);
 
         return Log::debug('Teste', ['payment' => $payment]);
