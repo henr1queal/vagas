@@ -71,27 +71,27 @@ class MercadoPagoController extends Controller
     public function webhook(Request $request)
     {
         $access_token = env('MP_ACCESS_TOKEN');
+        $payment_id = $request->data['id'];
+        $unique_id = uniqid();
         MercadoPagoConfig::setAccessToken($access_token);
         $request_options = new RequestOptions();
-        $unique_id = uniqid();
         $request_options->setCustomHeaders(["X-Idempotency-Key: {$unique_id}"]);
         $client = new PaymentClient();
-        
-        $payment_id = $request->data['id'];
         $payment = $client->get($payment_id, $request_options);
-
-        return Log::debug('Teste', ['payment' => $payment]);
         
+        $vacancy = Vacancy::find($payment->external_reference);
         if ($payment->status === 'approved') {
-            $vacancy = Vacancy::find($payment->external_reference);
             $vacancy->paid_status = 'paid out';
-            if ($vacancy->choiced_plan === 'Normal') {
+            if ($payment->description === 'Normal') {
                 $vacancy->days_available = Carbon::now()->addDays(30);
             } else {
                 $vacancy->days_available = Carbon::now()->addDays(15);
             }
-            $vacancy->save();
+        } else if($payment->status === 'in_process'){
+        } else {
+            $vacancy->paid_status = 'rejected';
         }
+        $vacancy->save();
     }
 
     public function process(Request $request, Vacancy $vacancy)
