@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @section('title')
-<title>Vagas de emprego em Maceió | VagasMaceio.com.br</title>
+    <title>Vagas de emprego em Maceió | VagasMaceio.com.br</title>
 @endsection
 @section('css')
     <style>
@@ -73,6 +73,12 @@
             cursor: pointer;
         }
 
+        @media (min-width: 1400px) {
+            aside {
+                width: 25%;
+            }
+        }
+
         @media (min-width: 992px) {
             .btn-whatsapp-pulse {
                 bottom: 9%;
@@ -80,7 +86,7 @@
             }
 
             .unique-vacancy {
-                height: 150px;
+                height: 175px;
             }
 
             #input-search::placeholder {
@@ -108,7 +114,7 @@
             }
 
             aside {
-                width: 25%;
+                width: 30%;
                 max-width: 500px;
             }
 
@@ -275,7 +281,7 @@
                                         class="btn btn-submit text-white fs-18 montserrat w-100 align-self-end"><strong>Encontrar
                                             minha
                                             <br>vaga perfeita!</strong></button>
-                                    <button type="reset" class="w-100 btn fs-15">Resetar filtros</button>
+                                    <button type="reset" class="w-100 btn fs-15 montserrat">Resetar filtros</button>
                                 </div>
                             </form>
                         </div>
@@ -337,11 +343,16 @@
                                     </a>
                                     <h3 class="montserrat fs-16 subtitle">Tipo de emprego: {{ $vacancy->job_type }}</h3>
                                     <h3 class="montserrat fs-16 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
-                                    <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h
-                                        semanais
-                                    </h3>
-                                    <h3 class="montserrat fs-16 subtitle">Salário: R$ {{ $vacancy->salary }}</h3>
-                                    <h3 class="montserrat fs-16 subtitle mb-0">Empresa: {{ $vacancy->company_name }}.</h3>
+                                    @if ($vacancy->workload)
+                                        <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h
+                                            semanais</h3>
+                                    @endif
+                                    <h3 class="montserrat fs-16 subtitle">Salário:
+                                        {{ $vacancy->show_salary === 0 ? 'a combinar' : 'R$ ' . $vacancy->salary }}</h3>
+                                    <h3 class="montserrat fs-16 subtitle">Empresa:
+                                        {{ $vacancy->show_company === 0 ? 'confidencial' : $vacancy->company_name }}.</h3>
+                                    <h3 class="montserrat fs-16 subtitle mb-0">Envie seu currículo até:
+                                        {{ $vacancy->days_available->format('d/m/Y') }} às {{$vacancy->days_available->format('H:i')}}</h3>
                                 </div>
                             @endforeach
                         </div>
@@ -390,7 +401,7 @@
                 </div>
             </div>
         </main>
-        <a href="{{route('whatsapp')}}" target="_blank" class="btn-whatsapp-pulse">
+        <a href="{{ route('whatsapp') }}" target="_blank" class="btn-whatsapp-pulse">
             <img src="./public/build/images/whatsapp.png" alt="Receba vagas pelo Whatsapp" class="img-fluid">
         </a>
     </div>
