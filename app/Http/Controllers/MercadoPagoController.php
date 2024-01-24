@@ -78,6 +78,7 @@ class MercadoPagoController extends Controller
                 $vacancy->days_available = Carbon::now()->addDays(15);
             }
         } else if($payment->status === 'in_process'){
+            $vacancy->paid_status = 'in process';
         } else {
             $vacancy->paid_status = 'rejected';
         }
