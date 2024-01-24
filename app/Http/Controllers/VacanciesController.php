@@ -21,7 +21,6 @@ class VacanciesController extends Controller
      */
     public function index(Request $request)
     {
-        $now = Carbon::now();
         $query = Vacancy::select([
             'id',
             'title',
@@ -160,12 +159,6 @@ class VacanciesController extends Controller
         $vacancy->description = $validated['description'];
         $vacancy->choiced_plan = $validated['choiced_plan'];
         $vacancy->paid_value = 79.90;
-        $now = Carbon::now();
-        if ($validated['choiced_plan'] === 'Normal') {
-            $vacancy->days_available = $now->addDays(30);
-        } else {
-            $vacancy->days_available = $now->addDays(15);
-        }
 
         function verifySingleFields(string $field_name, array $validated, Vacancy $vacancy)
         {
@@ -326,12 +319,6 @@ class VacanciesController extends Controller
         $vacancy->employment_type = $validated['employment_type'];
         $vacancy->job_type = $validated['job_type'];
         $vacancy->description = $validated['description'];
-        $now = Carbon::now();
-        if ($validated['choiced_plan'] === 'Normal') {
-            $vacancy->days_available = $now->addDays(30);
-        } else {
-            $vacancy->days_available = $now->addDays(15);
-        }
 
         $vacancy->save();
 
