@@ -14,7 +14,7 @@ class MercadoPagoController extends Controller
 {
     public function checkout(Request $request, Vacancy $vacancy)
     {
-        if ($request->plan === 'Normal') {
+        if ($vacancy->choiced_plan === 'Normal') {
             $id = 1;
             $title = '30 dias (normal)';
             $description = 'Seu anúncio será exibido em nosso site durante 30 dias à partir de nossa aprovação.';
@@ -36,20 +36,21 @@ class MercadoPagoController extends Controller
                     "description" => $description,
                     "title" => $title,
                     "quantity" => 1,
-                    "unit_price" => 79.90,
+                    "unit_price" => $vacancy->paid_value,
                 )
             )
         ]);
 
+        
         $client->payer = array(
             "name" => $request->user()->name,
             "email" => $request->user()->email,
         );
-
+        
         $client->payment_methods = array(
             "installments" => 2
         );
-
+        
         return view('preview-and-payment', [
             'preference' => $client,
             'public_key' => $public_key,
