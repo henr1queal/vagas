@@ -68,7 +68,6 @@ class MercadoPagoController extends Controller
         $request_options->setCustomHeaders(["X-Idempotency-Key: {$unique_id}"]);
         $client = new PaymentClient();
         $payment = $client->get($payment_id, $request_options);
-        
         $vacancy = Vacancy::find($payment->external_reference);
         if ($payment->status === 'approved') {
             $vacancy->paid_status = 'paid out';
@@ -77,7 +76,7 @@ class MercadoPagoController extends Controller
             } else {
                 $vacancy->days_available = Carbon::now()->addDays(15);
             }
-        } else if($payment->status === 'in_process'){
+        } else if($payment->status === 'pending' || $payment->status === 'in_process'){
             $vacancy->paid_status = 'in process';
         } else {
             $vacancy->paid_status = 'rejected';
