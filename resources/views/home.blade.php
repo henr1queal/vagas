@@ -313,6 +313,9 @@
                 <h2 class="montserrat fs-24 text-center pb-4 mt-4 mb-5"><strong>Vagas em aberto
                         ({{ $count_vacancies }}):</strong></h2>
                 <div class="d-flex flex-column gap-4">
+                    @if ($highlighted_vacancies->count() === 0 && $normal_vacancies->count() === 0)
+                        <p class="roboto fs-16 text-center">Nenhuma vaga para ser exibida. Deseja <a href="{{route('vacancy.create')}}">Publicar uma nova vaga?</a></p>
+                    @endif
                     @foreach ($highlighted_vacancies as $vacancies)
                         <div class="row bg-white py-5 pb-lg-4 m-0 position-relative rounded-3 daily mt-5 mb-4 mt-5">
                             <div class="py-2"></div>
