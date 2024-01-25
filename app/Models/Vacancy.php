@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vacancy extends Model
 {
@@ -42,4 +43,9 @@ class Vacancy extends Model
     protected $casts = [
         'days_available' => 'datetime',
     ];
+
+    public function candidates(): HasMany
+    {
+        return $this->hasMany(Candidate::class, 'vacancy_id', 'id');
+    }
 }
