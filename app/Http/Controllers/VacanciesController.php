@@ -187,7 +187,6 @@ class VacanciesController extends Controller
         $vacancy->job_type = $validated['job_type'];
         $vacancy->description = $validated['description'];
         $vacancy->choiced_plan = $validated['choiced_plan'];
-        $vacancy->paid_value = 79.90;
 
         function verifySingleFields(string $field_name, array $validated, Vacancy $vacancy)
         {
@@ -235,7 +234,7 @@ class VacanciesController extends Controller
 
     public function preview(Vacancy $vacancy)
     {
-        if ($vacancy->paid_status === 'pending') {
+        if ($vacancy->paid_status === 'in process') {
             $user = Auth::user();
             if ($user && $user->id === $vacancy->user_id) {
                 return view('vacancy', ['vacancy' => $vacancy, 'preview_mode' => true]);
