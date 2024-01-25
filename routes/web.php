@@ -36,9 +36,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/atualizar-vaga/{vacancy}', [VacanciesController::class, 'update'])->name('vacancy.update');
     Route::get('/efetuar-pagamento-pre-visualizar/{vacancy}', [VacanciesController::class, 'makePayment'])->name('vacancy.make-payment');
     
-    Route::get('/pagamento-efetuado/{product}/{id}', [PaymentController::class, 'paymentConfirmed'])->name('payment.success');
-    Route::get('/pagamento-cancelado', [PaymentController::class, 'paymentCanceled'])->name('payment.cancel');
-    
     Route::get('/efetuar-pagamento/{vacancy}', [MercadoPagoController::class, 'checkout'])->name('payment.checkout');
     Route::post('/processar-pagamento/{vacancy}', [MercadoPagoController::class, 'process'])->name('payment.process');
     Route::get('/previsualizar-vaga/{vacancy}', [VacanciesController::class, 'preview'])->name('vacancy.preview');
