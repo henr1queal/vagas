@@ -38,11 +38,35 @@ class VacanciesController extends Controller
             ->whereIn('choiced_plan', ['Destaque', 'Normal'])
             ->where('paid_status', 'paid out')
             ->where('approved_by_admin', 1)
+            ->where('days_available', '>', Carbon::now())
             ->orderBy('created_at', 'desc');
 
-        if ($request->has('search')) {
-            $searchTerm = $request->input('search');
-            $query->where('title', 'like', '%' . $searchTerm . '%');
+        if ($request->has('search') && $request->search !== null) {
+            $search = $request->search;
+            $query->where('title', 'like', '%' . $search . '%');
+        } else {
+            $search = false;
+        }
+
+        if ($request->has('contract_type')) {
+            $contract_type = $request->contract_type;
+            $query->where('employment_type', $contract_type);
+        } else {
+            $contract_type = false;
+        }
+
+        if ($request->has('journey_hour')) {
+            $journey_hour = $request->journey_hour;
+            $query->where('work_schedule', $journey_hour);
+        } else {
+            $journey_hour = false;
+        }
+
+        if ($request->has('work_type')) {
+            $work_type = $request->work_type;
+            $query->where('job_type', $work_type);
+        } else {
+            $work_type = false;
         }
 
         $vacancies = $query->get();
@@ -87,7 +111,12 @@ class VacanciesController extends Controller
             'highlighted_vacancies' => $highlighted_vacancies,
             'normal_vacancies' => $normal_vacancies,
             'count_vacancies' => $count_vacancies,
-            'last_search' => $request->search
+            'last_search' => [
+                'search' => $search,
+                'contract_type' => $contract_type,
+                'journey_hour' => $journey_hour,
+                'work_type' => $work_type
+            ]
         ]);
     }
 
@@ -246,14 +275,14 @@ class VacanciesController extends Controller
         // $carbonTime = Carbon::parse($hourReceiveEmail);
         // $request->merge(['hour_receive_email' => $carbonTime->toTimeString()]);
         // $vacancy->fill($request->all());
-        
+
         // if ($vacancy->isDirty()) {
         //     dd($vacancy->getDirty());
         //     dd('algo mudou');
         // } else {
         //     dd('nada mudou');
         // }
-        
+
         if ($vacancy->paid_status !== 'paid out') {
             $required_if = 'required';
         } else {

@@ -180,14 +180,18 @@
             background-color: #157347 !important;
         }
 
-        button[type="reset"],
-        button[type="reset"]:hover {
+        button[type="button"],
+        button[type="button"]:hover {
             color: #003366;
             border: 1px solid #003366;
         }
 
-        button[type="reset"]:active {
+        button[type="button"]:active {
             background-color: #ffffff !important;
+        }
+
+        button[type="button"]:active {
+            background-color: inherit !important;
         }
     </style>
 @endsection
@@ -196,16 +200,17 @@
         <div class="accordion d-lg-none" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed py-4 text-black fs-20 montserrat" type="button"
+                    <button class="accordion-button collapsed py-4 text-black fs-20 montserrat border-0" type="button"
                         data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true"
                         aria-controls="collapseOne">
                         <strong class="w-100 text-center">Filtros</strong>
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                    <div class="accordion-body pt-0 pb-5">
+                    <div class="accordion-body pt-3 pb-5">
                         <div class="filter-wrapper pt-lg-5 text-center text-lg-start filter-mobile">
-                            <form action="" method="get" class="d-flex flex-column h-100 gap-4" id="form-filters">
+                            <form action="{{ route('home') }}" method="get" class="d-flex flex-column h-100 gap-4"
+                                id="form-filters">
                                 <h2 class="text-black montserrat fs-20 fw-normal text-center d-none d-lg-block">
                                     <strong>Filtros:</strong>
                                 </h2>
@@ -213,26 +218,33 @@
                                     <div class="work_type">
                                         <p class="fs-18 montserrat text-black mb-0">Tipo de trabalho:</p>
                                         <div class="form-check align-items-center d-flex gap-3">
-                                            <input class="form-check-input" type="radio" name="work_type" id="estagio"
-                                                value="Estágio" style="width: 15px; height: 15px;">
+                                            <input class="form-check-input" type="radio"
+                                                @if ($last_search['work_type'] === 'Estágio') @checked(true) @endif
+                                                name="work_type" id="estagio" value="Estágio"
+                                                style="width: 15px; height: 15px;">
                                             <label class="form-check-label text-black montserrat fs-16"
                                                 for="estagio">Estágio</label>
                                         </div>
                                         <div class="form-check align-items-center d-flex gap-3">
-                                            <input class="form-check-input" type="radio" name="work_type" id="trainee"
-                                                value="Trainee" style="width: 15px; height: 15px;">
+                                            <input class="form-check-input" type="radio"
+                                                @if ($last_search['work_type'] === 'Trainee') @checked(true) @endif
+                                                name="work_type" id="trainee" value="Trainee"
+                                                style="width: 15px; height: 15px;">
                                             <label class="form-check-label text-black montserrat fs-16"
                                                 for="trainee">Trainee</label>
                                         </div>
                                         <div class="form-check align-items-center d-flex gap-3">
-                                            <input class="form-check-input" type="radio" name="work_type" id="Freelance"
-                                                value="Freelance" style="width: 15px; height: 15px;">
+                                            <input class="form-check-input" type="radio"
+                                                @if ($last_search['work_type'] === 'Freelance') @checked(true) @endif
+                                                name="work_type" id="Freelance" value="Freelance"
+                                                style="width: 15px; height: 15px;">
                                             <label class="form-check-label text-black montserrat fs-16"
                                                 for="Freelance">Freelance</label>
                                         </div>
                                         <div class="form-check align-items-center d-flex gap-3">
-                                            <input class="form-check-input" type="radio" name="work_type"
-                                                id="tempo_integral" value="Tempo integral"
+                                            <input class="form-check-input" type="radio"
+                                                @if ($last_search['work_type'] === 'Tempo integral') @checked(true) @endif
+                                                name="work_type" id="tempo_integral" value="Tempo integral"
                                                 style="width: 15px; height: 15px;">
                                             <label class="form-check-label text-black montserrat fs-16"
                                                 for="tempo_integral">Tempo
@@ -242,14 +254,18 @@
                                     <div class="contract_type">
                                         <p class="fs-18 montserrat text-black mb-0">Regime de contratação:</p>
                                         <div class="form-check align-items-center d-flex gap-3">
-                                            <input class="form-check-input" type="radio" name="contract_type"
-                                                id="clt" value="CLT" style="width: 15px; height: 15px;">
+                                            <input class="form-check-input" type="radio"
+                                                @if ($last_search['contract_type'] === 'CLT') @checked(true) @endif
+                                                name="contract_type" id="clt" value="CLT"
+                                                style="width: 15px; height: 15px;">
                                             <label class="form-check-label text-black montserrat fs-16"
                                                 for="clt">CLT</label>
                                         </div>
                                         <div class="form-check align-items-center d-flex gap-3">
-                                            <input class="form-check-input" type="radio" name="contract_type"
-                                                id="pj" value="PJ" style="width: 15px; height: 15px;">
+                                            <input class="form-check-input" type="radio"
+                                                @if ($last_search['contract_type'] === 'PJ') @checked(true) @endif
+                                                name="contract_type" id="pj" value="PJ"
+                                                style="width: 15px; height: 15px;">
                                             <label class="form-check-label text-black montserrat fs-16"
                                                 for="pj">PJ</label>
                                         </div>
@@ -257,31 +273,40 @@
                                     <div class="journey_hour">
                                         <p class="fs-18 montserrat text-black mb-0">Jornada de trabalho:</p>
                                         <div class="form-check align-items-center d-flex gap-3">
-                                            <input class="form-check-input" type="radio" name="journey_hour"
-                                                id="daytime" value="Diurno" style="width: 15px; height: 15px;">
+                                            <input class="form-check-input" type="radio"
+                                                @if ($last_search['journey_hour'] === 'Diurno') @checked(true) @endif
+                                                name="journey_hour" id="daytime" value="Diurno"
+                                                style="width: 15px; height: 15px;">
                                             <label class="form-check-label text-black montserrat fs-16"
                                                 for="daytime">Diurno</label>
                                         </div>
                                         <div class="form-check align-items-center d-flex gap-3">
-                                            <input class="form-check-input" type="radio" name="journey_hour"
-                                                id="nocturnal" value="Noturno" style="width: 15px; height: 15px;">
+                                            <input class="form-check-input" type="radio"
+                                                @if ($last_search['journey_hour'] === 'Noturno') @checked(true) @endif
+                                                name="journey_hour" id="nocturnal" value="Noturno"
+                                                style="width: 15px; height: 15px;">
                                             <label class="form-check-label text-black montserrat fs-16"
                                                 for="nocturnal">Noturno</label>
                                         </div>
                                         <div class="form-check align-items-center d-flex gap-3">
-                                            <input class="form-check-input" type="radio" name="journey_hour"
-                                                id="flex" value="Flexível" style="width: 15px; height: 15px;">
+                                            <input class="form-check-input" type="radio"
+                                                @if ($last_search['journey_hour'] === 'Flexível') @checked(true) @endif
+                                                name="journey_hour" id="flex" value="Flexível"
+                                                style="width: 15px; height: 15px;">
                                             <label class="form-check-label text-black montserrat fs-16"
                                                 for="flex">Flexível</label>
                                         </div>
                                     </div>
                                 </div>
+                                <input type="hidden" value="{{ $last_search['search'] ? $last_search['search'] : null }}"
+                                    name="search">
                                 <div class="button-submit mt-3 mt-xxl-5 w-100 gap-3 d-flex flex-column">
                                     <button type="submit"
                                         class="btn btn-submit text-white fs-18 montserrat w-100 align-self-end"><strong>Encontrar
                                             minha
                                             <br>vaga perfeita!</strong></button>
-                                    <button type="reset" class="w-100 btn fs-15 montserrat">Resetar filtros</button>
+                                    <button type="button" class="w-100 btn fs-15 montserrat"
+                                        onclick="resetForm()">Resetar filtros</button>
                                 </div>
                             </form>
                         </div>
@@ -299,13 +324,16 @@
                     <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-4">
                         <input class="form-control me-2 fs-16 fw-normal border-dark" name="search" type="search"
                             id="input-search" placeholder="Busque aqui pela área de seu interesse..."
-                            value="{{ $last_search === null ? null : $last_search }}" aria-label="Search">
+                            value="{{ $last_search['search'] ? $last_search['search'] : null }}" aria-label="Search">
                         <button class="btn btn-success fs-16" type="submit" id="search-button"
                             disabled><strong>Buscar</strong></button>
                     </div>
-                    @if ($last_search !== null)
+                    @if ($last_search['search'])
                         <a class="fs-14 text-center text-lg-start montserrat text-decoration-none d-block mt-4"
                             href="{{ route('home') }}"><span class="text-danger">x</span> limpar pesquisa</a>
+                    @elseif (!$last_search['search'] && in_array(!false, $last_search))
+                        <a class="fs-14 text-center text-lg-start montserrat text-decoration-none d-block mt-4"
+                            href="{{ route('home') }}"><span class="text-danger">x</span> limpar filtros</a>
                     @endif
                 </form>
             </div>
@@ -314,7 +342,8 @@
                         ({{ $count_vacancies }}):</strong></h2>
                 <div class="d-flex flex-column gap-4">
                     @if ($highlighted_vacancies->count() === 0 && $normal_vacancies->count() === 0)
-                        <p class="roboto fs-16 text-center">Nenhuma vaga para ser exibida. Deseja <a href="{{route('vacancy.create')}}">Publicar uma nova vaga?</a></p>
+                        <p class="roboto fs-16 text-center">Nenhuma vaga para ser exibida. <a
+                                href="{{ route('vacancy.create') }}">Divulgue sua vaga conosco!</a></p>
                     @endif
                     @foreach ($highlighted_vacancies as $vacancies)
                         <div class="row bg-white py-5 pb-lg-4 m-0 position-relative rounded-3 daily mt-5 mb-4 mt-5">
@@ -355,7 +384,8 @@
                                     <h3 class="montserrat fs-16 subtitle">Empresa:
                                         {{ $vacancy->show_company === 0 ? 'confidencial' : $vacancy->company_name }}.</h3>
                                     <h3 class="montserrat fs-16 subtitle mb-0">Envie seu currículo até:
-                                        {{ $vacancy->days_available->format('d/m/Y') }} às {{$vacancy->days_available->format('H:i')}}</h3>
+                                        {{ $vacancy->days_available->format('d/m/Y') }} às
+                                        {{ $vacancy->days_available->format('H:i') }}</h3>
                                 </div>
                             @endforeach
                         </div>
@@ -410,6 +440,27 @@
     </div>
 @endsection
 @section('scripts')
+    <script>
+        function hasVerticalScroll() {
+            return document.body.scrollHeight > window.innerHeight;
+        }
+
+        function setFooterStyle() {
+            const footer = document.querySelector('footer');
+
+            if (hasVerticalScroll()) {
+                footer.style.position = 'static';
+            } else {
+                footer.style.position = 'fixed';
+                footer.style.bottom = '0';
+                footer.style.width = '100%';
+            }
+        }
+
+        window.addEventListener('load', setFooterStyle);
+        window.addEventListener('scroll', setFooterStyle);
+        window.addEventListener('resize', setFooterStyle);
+    </script>
     <script>
         function moveFormFilters(device) {
             let formFilters = document.getElementById('form-filters');
@@ -480,6 +531,17 @@
 
         function disableSearchButton() {
             document.getElementById('search-button').disabled = true;
+        }
+    </script>
+    <script>
+        function resetForm() {
+            var form = document.getElementById('form-filters');
+            form.reset()
+            // Desmarcar todos os botões de rádio dentro do formulário
+            var radioButtons = form.querySelectorAll('.form-check-input');
+            radioButtons.forEach(function(radioButton) {
+                radioButton.checked = false;
+            });
         }
     </script>
 @endsection
