@@ -10,14 +10,16 @@
             left: 0;
             width: 100%;
             background-color: #ffcc00;
-            /* Cor de fundo da faixa */
             color: #000;
-            /* Cor do texto */
             padding: 10px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             z-index: 9999;
             overflow: hidden;
+        }
+
+        .modal-backdrop.show {
+            opacity: 0.75;
         }
 
         .banner-content {
@@ -118,8 +120,10 @@
             background-color: #003366;
         }
 
-        .btn-submit:hover {
-            background-color: #157347;
+        .btn-submit:hover,
+        .btn-submit:active,
+        .btn-submit:focus-visible {
+            background-color: #157347 !important;
         }
     </style>
 @endsection
@@ -159,7 +163,8 @@
                     @endif
                     <div class="d-flex flex-column">
                         <h3 class="fs-18 montserrat text-black"><strong>Salário:</strong></h3>
-                        <h4 class="fs-16 montserrat text-black">{{ $vacancy->show_salary ? 'R$ ' . $vacancy->salary : 'A combinar' }}</h4>
+                        <h4 class="fs-16 montserrat text-black">
+                            {{ $vacancy->show_salary ? 'R$ ' . $vacancy->salary : 'A combinar' }}</h4>
                     </div>
                 </div>
             </div>
@@ -178,6 +183,25 @@
             @endif
             <div
                 class="col-11 h-100 overflow-auto pb-5 pb-lg-0 mb-4 mb-lg-0 {{ isset($preview_mode) ? 'pt-5 mt-5' : '' }}">
+                @if ($errors->any())
+                    <div class="alert alert-danger fs-16 mb-4 montserrat">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @if (session('success-candidate'))
+                    <div class="alert alert-success fs-16 mb-5 montserrat fw-medium">
+                        <p><strong>{{ session('success-candidate') }}</strong></p>
+                    </div>
+                @endif
+                @if (session('error-candidate'))
+                    <div class="alert alert-danger fs-16 mb-5 montserrat fw-medium">
+                        <p><strong>{{ session('error-candidate') }}</strong></p>
+                    </div>
+                @endif
                 <div class="d-flex flex-column gap-5">
                     <div class="d-flex flex-row justify-content-center gap-4 align-items-center">
                         <div class="d-none d-lg-flex flex-column justify-content-center cursor-pointer" onclick="goBack()"
@@ -201,9 +225,9 @@
                             <h4 class="montserrat fs-18 text-black"><strong>Descrição da vaga:</strong></h4>
                             <p class="montserrat fs-18 text-black fw-medium">{{ $vacancy->description }}</p>
                         </div>
-                        <button type="button" class="btn btn-submit text-white fs-18 montserrat py-4"><strong>Eu quero
+                        <button type="button" class="btn btn-submit text-white fs-18 montserrat py-4"
+                            data-bs-toggle="modal" data-bs-target="#curriculumModal"><strong>Eu quero
                                 esta vaga!</strong></button>
-
                         <div class="d-flex d-lg-none flex-column justify-content-center cursor-pointer text-center w-25 mx-auto"
                             onclick="goBack()" type="button">
                             <span class="fs-14 montserrat text-black">voltar</span>
@@ -216,6 +240,79 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade roboto" id="curriculumModal" tabindex="-1" aria-labelledby="curriculumModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title fs-18" id="curriculumModalLabel"><strong>Escolha uma opção:</strong></h2>
+                            <button type="button" class="btn-close fs-16" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body gap-3 d-flex flex-row justify-content-center">
+                            <button type="button" class="btn btn-primary w-100 py-3 fs-16" data-bs-dismiss="modal"
+                                data-bs-toggle="modal" data-bs-target="#curriculumFile">Currículo em arquivo</button>
+                            <button type="button" class="btn btn-primary w-100 py-3 fs-16" data-bs-dismiss="modal"
+                                data-bs-toggle="modal" data-bs-target="#curriculumFields">Crie seu currículo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade roboto" id="curriculumFile" tabindex="-1" aria-labelledby="curriculumFileLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title fs-18" id="curriculumFileLabel"><strong>Adicione seu currículo</strong></h2>
+                            <button type="button" class="btn-close fs-16" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="row g-3 needs-validation" action="{{ route('candidate.store') }}"
+                                method="POST" enctype="multipart/form-data" novalidate>
+                                @csrf
+                                <div class="mb-3 fs-16">
+                                    <label for="curriculum" class="form-label">.pdf, .doc ou .docx<span
+                                            class="text-danger fs-14">*</span></label>
+                                    <input class="form-control form-control-lg fs-16" name="curriculum" type="file"
+                                        id="curriculum" accept=".pdf,.doc,.docx" required>
+                                    <div class="invalid-feedback">
+                                        Você precisa adicionar um arquivo.
+                                    </div>
+                                    <input type="hidden" name="vacancy" value="{{$vacancy->id}}">
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-success fs-15 w-100 py-3"><strong>Enviar
+                                            currículo</strong></button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer justify-content-start">
+                            <button type="button" class="btn btn-secondary fs-15 w-100 py-3" data-bs-dismiss="modal"
+                                data-bs-toggle="modal" data-bs-target="#curriculumModal"><strong>Voltar</strong></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade roboto" id="curriculumFields" tabindex="-1" aria-labelledby="curriculumFieldsLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title fs-18" id="curriculumFieldsLabel"><strong>Preencha seus dados</strong></h2>
+                            <button type="button" class="btn-close fs-16" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Conteúdo do terceiro modal -->
+                        </div>
+                        <div class="modal-footer justify-content-start">
+                            <button type="button" class="btn btn-secondary fs-16 w-100" data-bs-dismiss="modal"
+                                data-bs-toggle="modal" data-bs-target="#curriculumModal">Voltar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
         <a href="{{ route('whatsapp') }}" target="_blank" class="btn-whatsapp-pulse">
             <img src="../public/build/images/whatsapp.png" alt="Receba vagas pelo Whatsapp" class="img-fluid">
@@ -223,6 +320,24 @@
     </div>
 @endsection
 @section('scripts')
+    <script>
+        (() => {
+            'use strict'
+
+            const forms = document.querySelectorAll('.needs-validation')
+
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
     <script>
         function goBack() {
             if (window.location.href.indexOf('previsualizar-vaga') !== -1) {

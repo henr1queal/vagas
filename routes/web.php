@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\MercadoPagoController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -28,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/dashboard', [VacanciesController::class, 'dashboard'])->name('dashboard');
+    Route::get('/painel', [VacanciesController::class, 'dashboard'])->name('dashboard');
     Route::get('/nova-vaga', [VacanciesController::class, 'create'])->name('vacancy.create');
     Route::get('/editar-vaga/{vacancy}', [VacanciesController::class, 'edit'])->name('vacancy.edit');
     Route::post('/publicar-vaga', [VacanciesController::class, 'store'])->name('vacancy.store');
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/previsualizar-vaga/{vacancy}', [VacanciesController::class, 'preview'])->name('vacancy.preview');
 });
 
+Route::post('/novo-candidato', [CandidateController::class, 'store'])->name('candidate.store');
 Route::post('/webhook-mercado-pago-vaga-change-status', [MercadoPagoController::class, 'webhook'])->name('payment.webhook');
 
 require __DIR__ . '/auth.php';
