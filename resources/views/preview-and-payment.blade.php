@@ -59,8 +59,8 @@
                                 destaque
                                 no topo do nosso site.</h2>
                         @endif
-                        <h2 class="fs-16"><strong>Valor:</strong> de <s class="fs-16 text-danger">R$ 99,90</s> por <span
-                                class="fs-18 text-success"><strong>R$ 79,90</strong></span>.</h2>
+                        <h2 class="fs-16"><strong>Valor:</strong> de <s class="fs-16 text-danger">{{number_format($previous_value, 2, ',', '.')}}</s> por <span
+                                class="fs-18 text-success"><strong>R$ {{number_format($preference->items[0]->unit_price, 2, ',', '.')}}</strong></span>.</h2>
                         <a target="_blank" class="fs-16"
                             href="{{ route('vacancy.preview', ['vacancy' => $vacancy]) }}"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
