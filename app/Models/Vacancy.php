@@ -36,8 +36,9 @@ class Vacancy extends Model
         'show_salary',
         'user_id',
         'paid_status',
+        'approved_by_admin',
         'paid_value',
-        'approved_by_admin'
+        'payment_type'
     ];
 
     protected $casts = [
