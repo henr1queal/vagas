@@ -23,6 +23,8 @@ class MercadoPagoController extends Controller
             $title = '15 dias (destaque)';
             $description = 'Seu anúncio será exibido no topo de nosso site durante 15 dias com um selo de destaque à partir de nossa aprovação.';
         }
+        $paid_value = 79.9;
+        $previous_value = ceil($paid_value * 1.2) - 0.1;
         $access_token = env('MP_ACCESS_TOKEN');
         $public_key = env('MP_PUBLIC_KEY');
         // Adicione as credenciais
@@ -36,25 +38,26 @@ class MercadoPagoController extends Controller
                     "description" => $description,
                     "title" => $title,
                     "quantity" => 1,
-                    "unit_price" => $vacancy->paid_value,
+                    "unit_price" => $paid_value,
                 )
             )
         ]);
 
-        
+
         $client->payer = array(
             "name" => $request->user()->name,
             "email" => $request->user()->email,
         );
-        
+
         $client->payment_methods = array(
             "installments" => 2
         );
-        
+
         return view('preview-and-payment', [
             'preference' => $client,
             'public_key' => $public_key,
             'vacancy' => $vacancy,
+            'previous_value' => $previous_value
         ]);
     }
 
@@ -66,11 +69,14 @@ class MercadoPagoController extends Controller
         MercadoPagoConfig::setAccessToken($access_token);
         $request_options = new RequestOptions();
         $request_options->setCustomHeaders(["X-Idempotency-Key: {$unique_id}"]);
-        
+
         $client = new PaymentClient();
         $payment = $client->get($payment_id, $request_options);
-        
+
         $vacancy = Vacancy::find($payment->external_reference);
+        $vacancy->approved_by_admin = 0;
+        $vacancy->payment_id = $payment_id;
+        $vacancy->paid_value = $payment->transaction_amount;
 
         if ($payment->status === 'approved') {
             $vacancy->paid_status = 'paid out';
@@ -79,12 +85,12 @@ class MercadoPagoController extends Controller
             } else {
                 $vacancy->days_available = Carbon::now()->addDays(15);
             }
-        } else if($payment->status === 'pending' || $payment->status === 'in_process'){
+        } else if ($payment->status === 'pending' || $payment->status === 'in_process') {
             $vacancy->paid_status = 'in process';
         } else {
             $vacancy->paid_status = 'rejected';
         }
-        
+
         $vacancy->save();
     }
 
@@ -102,12 +108,11 @@ class MercadoPagoController extends Controller
             } else if ($request->payment_method_id === 'bolbradesco' || $request->payment_method_id === 'pec') {
                 $payment = $this->ticket($client, $request, $request_options, $vacancy);
             } else {
-                $payment = $this->card($client, $request, $request_options, $vacancy);                
+                $payment = $this->card($client, $request, $request_options, $vacancy);
             }
             return response()->json($payment);
         } catch (\Throwable $th) {
-            dd($th);
-            return redirect()->back()->with('error', $th);
+            return redirect()->back()->with('error', 'Tente efetuar o pagamento novamente.');
         }
     }
 
