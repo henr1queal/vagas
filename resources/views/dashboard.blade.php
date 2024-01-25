@@ -4,6 +4,10 @@
 @endsection
 @section('css')
     <style>
+        .bg-orange {
+            background-color: orange;
+        }
+
         @media (max-width: 370px) {
             .fs-15 {
                 font-size: 1.4rem;
@@ -71,22 +75,27 @@
                                         <hr class="vr d-none d-lg-block my-0 px-0 h-75 align-self-center opacity-75"
                                             style="width: 1px;">
                                         <div>
-                                            <p class="mb-0" href="">Candidatos: 0</p>
+                                            <p class="mb-0" href="">Candidatos: {{ $vacancy->candidates->count() }}
+                                            </p>
                                         </div>
-                                        @if ($vacancy->choiced_plan !== null)
-                                            <hr class="vr d-none d-lg-block my-0 px-0 h-75 align-self-center opacity-75"
-                                                style="width: 1px;">
-                                            <div>
-                                                <p class="mb-0" href="">Modalidade:
-                                                    {{ $vacancy->choiced_plan }}</p>
-                                            </div>
-                                        @endif
                                     </div>
                                     <div class="d-flex flex-row gap-3 gap-lg-3 mt-3 mt-lg-0">
+                                        @if ($vacancy->paid_status === 'in process' || $vacancy->paid_status === 'rejected')
+                                            <div>
+                                                <a href="{{route('payment.checkout', $vacancy)}}">Efetuar pagamento</a>
+                                            </div>
+                                            <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
+                                        @elseif($vacancy->paid_status === 'paid out' && $vacancy->paid_status->approved_by_admin === 1 && $vacancy->days_available > $now_datetime)
                                         <div>
-                                            <a href="">Efetuar pagamento</a>
+                                            <a href="">Gerenciar candidatos</a>
                                         </div>
                                         <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
+                                        @elseif($vacancy->paid_status === 'paid out' && $vacancy->days_available <= $now_datetime)
+                                        <div>
+                                            <a href="{{route('payment.checkout', $vacancy)}}">Renovar vaga</a>
+                                        </div>
+                                        <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
+                                        @endif
                                         <div>
                                             <a href="{{ route('vacancy.edit', ['vacancy' => $vacancy]) }}">Editar</a>
                                         </div>
@@ -98,15 +107,29 @@
                                     </div>
                                 </div>
                                 <div class="order-1 order-lg-3 d-lg-block text-end">
-                                    @if ($vacancy->days_available === null)
-                                        <span class="badge fs-14 bg-warning text-black rounded-pill">Pagamento
-                                            pendente</span>
-                                    @elseif($vacancy->days_available < $now_datetime)
-                                        <span class="badge fs-14 bg-danger rounded-pill">Anúncio expirado</span>
+                                    @if ($vacancy->choiced_plan === 'Normal')
+                                        <span class="badge fs-14 bg-primary rounded-pill">Normal</span>
                                     @else
-                                        <span class="badge fs-14 bg-primary rounded-pill">Destaque</span>
+                                        <span class="badge fs-14 bg-orange text-black rounded-pill">Destaque</span>
+                                    @endif
+                                    @if ($vacancy->paid_status === 'in process')
+                                        <span class="badge fs-14 text-bg-warning rounded-pill">Pagamento pendente</span>
+                                    @elseif ($vacancy->paid_status === 'rejected')
+                                        <span class="badge fs-14 text-bg-danger rounded-pill">Pagamento reprovado</span>
+                                    @elseif (
+                                        $vacancy->paid_status === 'paid out' &&
+                                            $vacancy->approved_by_admin === 0 &&
+                                            $vacancy->days_available > $now_datetime)
+                                        <span class="badge fs-14 text-bg-info rounded-pill">Aguardando aprovação</span>
+                                    @elseif (
+                                        $vacancy->paid_status === 'paid out' &&
+                                            $vacancy->approved_by_admin === 1 &&
+                                            $vacancy->days_available > $now_datetime)
                                         <span class="badge fs-14 bg-success rounded-pill">Disponível até:
-                                            {{$vacancy->days_available->format('d/m/Y')}} às {{$vacancy->days_available->format('H:i')}}</span>
+                                            {{ $vacancy->days_available->format('d/m/Y') }} às
+                                            {{ $vacancy->days_available->format('H:i') }}</span>
+                                    @else
+                                        <span class="badge fs-14 bg-danger rounded-pill">Anúncio expirado</span>
                                     @endif
                                 </div>
                             </li>
