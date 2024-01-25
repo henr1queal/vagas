@@ -74,18 +74,20 @@ class MercadoPagoController extends Controller
         $payment = $client->get($payment_id, $request_options);
 
         $vacancy = Vacancy::find($payment->external_reference);
-        $vacancy->approved_by_admin = 0;
-        $vacancy->payment_id = $payment_id;
+
         $vacancy->paid_value = $payment->transaction_amount;
+        $vacancy->payment_id = $payment_id;
 
         if ($payment->status === 'approved') {
             $vacancy->paid_status = 'paid out';
-            if ($payment->description === 'Normal') {
-                $vacancy->days_available = Carbon::now()->addDays(30);
+            $now_datetime = now();
+
+            if ($vacancy->approved_by_admin === 1 && $vacancy->days_available > $now_datetime) {
+                $vacancy->days_available->addDays($payment->description === 'Normal' ? 30 : 15);
             } else {
-                $vacancy->days_available = Carbon::now()->addDays(15);
+                $vacancy->days_available = now()->addDays($payment->description === 'Normal' ? 30 : 15);
             }
-        } else if ($payment->status === 'pending' || $payment->status === 'in_process') {
+        } elseif ($payment->status === 'pending' || $payment->status === 'in_process') {
             $vacancy->paid_status = 'in process';
         } else {
             $vacancy->paid_status = 'rejected';
