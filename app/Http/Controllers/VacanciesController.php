@@ -250,7 +250,8 @@ class VacanciesController extends Controller
      */
     public function edit(Vacancy $vacancy)
     {
-        return view('edit-vacancy', ['vacancy' => $vacancy]);
+        $have_days = $vacancy->days_available > now();
+        return view('edit-vacancy', ['vacancy' => $vacancy, 'have_days' => $have_days]);
     }
 
     public function makePayment(Vacancy $vacancy)
@@ -282,7 +283,7 @@ class VacanciesController extends Controller
         //     dd('nada mudou');
         // }
 
-        if ($vacancy->paid_status !== 'paid out') {
+        if ($vacancy->paid_status !== 'paid out' && $vacancy->days_available < now()) {
             $required_if = 'required';
         } else {
             $required_if = '';

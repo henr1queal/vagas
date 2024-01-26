@@ -18,6 +18,12 @@
             overflow: hidden;
         }
 
+        input {
+            height: 58px !important;
+            color: black !important;
+        }
+
+
         .modal-backdrop.show {
             opacity: 0.75;
         }
@@ -172,7 +178,7 @@
         <main class="row m-0 justify-content-center {{ !isset($preview_mode) ? 'pt-5 py-lg-5' : '' }} h-100 w-100">
             @if (isset($preview_mode))
                 <div class="col-12 position-relative">
-                    <div class="preview-banner">
+                    <div class="preview-banner z-2">
                         <div class="banner-content">
                             <p class="fs-18 montserrat mb-0"><strong>Modo Pré-visualização. Por favor, efetue o pagamento
                                     para
@@ -263,7 +269,8 @@
                 <div class="modal-dialog modal-dialog-centered modal-md">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2 class="modal-title fs-18" id="curriculumFileLabel"><strong>Adicione seu currículo</strong></h2>
+                            <h2 class="modal-title fs-18" id="curriculumFileLabel"><strong>Adicione seu currículo</strong>
+                            </h2>
                             <button type="button" class="btn-close fs-16" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
@@ -272,6 +279,16 @@
                                 method="POST" enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="mb-3 fs-16">
+                                    <label for="name_form_file">Nome e sobrenome</label>
+                                    <input type="text" class="form-control fs-16" id="name_form_file"
+                                        placeholder="Digite seu nome">
+                                </div>
+                                <div class="fs-16 mb-3">
+                                    <label for="phone_form_file">Telefone/Celular</label>
+                                    <input type="text" class="form-control fs-16" maxlength="15" id="phone_form_file"
+                                        placeholder="(82) 9 0000-0000">
+                                </div>
+                                <div class="mb-3 fs-16">
                                     <label for="curriculum" class="form-label">.pdf, .doc ou .docx<span
                                             class="text-danger fs-14">*</span></label>
                                     <input class="form-control form-control-lg fs-16" name="curriculum" type="file"
@@ -279,7 +296,7 @@
                                     <div class="invalid-feedback">
                                         Você precisa adicionar um arquivo.
                                     </div>
-                                    <input type="hidden" name="vacancy" value="{{$vacancy->id}}">
+                                    <input type="hidden" name="vacancy" value="{{ $vacancy->id }}">
                                 </div>
                                 <div>
                                     <button type="submit" class="btn btn-success fs-15 w-100 py-3"><strong>Enviar
@@ -299,7 +316,8 @@
                 <div class="modal-dialog modal-dialog-centered modal-md">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2 class="modal-title fs-18" id="curriculumFieldsLabel"><strong>Preencha seus dados</strong></h2>
+                            <h2 class="modal-title fs-18" id="curriculumFieldsLabel"><strong>Preencha seus dados</strong>
+                            </h2>
                             <button type="button" class="btn-close fs-16" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
