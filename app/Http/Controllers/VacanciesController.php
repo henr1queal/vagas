@@ -246,7 +246,7 @@ class VacanciesController extends Controller
     {
         $cacheKey = 'vacancy_' . $vacancy->id;
 
-        $cachedVacancy = Cache::remember($cacheKey, now()->addMinutes(31), function () use ($vacancy) {
+        $cachedVacancy = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($vacancy) {
             $vacancy->views_count++;
             $vacancy->save();
         });
