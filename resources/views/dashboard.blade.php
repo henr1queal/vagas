@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 @section('title')
-    <title>Dashboard - Vagas Maceió</title>
+    <title>Painel - Vagas Maceió</title>
 @endsection
 @section('css')
     <style>
@@ -39,7 +39,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     @if (session('success'))
-                        <div class="alert alert-success mb-5 fs-15">
+                        <div class="alert alert-success mb-5 fs-15 montserrat">
                             {{ session('success') }}
                         </div>
                     @endif
@@ -75,35 +75,53 @@
                                         <hr class="vr d-none d-lg-block my-0 px-0 h-75 align-self-center opacity-75"
                                             style="width: 1px;">
                                         <div>
-                                            <p class="mb-0" href="">Candidatos: {{ $vacancy->candidates->count() }}
+                                            <p class="mb-0" href="">Candidatos:
+                                                {{ $vacancy->candidate_files_count + $vacancy->candidate_fields_count }}
                                             </p>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row gap-3 gap-lg-3 mt-3 mt-lg-0">
                                         @if ($vacancy->paid_status === 'in process' || $vacancy->paid_status === 'rejected')
                                             <div>
-                                                <a href="{{route('payment.checkout', $vacancy)}}">Efetuar pagamento</a>
+                                                <a href="{{ route('payment.checkout', $vacancy) }}">Efetuar pagamento</a>
                                             </div>
                                             <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
-                                        @elseif($vacancy->paid_status === 'paid out' && $vacancy->approved_by_admin === 1 && $vacancy->days_available > $now_datetime)
-                                        <div>
-                                            <a href="">Gerenciar candidatos</a>
-                                        </div>
-                                        <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
+                                        @elseif(
+                                            $vacancy->paid_status === 'paid out' &&
+                                                $vacancy->approved_by_admin === 1 &&
+                                                $vacancy->days_available > $now_datetime)
+                                            <div>
+                                                <a href="">Gerenciar candidatos</a>
+                                            </div>
+                                            <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
                                         @elseif($vacancy->paid_status === 'paid out' && $vacancy->days_available <= $now_datetime)
-                                        <div>
-                                            <a href="{{route('payment.checkout', $vacancy)}}">Renovar vaga</a>
-                                        </div>
-                                        <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
+                                            <div>
+                                                <a href="{{ route('payment.checkout', $vacancy) }}">Renovar vaga</a>
+                                            </div>
+                                            <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
                                         @endif
                                         <div>
                                             <a href="{{ route('vacancy.edit', ['vacancy' => $vacancy]) }}">Editar</a>
                                         </div>
                                         <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
-                                        <div>
-                                            <a target="_blank"
-                                                href="{{ route('vacancy.preview', ['vacancy' => $vacancy]) }}">Pré-visualizar</a>
-                                        </div>
+                                        @if ($vacancy->paid_status === 'paid out' && $vacancy->days_available <= $now_datetime)
+                                            <div>
+                                                <a target="_blank"
+                                                    href="{{ route('vacancy.preview', ['vacancy' => $vacancy]) }}">Pré-visualizar</a>
+                                            </div>
+                                        @else
+                                            <div>
+                                                <a target="_blank"
+                                                    href="{{ route('vacancy.show', ['vacancy' => $vacancy]) }}">Visualizar</a>
+                                            </div>
+                                        @endif
+                                        @if ($vacancy->candidate_files_count > 0 || $vacancy->candidate_fields_count > 0)
+                                            <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
+                                            <div>
+                                                <a href="{{ route('candidates.vacancy', $vacancy->id) }}"
+                                                    target="_blank">Visualizar candidatos</a>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="order-1 order-lg-3 d-lg-block text-end">

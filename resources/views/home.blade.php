@@ -338,6 +338,11 @@
                 </form>
             </div>
             <div class="col-11 overflow-auto content px-0 pe-lg-2 pt-4 pt-lg-0">
+                @if (session('success'))
+                    <div class="alert alert-success mb-5 fs-15 montserrat">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <h2 class="montserrat fs-24 text-center pb-4 mt-4 mb-5"><strong>Vagas em aberto
                         ({{ $count_vacancies }}):</strong></h2>
                 <div class="d-flex flex-column gap-4">

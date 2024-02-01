@@ -41,15 +41,30 @@
                     @endif
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 text-center my-5">
-                    <h1 class="fs-20"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                            class="bi bi-plus-square" viewBox="0 0 16 16">
-                            <path
-                                d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-                            <path
-                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                        </svg> Publique sua vaga</h1>
+            <div class="row justify-content-center align-items-center my-5">
+                <div class="col-11 col-xxl-10">
+                    <div class="row justify-content-between">
+                        <div class="col d-none d-lg-block">
+                                <a class="d-lg-flex flex-column justify-content-center text-decoration-none" style="width: fit-content;" href="{{route('dashboard')}}">
+                                    <span class="fs-14 montserrat text-black">voltar</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="" width="18" height="18"
+                                        fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5" />
+                                    </svg>
+                                </a>
+                        </div>
+                        <div class="col text-center">
+                            <h1 class="fs-20"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-plus-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                <path
+                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                            </svg> Publique sua vaga</h1>
+                        </div>
+                        <div class="col d-none d-lg-block"></div>                        
+                    </div>
                 </div>
             </div>
             <div class="row justify-content-center">

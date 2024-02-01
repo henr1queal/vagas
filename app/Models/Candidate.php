@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Candidate extends Model
 {
@@ -13,12 +15,23 @@ class Candidate extends Model
     const UPDATED_AT = null;
     
     protected $fillable = [
-        'path',
+        'name',
+        'phone',
         'vacancy_id',
     ];
 
-    public function vacancy(): BelongsTo
+    public function vacancies(): BelongsToMany
     {
-        return $this->belongsTo(Vacancy::class, 'vacancy_id', 'id');
+        return $this->belongsToMany(Vacancy::class, 'candidates_vacancies', 'candidate_id', 'vacancy_id');
+    }
+
+    public function candidateFields(): HasMany
+    {
+        return $this->hasMany(CandidateField::class, 'candidate_id', 'id');
+    }
+    
+    public function candidateFiles(): HasMany
+    {
+        return $this->hasMany(CandidateFile::class, 'candidate_id', 'id');
     }
 }

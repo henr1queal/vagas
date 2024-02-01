@@ -6,14 +6,18 @@ use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class VacanciesController extends Controller
 {
     public function dashboard()
     {
         $user = Auth::user();
-        $vacancies = Vacancy::where('user_id', $user->id)->get();
-        $now_datetime = Carbon::now();
+        $vacancies = Vacancy::where('user_id', $user->id)
+            ->withCount(['candidateFiles', 'candidateFields'])
+            ->get();
+
+        $now_datetime = now();
         return view('dashboard', ['vacancies' => $vacancies, 'now_datetime' => $now_datetime]);
     }
     /**
@@ -21,6 +25,14 @@ class VacanciesController extends Controller
      */
     public function index(Request $request)
     {
+        $cacheKey = 'index_cache_' . md5(json_encode($request->all()));
+
+        // Check if the cache exists
+        if (Cache::has($cacheKey)) {
+            // If it exists, return the cached content
+            return Cache::get($cacheKey);
+        }
+
         $query = Vacancy::select([
             'id',
             'title',
@@ -38,7 +50,7 @@ class VacanciesController extends Controller
             ->whereIn('choiced_plan', ['Destaque', 'Normal'])
             ->where('paid_status', 'paid out')
             ->where('approved_by_admin', 1)
-            ->where('days_available', '>', Carbon::now())
+            ->where('days_available', '>', now())
             ->orderBy('created_at', 'desc');
 
         if ($request->has('search') && $request->search !== null) {
@@ -107,7 +119,8 @@ class VacanciesController extends Controller
             });
         });
 
-        return view('home', [
+        // Render the view
+        $view = view('home', [
             'highlighted_vacancies' => $highlighted_vacancies,
             'normal_vacancies' => $normal_vacancies,
             'count_vacancies' => $count_vacancies,
@@ -117,7 +130,13 @@ class VacanciesController extends Controller
                 'journey_hour' => $journey_hour,
                 'work_type' => $work_type
             ]
-        ]);
+        ])->render();
+
+        // Cache the entire response for 30 minutes
+        Cache::put($cacheKey, $view, now()->addMinutes(30));
+
+        // Return the view
+        return $view;
     }
 
 
@@ -225,8 +244,15 @@ class VacanciesController extends Controller
      */
     public function show(Vacancy $vacancy)
     {
-        if ($vacancy->paid_status === 'paid out') {
-            return view('vacancy', ['vacancy' => $vacancy]);
+        $cacheKey = 'vacancy_' . $vacancy->id;
+
+        $cachedVacancy = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($vacancy) {
+            $vacancy->views_count++;
+            $vacancy->save();
+        });
+
+        if ($cachedVacancy->paid_status === 'paid out') {
+            return view('vacancy', ['vacancy' => $cachedVacancy]);
         } else {
             return redirect()->route('home');
         }
@@ -234,12 +260,9 @@ class VacanciesController extends Controller
 
     public function preview(Vacancy $vacancy)
     {
-        if ($vacancy->paid_status === 'in process') {
-            $user = Auth::user();
-            if ($user && $user->id === $vacancy->user_id) {
-                return view('vacancy', ['vacancy' => $vacancy, 'preview_mode' => true]);
-            }
-            return redirect()->route('home');
+        $user = auth()->user();
+        if ($vacancy->paid_status === 'in process' || $user && $user->id === 1 || $user && $user->id === $vacancy->user_id) {
+            return view('vacancy', ['vacancy' => $vacancy, 'preview_mode' => true]);
         }
 
         return redirect()->route('home');
@@ -257,6 +280,37 @@ class VacanciesController extends Controller
     public function makePayment(Vacancy $vacancy)
     {
         return view('preview-and-payment', ['vacancy' => $vacancy]);
+    }
+
+    public function pendentVacancies()
+    {
+        if (auth()->user()->id === 1) {
+            $vacancies = Vacancy::where('paid_status', 'paid out')->where('approved_by_admin', 0)->where('days_available', '>', now())->get();
+            return view('vacancies-not-approved', ['vacancies' => $vacancies]);
+        } else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function singlePendentVacancy($id)
+    {
+        if (auth()->user()->id === 1) {
+            $vacancy = Vacancy::find($id);
+            return view('single-vacancy-not-approved', ['vacancy' => $vacancy]);
+        } else {
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function approvePendentVacancy(Vacancy $vacancy)
+    {
+        if (auth()->user()->id === 1) {
+            $vacancy->approved_by_admin = 1;
+            $vacancy->save();
+            return redirect()->route('home')->with('success', 'Vaga aprovada e já disponível no site.');
+        } else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewVacancyAdded;
 use App\Models\Vacancy;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use MercadoPago\Client\Common\RequestOptions;
 use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\MercadoPagoConfig;
@@ -87,13 +88,15 @@ class MercadoPagoController extends Controller
             } else {
                 $vacancy->days_available = now()->addDays($payment->description === 'Normal' ? 30 : 15);
             }
+            Mail::to('henriquersilva.al@gmail.com')->send(new NewVacancyAdded($vacancy->id));
         } elseif ($payment->status === 'pending' || $payment->status === 'in_process') {
             $vacancy->paid_status = 'in process';
         } else {
             $vacancy->paid_status = 'rejected';
         }
-
+        $vacancy->updated_at = now();
         $vacancy->save();
+
     }
 
     public function process(Request $request, Vacancy $vacancy)

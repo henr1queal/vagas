@@ -112,7 +112,6 @@
 
         nav .vr {
             color: #686464;
-            width: 2px;
             opacity: 0.5;
         }
 
@@ -171,11 +170,29 @@
 
 <body class="h-100">
     <nav class="py-3">
-        <div class="d-flex gap-4 justify-content-center align-items-center justify-content-lg-end mx-auto h-100">
-            <a class="text-black d-inline-block roboto fs-18 fw-normal" href="{{ route('vacancy.create') }}">Publicar uma
-                vaga</a>
-            <hr class="vr my-0">
-            <a class="text-black d-inline-block roboto fs-18 fw-normal" href="{{ route('dashboard') }}">Painel</a>
+        @auth
+            @if (auth()->user()->id === 1)
+                @php
+                    $is_admin = 1;
+                @endphp
+            @endif
+        @endauth
+        <div
+            class="d-flex @if (isset($is_admin)) flex-column flex-lg-row gap-lg-4 gap-2 @else gap-4 @endif justify-content-center align-items-center justify-content-lg-end mx-auto h-100">
+            @if (isset($is_admin))
+                <a class="text-black d-inline-block roboto fs-18 fw-normal d-none"
+                    href="{{ route('vacancy.create') }}">Publicar uma vaga</a>
+                <hr class="vr my-0 d-none">
+                <a class="text-black d-inline-block roboto fs-18 fw-normal" href="{{ route('dashboard') }}">Painel</a>
+                <hr class="vr my-0 d-none d-lg-block">
+                <a class="text-black d-inline-block roboto fs-18 fw-normal"
+                    href="{{ route('vacancy.pendents') }}">Vagas pendentes</a>
+            @else
+                <a class="text-black d-inline-block roboto fs-18 fw-normal"
+                    href="{{ route('vacancy.create') }}">Publicar uma vaga</a>
+                <hr class="vr my-0 d-none d-lg-block">
+                <a class="text-black d-inline-block roboto fs-18 fw-normal" href="{{ route('dashboard') }}">Painel</a>
+            @endif
         </div>
     </nav>
     <header class="d-flex justify-content-center align-items-center">

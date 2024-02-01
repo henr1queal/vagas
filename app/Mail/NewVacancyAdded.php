@@ -8,16 +8,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendCurriculum extends Mailable
+class NewVacancyAdded extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(protected $id)
     {
-        //
+        $this->id = $id;    
     }
 
     /**
@@ -26,7 +26,7 @@ class SendCurriculum extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Aqui estão seus currículos recebidos hoje.',
+            subject: 'Nova vaga adicionada',
         );
     }
 
@@ -36,7 +36,8 @@ class SendCurriculum extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.curriculum',
+            view: 'email.new-vacancy',
+            with: ['vacancy_id' => $this->id]
         );
     }
 

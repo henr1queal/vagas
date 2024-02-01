@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vacancy extends Model
@@ -45,8 +46,13 @@ class Vacancy extends Model
         'days_available' => 'datetime',
     ];
 
-    public function candidates(): HasMany
+    public function candidateFields(): HasMany
     {
-        return $this->hasMany(Candidate::class, 'vacancy_id', 'id');
+        return $this->hasMany(CandidateField::class, 'vacancy_id', 'id');
+    }
+
+    public function candidateFiles(): HasMany
+    {
+        return $this->hasMany(CandidateFile::class, 'vacancy_id', 'id');
     }
 }

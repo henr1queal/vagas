@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\MercadoPagoController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VacanciesController;
 use Illuminate\Support\Facades\Route;
@@ -39,9 +38,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/efetuar-pagamento/{vacancy}', [MercadoPagoController::class, 'checkout'])->name('payment.checkout');
     Route::post('/processar-pagamento/{vacancy}', [MercadoPagoController::class, 'process'])->name('payment.process');
     Route::get('/previsualizar-vaga/{vacancy}', [VacanciesController::class, 'preview'])->name('vacancy.preview');
+    
+    Route::get('/vagas-pendentes-de-aprovacao', [VacanciesController::class, 'pendentVacancies'])->name('vacancy.pendents');
+    Route::get('/vaga-pendente-de-aprovacao/{id}', [VacanciesController::class, 'singlePendentVacancy'])->name('vacancy.pendent');
+    Route::put('/aprovar-vaga/{vacancy}', [VacanciesController::class, 'approvePendentVacancy'])->name('vacancy.approve');
+    Route::get('/visualizar-candidatos/{vacancy_id}', [CandidateController::class, 'show'])->name('candidates.vacancy');
+    Route::get('/visualizar-curriculo-candidato/{filename}', [CandidateController::class, 'showCurriculum'])->name('candidates.curriculum');
 });
 
-Route::post('/novo-candidato', [CandidateController::class, 'store'])->name('candidate.store');
+Route::post('/novo-candidato/curriculo', [CandidateController::class, 'storeFile'])->name('candidate.store-file');
+Route::post('/novo-candidato/criar-curriculo', [CandidateController::class, 'storeFields'])->name('candidate.store-fields');
 Route::post('/webhook-mercado-pago-vaga-change-status', [MercadoPagoController::class, 'webhook'])->name('payment.webhook');
 
 require __DIR__ . '/auth.php';
