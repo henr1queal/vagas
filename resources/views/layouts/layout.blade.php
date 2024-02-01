@@ -6,6 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="apple-touch-icon" sizes="180x180" href="public/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png">
+    <link rel="manifest" href="public/site.webmanifest">
+    <link rel="mask-icon" href="public/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
     @php
         $current_route = Route::current()->getName();
     @endphp
@@ -151,6 +158,11 @@
             max-width: 1783px;
         }
 
+        @media (max-width: 767px) {
+            .logo {
+                max-width: 120px;
+            }
+        }
         @media (min-width: 1921px) {
             footer>div {
                 margin-left: auto !important;
@@ -197,10 +209,10 @@
     </nav>
     <header class="d-flex justify-content-center align-items-center">
         <div class="col text-center">
-            <h1 class="roboto fs-32"><a class="text-decoration-none text-white"
-                    href="{{ route('home') }}"><strong>Vagas
-                        Maceió</a></strong></h1>
-            <h2 class="text-white montserrat fs-20 fw-normal mb-0">Conectando você com o futuro.</h2>
+            <a href="{{ route('home') }}">
+                <img src="public/logo.png" alt="Vagas Maceió" class="img-fluid logo">
+            </a>
+            <h2 class="text-white montserrat fs-20 fw-normal mb-0 mt-3">Conectando você com o futuro.</h2>
         </div>
     </header>
     @yield('content')

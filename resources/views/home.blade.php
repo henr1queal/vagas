@@ -86,7 +86,7 @@
             }
 
             .unique-vacancy {
-                height: 175px;
+                height: 148px;
             }
 
             #input-search::placeholder {
@@ -343,7 +343,7 @@
                         {{ session('success') }}
                     </div>
                 @endif
-                <h2 class="montserrat fs-24 text-center pb-4 mt-4 mb-5"><strong>Vagas em aberto
+                <h2 class="montserrat fs-20 text-center pb-4 mt-4 mb-4"><strong>Vagas em aberto
                         ({{ $count_vacancies }}):</strong></h2>
                 <div class="d-flex flex-column gap-4">
                     @if ($highlighted_vacancies->count() === 0 && $normal_vacancies->count() === 0)
@@ -355,7 +355,7 @@
                             <div class="py-2"></div>
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
-                                <p class="text-black montserrat fs-18 mb-0">
+                                <p class="text-black montserrat fs-17 mb-0">
                                     <strong>{{ $vacancies->first()->created_at->format('d') }}</strong>
                                 </p>
                                 <p class="text-black montserrat fs-15 mb-0 month">
@@ -363,7 +363,7 @@
                             </div>
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute destaque">
-                                <p class="text-black montserrat fs-18 mb-0"><strong>Vaga em destaque</strong></p>
+                                <p class="text-black montserrat fs-17 mb-0"><strong>Vaga em destaque</strong></p>
                             </div>
                             @foreach ($vacancies as $vacancy)
                                 @if (!$loop->first)
@@ -373,22 +373,22 @@
                                     onmouseout="downSizeFont(this)"
                                     onclick="viewVacancy('{{ route('vacancy.show', $vacancy->id) }}')">
                                     <a href="{{ route('vacancy.show', $vacancy->id) }}" class="text-decoration-none">
-                                        <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"
+                                        <h2 class="montserrat fs-15 title" style="letter-spacing: 0.4px;"
                                             title="{{ $vacancy->title }}">
                                             <strong>{{ $vacancy->title }}</strong>
                                         </h2>
                                     </a>
-                                    <h3 class="montserrat fs-16 subtitle">Tipo de emprego: {{ $vacancy->job_type }}</h3>
-                                    <h3 class="montserrat fs-16 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
+                                    <h3 class="montserrat fs-14 subtitle">Tipo de emprego: {{ $vacancy->job_type }}</h3>
+                                    <h3 class="montserrat fs-14 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
                                     @if ($vacancy->workload)
-                                        <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h
+                                        <h3 class="montserrat fs-14 subtitle">Carga horária: {{ $vacancy->workload }}h
                                             semanais</h3>
                                     @endif
-                                    <h3 class="montserrat fs-16 subtitle">Salário:
+                                    <h3 class="montserrat fs-14 subtitle">Salário:
                                         {{ $vacancy->show_salary === 0 ? 'a combinar' : 'R$ ' . $vacancy->salary }}</h3>
-                                    <h3 class="montserrat fs-16 subtitle">Empresa:
+                                    <h3 class="montserrat fs-14 subtitle">Empresa:
                                         {{ $vacancy->show_company === 0 ? 'confidencial' : $vacancy->company_name }}.</h3>
-                                    <h3 class="montserrat fs-16 subtitle mb-0">Envie seu currículo até:
+                                    <h3 class="montserrat fs-14 subtitle mb-0">Envie seu currículo até:
                                         {{ $vacancy->days_available->format('d/m/Y') }} às
                                         {{ $vacancy->days_available->format('H:i') }}</h3>
                                 </div>
@@ -400,7 +400,7 @@
                             <div class="py-2"></div>
                             <div
                                 class="d-flex flex-column justify-content-center border-1 border-dark text-center rounded-3 position-absolute date">
-                                <p class="text-black montserrat fs-18 mb-0">
+                                <p class="text-black montserrat fs-17 mb-0">
                                     <strong>{{ $vacancies->first()->created_at->format('d') }}</strong>
                                 </p>
                                 <p class="text-black montserrat fs-15 mb-0 month">
@@ -414,25 +414,25 @@
                                     onmouseout="downSizeFont(this)"
                                     onclick="viewVacancy('{{ route('vacancy.show', $vacancy->id) }}')">
                                     <a href="{{ route('vacancy.show', $vacancy->id) }}" class="text-decoration-none">
-                                        <h2 class="montserrat fs-16 title" style="letter-spacing: 0.4px;"
+                                        <h2 class="montserrat fs-15 title" style="letter-spacing: 0.4px;"
                                             title="{{ $vacancy->title }}">
                                             <strong>{{ $vacancy->title }}</strong>
                                         </h2>
                                     </a>
-                                    <h3 class="montserrat fs-16 subtitle">Tipo de emprego: {{ $vacancy->job_type }}</h3>
-                                    <h3 class="montserrat fs-16 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
-                                    <h3 class="montserrat fs-16 subtitle">Carga horária: {{ $vacancy->workload }}h
+                                    <h3 class="montserrat fs-14 subtitle">Tipo de emprego: {{ $vacancy->job_type }}</h3>
+                                    <h3 class="montserrat fs-14 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
+                                    <h3 class="montserrat fs-14 subtitle">Carga horária: {{ $vacancy->workload }}h
                                         semanais
                                     </h3>
-                                    <h3 class="montserrat fs-16 subtitle">Salário: R$ {{ $vacancy->salary }}</h3>
-                                    <h3 class="montserrat fs-16 subtitle mb-0">Empresa: {{ $vacancy->company_name }}.</h3>
+                                    <h3 class="montserrat fs-14 subtitle">Salário: R$ {{ $vacancy->salary }}</h3>
+                                    <h3 class="montserrat fs-14 subtitle mb-0">Empresa: {{ $vacancy->company_name }}.</h3>
                                 </div>
                             @endforeach
                         </div>
                     @endforeach
                     <div class="d-flex">
                         <div class="col text-center">
-                            <p class="title roboto fs-16">Tem algum assunto? Entre em contato por: <a
+                            <p class="title roboto fs-15">Tem algum assunto? Entre em contato por: <a
                                     href="mailto:contato@vagasmaceio.com.br">contato@vagasmaceio.com.br</a></p>
                         </div>
                     </div>

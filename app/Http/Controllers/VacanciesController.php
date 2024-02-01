@@ -247,11 +247,12 @@ class VacanciesController extends Controller
         $cacheKey = 'vacancy_' . $vacancy->id;
 
         $cachedVacancy = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($vacancy) {
+            return $vacancy;
+        });
+        
+        if ($cachedVacancy->paid_status === 'paid out') {
             $vacancy->views_count++;
             $vacancy->save();
-        });
-
-        if ($cachedVacancy->paid_status === 'paid out') {
             return view('vacancy', ['vacancy' => $cachedVacancy]);
         } else {
             return redirect()->route('home');
