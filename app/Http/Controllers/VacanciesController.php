@@ -251,12 +251,15 @@ class VacanciesController extends Controller
         });
         
         if ($cachedVacancy->paid_status === 'paid out') {
-            $vacancy->views_count++;
-            $vacancy->save();
             return view('vacancy', ['vacancy' => $cachedVacancy]);
         } else {
             return redirect()->route('home');
         }
+    }
+
+    public function updateViews(Vacancy $vacancy){
+        $vacancy->views_count++;
+        $vacancy->save();
     }
 
     public function preview(Vacancy $vacancy)

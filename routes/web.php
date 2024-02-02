@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/novo-candidato/curriculo', [CandidateController::class, 'storeFile'])->name('candidate.store-file');
 Route::post('/novo-candidato/criar-curriculo', [CandidateController::class, 'storeFields'])->name('candidate.store-fields');
+Route::post('/aumentar-visualizacao/{vacancy}', [VacanciesController::class, 'updateViews'])->name('vacancy.update-views');
 Route::post('/webhook-mercado-pago-vaga-change-status', [MercadoPagoController::class, 'webhook'])->name('payment.webhook');
 
 require __DIR__ . '/auth.php';

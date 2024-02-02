@@ -657,7 +657,51 @@
             $('#whatsapp').mask(PhoneBehavior, spOptions);
             $('#phone_form_file').mask(PhoneBehavior, spOptions);
             $('#whatsapp_form_file').mask(PhoneBehavior, spOptions);
+            
+            verificarRequisicao();
         })
+    </script>
+    <script>
+        function verificarRequisicao() {
+            var identificacaoPagina = '{{$vacancy->id}}';
+            
+            var chaveCookie = 'requisicao_enviada_' + identificacaoPagina;
+            var requisicaoEnviada = obterCookie(chaveCookie);
+            
+            if (!requisicaoEnviada) {
+                enviarRequisicao();
+                
+                definirCookie(chaveCookie, 'true', 30);
+            }
+        }
+        
+        function obterCookie(nome) {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.indexOf(nome + '=') === 0) {
+                    return cookie.substring(nome.length + 1);
+                }
+            }
+            return null;
+        }
+        
+        function definirCookie(nome, valor, minutos) {
+            var dataExpiracao = new Date();
+            dataExpiracao.setTime(dataExpiracao.getTime() + (minutos * 60 * 1000));
+            document.cookie = nome + '=' + valor + ';expires=' + dataExpiracao.toUTCString() + ';path=/';
+        }
+        
+        function enviarRequisicao() {
+            var url = '{{ route("vacancy.update-views", ['vacancy' => $vacancy]) }}';
+            $.ajax({
+                url: url,
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+        }
     </script>
     <script>
         (() => {
