@@ -163,6 +163,7 @@
                 max-width: 120px;
             }
         }
+
         @media (min-width: 1921px) {
             footer>div {
                 margin-left: auto !important;
@@ -210,7 +211,7 @@
     <header class="d-flex justify-content-center align-items-center">
         <div class="col text-center">
             <a href="{{ route('home') }}">
-                <img src="public/logo.png" alt="Vagas Maceió" class="img-fluid logo">
+                <img src="{{ asset('public/logo.png') }}" alt="Vagas Maceió" class="img-fluid logo">
             </a>
             <h2 class="text-white montserrat fs-20 fw-normal mb-0 mt-3">Conectando você com o futuro.</h2>
         </div>
