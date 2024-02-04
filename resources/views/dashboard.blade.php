@@ -91,7 +91,7 @@
                                                 $vacancy->approved_by_admin === 1 &&
                                                 $vacancy->days_available > $now_datetime)
                                             <div>
-                                                <a href="">Gerenciar candidatos</a>
+                                                <a href="{{route('candidates.vacancy', ['vacancy_id' => $vacancy->id])}}">Gerenciar candidatos</a>
                                             </div>
                                             <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
                                         @elseif($vacancy->paid_status === 'paid out' && $vacancy->days_available <= $now_datetime)

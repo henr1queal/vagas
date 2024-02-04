@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ViewedVacancy;
 use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -47,45 +48,36 @@ class VacanciesController extends Controller
             'created_at',
             'days_available',
         ])
-            ->whereIn('choiced_plan', ['Destaque', 'Normal'])
-            ->where('paid_status', 'paid out')
-            ->where('approved_by_admin', 1)
-            ->where('days_available', '>', now())
-            ->orderBy('created_at', 'desc');
+        ->whereIn('choiced_plan', ['Destaque', 'Normal'])
+        ->where('paid_status', 'paid out')
+        ->where('approved_by_admin', 1)
+        ->where('days_available', '>', now())
+        ->when($request->has('search') && $request->search !== null, function ($query) use ($request) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        })
+        ->when($request->has('contract_type'), function ($query) use ($request) {
+            $query->where('employment_type', $request->contract_type);
+        })
+        ->when($request->has('journey_hour'), function ($query) use ($request) {
+            $query->where('work_schedule', $request->journey_hour);
+        })
+        ->when($request->has('work_type'), function ($query) use ($request) {
+            $query->where('job_type', $request->work_type);
+        })
+        ->where(function ($query) {
+            $query->whereNull('max_candidates')
+                ->orWhere(function ($query) {
+                    $query->whereRaw('(SELECT COUNT(*) FROM candidate_files WHERE vacancy_id = vacancies.id) + 
+                                      (SELECT COUNT(*) FROM candidate_fields WHERE vacancy_id = vacancies.id) < max_candidates');
+                });
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+    
 
-        if ($request->has('search') && $request->search !== null) {
-            $search = $request->search;
-            $query->where('title', 'like', '%' . $search . '%');
-        } else {
-            $search = false;
-        }
+        $count_vacancies = $query->count();
 
-        if ($request->has('contract_type')) {
-            $contract_type = $request->contract_type;
-            $query->where('employment_type', $contract_type);
-        } else {
-            $contract_type = false;
-        }
-
-        if ($request->has('journey_hour')) {
-            $journey_hour = $request->journey_hour;
-            $query->where('work_schedule', $journey_hour);
-        } else {
-            $journey_hour = false;
-        }
-
-        if ($request->has('work_type')) {
-            $work_type = $request->work_type;
-            $query->where('job_type', $work_type);
-        } else {
-            $work_type = false;
-        }
-
-        $vacancies = $query->get();
-
-        $count_vacancies = $vacancies->count();
-
-        $grouped_vacancies = $vacancies->groupBy([
+        $grouped_vacancies = $query->groupBy([
             'choiced_plan',
             function ($vacancy) {
                 return $vacancy->created_at->toDateString();
@@ -118,6 +110,30 @@ class VacanciesController extends Controller
                 return $vacancy;
             });
         });
+
+        if ($request->has('search') && $request->search !== null) {
+            $search = $request->search;
+        } else {
+            $search = false;
+        }
+
+        if ($request->has('contract_type')) {
+            $contract_type = $request->contract_type;
+        } else {
+            $contract_type = false;
+        }
+
+        if ($request->has('journey_hour')) {
+            $journey_hour = $request->journey_hour;
+        } else {
+            $journey_hour = false;
+        }
+
+        if ($request->has('work_type')) {
+            $work_type = $request->work_type;
+        } else {
+            $work_type = false;
+        }
 
         // Render the view
         $view = view('home', [
@@ -249,7 +265,7 @@ class VacanciesController extends Controller
         $cachedVacancy = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($vacancy) {
             return $vacancy;
         });
-        
+
         if ($cachedVacancy->paid_status === 'paid out') {
             return view('vacancy', ['vacancy' => $cachedVacancy]);
         } else {
@@ -257,9 +273,14 @@ class VacanciesController extends Controller
         }
     }
 
-    public function updateViews(Vacancy $vacancy){
+    public function updateViews(Vacancy $vacancy)
+    {
         $vacancy->views_count++;
         $vacancy->save();
+
+        if($vacancy->views_count % $vacancy->notification_views == 0) {
+            return event(new ViewedVacancy($vacancy->views_count, $vacancy->user->email));
+        };
     }
 
     public function preview(Vacancy $vacancy)

@@ -187,7 +187,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            @if ($candidate->candidateFields->first()->experiences->count() > 0)
+                                            @if ($candidate->candidateFields->isNotEmpty() && $candidate->candidateFields->first()->experiences->isNotEmpty())
                                                 @php
                                                     $count = 1;
                                                 @endphp
