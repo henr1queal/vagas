@@ -21,141 +21,137 @@ class VacanciesController extends Controller
         $now_datetime = now();
         return view('dashboard', ['vacancies' => $vacancies, 'now_datetime' => $now_datetime]);
     }
+    
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $cacheKey = 'index_cache_' . md5(json_encode($request->all()));
+        if (auth()->check() && auth()->user()->id === 1) {
+            $user_id = 1;
+        } else {
+            $user_id = 0;
+        }
+        
+        $cacheKey = 'index_cache_' . $user_id . '_' . md5(json_encode($request->all()));
 
         // Check if the cache exists
-        if (Cache::has($cacheKey)) {
-            // If it exists, return the cached content
-            return Cache::get($cacheKey);
-        }
-
-        $query = Vacancy::select([
-            'id',
-            'title',
-            'employment_type',
-            'job_type',
-            'workload',
-            'salary',
-            'company_name',
-            'show_company',
-            'show_salary',
-            'choiced_plan',
-            'created_at',
-            'days_available',
-        ])
-            ->whereIn('choiced_plan', ['Destaque', 'Normal'])
-            ->where('paid_status', 'paid out')
-            ->where('approved_by_admin', 1)
-            ->where('days_available', '>', now())
-            ->when($request->has('search') && $request->search !== null, function ($query) use ($request) {
-                $query->where('title', 'like', '%' . $request->search . '%');
-            })
-            ->when($request->has('contract_type'), function ($query) use ($request) {
-                $query->where('employment_type', $request->contract_type);
-            })
-            ->when($request->has('journey_hour'), function ($query) use ($request) {
-                $query->where('work_schedule', $request->journey_hour);
-            })
-            ->when($request->has('work_type'), function ($query) use ($request) {
-                $query->where('job_type', $request->work_type);
-            })
-            ->where(function ($query) {
-                $query->whereNull('max_candidates')
-                    ->orWhere(function ($query) {
-                        $query->whereRaw('(SELECT COUNT(*) FROM candidate_files WHERE vacancy_id = vacancies.id) + 
+        return Cache::remember($cacheKey, now()->addMinutes(30), function () use ($request, $user_id) {
+            $query = Vacancy::select([
+                'id',
+                'title',
+                'employment_type',
+                'job_type',
+                'workload',
+                'salary',
+                'company_name',
+                'show_company',
+                'show_salary',
+                'choiced_plan',
+                'created_at',
+                'days_available',
+            ])
+                ->whereIn('choiced_plan', ['Destaque', 'Normal'])
+                ->where('paid_status', 'paid out')
+                ->where('approved_by_admin', 1)
+                ->where('days_available', '>', now())
+                ->when($request->has('search') && $request->search !== null, function ($query) use ($request) {
+                    $query->where('title', 'like', '%' . $request->search . '%');
+                })
+                ->when($request->has('contract_type'), function ($query) use ($request) {
+                    $query->where('employment_type', $request->contract_type);
+                })
+                ->when($request->has('journey_hour'), function ($query) use ($request) {
+                    $query->where('work_schedule', $request->journey_hour);
+                })
+                ->when($request->has('work_type'), function ($query) use ($request) {
+                    $query->where('job_type', $request->work_type);
+                })
+                ->where(function ($query) {
+                    $query->whereNull('max_candidates')
+                        ->orWhere(function ($query) {
+                            $query->whereRaw('(SELECT COUNT(*) FROM candidate_files WHERE vacancy_id = vacancies.id) + 
                                       (SELECT COUNT(*) FROM candidate_fields WHERE vacancy_id = vacancies.id) < max_candidates');
-                    });
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+                        });
+                })
+                ->orderBy('created_at', 'desc')
+                ->get();
 
+            $count_vacancies = $query->count();
 
-        $count_vacancies = $query->count();
+            $grouped_vacancies = $query->groupBy([
+                'choiced_plan',
+                function ($vacancy) {
+                    return $vacancy->created_at->toDateString();
+                },
+            ]);
 
-        $grouped_vacancies = $query->groupBy([
-            'choiced_plan',
-            function ($vacancy) {
-                return $vacancy->created_at->toDateString();
-            },
-        ]);
+            $highlighted_vacancies = $grouped_vacancies['Destaque'] ?? collect();
+            $normal_vacancies = $grouped_vacancies['Normal'] ?? collect();
 
-        $highlighted_vacancies = $grouped_vacancies['Destaque'] ?? collect();
-        $normal_vacancies = $grouped_vacancies['Normal'] ?? collect();
-
-        $highlighted_vacancies->map(function ($vacancies) {
-            return $vacancies->map(function ($vacancy) {
-                $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
-                $vacancy->formatted_created_at = [
-                    'month' => substr($date->translatedFormat('F'), 0, 3),
-                    'day' => $date->day,
-                    'year' => $date->year,
-                ];
-                return $vacancy;
+            $highlighted_vacancies->map(function ($vacancies) {
+                return $vacancies->map(function ($vacancy) {
+                    $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
+                    $vacancy->formatted_created_at = [
+                        'month' => substr($date->translatedFormat('F'), 0, 3),
+                        'day' => $date->day,
+                        'year' => $date->year,
+                    ];
+                    return $vacancy;
+                });
             });
-        });
 
-        $normal_vacancies->map(function ($vacancies) {
-            return $vacancies->map(function ($vacancy) {
-                $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
-                $vacancy->formatted_created_at = [
-                    'month' => substr($date->translatedFormat('F'), 0, 3),
-                    'day' => $date->day,
-                    'year' => $date->year,
-                ];
-                return $vacancy;
+            $normal_vacancies->map(function ($vacancies) {
+                return $vacancies->map(function ($vacancy) {
+                    $date = Carbon::parse($vacancy->created_at)->locale('pt_BR');
+                    $vacancy->formatted_created_at = [
+                        'month' => substr($date->translatedFormat('F'), 0, 3),
+                        'day' => $date->day,
+                        'year' => $date->year,
+                    ];
+                    return $vacancy;
+                });
             });
+
+            if ($request->has('search') && $request->search !== null) {
+                $search = $request->search;
+            } else {
+                $search = false;
+            }
+
+            if ($request->has('contract_type')) {
+                $contract_type = $request->contract_type;
+            } else {
+                $contract_type = false;
+            }
+
+            if ($request->has('journey_hour')) {
+                $journey_hour = $request->journey_hour;
+            } else {
+                $journey_hour = false;
+            }
+
+            if ($request->has('work_type')) {
+                $work_type = $request->work_type;
+            } else {
+                $work_type = false;
+            }
+
+            // Render the view
+            return view('home', [
+                'highlighted_vacancies' => $highlighted_vacancies,
+                'normal_vacancies' => $normal_vacancies,
+                'count_vacancies' => $count_vacancies,
+                'last_search' => [
+                    'search' => $search,
+                    'contract_type' => $contract_type,
+                    'journey_hour' => $journey_hour,
+                    'work_type' => $work_type
+                ],
+                'user_id' => $user_id
+            ])->render();
         });
-
-        if ($request->has('search') && $request->search !== null) {
-            $search = $request->search;
-        } else {
-            $search = false;
-        }
-
-        if ($request->has('contract_type')) {
-            $contract_type = $request->contract_type;
-        } else {
-            $contract_type = false;
-        }
-
-        if ($request->has('journey_hour')) {
-            $journey_hour = $request->journey_hour;
-        } else {
-            $journey_hour = false;
-        }
-
-        if ($request->has('work_type')) {
-            $work_type = $request->work_type;
-        } else {
-            $work_type = false;
-        }
-
-        // Render the view
-        $view = view('home', [
-            'highlighted_vacancies' => $highlighted_vacancies,
-            'normal_vacancies' => $normal_vacancies,
-            'count_vacancies' => $count_vacancies,
-            'last_search' => [
-                'search' => $search,
-                'contract_type' => $contract_type,
-                'journey_hour' => $journey_hour,
-                'work_type' => $work_type
-            ]
-        ])->render();
-
-        // Cache the entire response for 30 minutes
-        Cache::put($cacheKey, $view, now()->addMinutes(30));
-
-        // Return the view
-        return $view;
     }
-
-
 
     /**
      * Show the form for creating a new resource.

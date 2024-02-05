@@ -183,13 +183,17 @@
 
 <body class="h-100">
     <nav class="py-3">
-        @auth
-            @if (auth()->user()->id === 1)
+        @if (isset($user_id))
+            @if ($user_id === 1)
                 @php
-                    $is_admin = 1;
+                    $is_admin = true;
                 @endphp
             @endif
-        @endauth
+        @elseif(auth()->check() && auth()->user()->id === 1)
+            @php
+                $is_admin = true;
+            @endphp
+        @endif
         <div
             class="d-flex @if (isset($is_admin)) flex-column flex-lg-row gap-lg-4 gap-2 @else gap-4 @endif justify-content-center align-items-center justify-content-lg-end mx-auto h-100">
             @if (isset($is_admin))
