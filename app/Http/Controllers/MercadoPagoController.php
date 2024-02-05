@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\NewVacancyAdded;
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use MercadoPago\Client\Common\RequestOptions;
 use MercadoPago\Client\Preference\PreferenceClient;
@@ -24,8 +25,8 @@ class MercadoPagoController extends Controller
             $title = '15 dias (destaque)';
             $description = 'Seu anúncio será exibido no topo de nosso site durante 15 dias com um selo de destaque à partir de nossa aprovação.';
         }
-        $paid_value = 79.9;
-        $previous_value = ceil($paid_value * 1.2) - 0.1;
+        $paid_value = $vacancy->paid_value;
+        $previous_value = $paid_value * 1.2;
         $access_token = env('MP_ACCESS_TOKEN');
         $public_key = env('MP_PUBLIC_KEY');
         // Adicione as credenciais
@@ -91,6 +92,7 @@ class MercadoPagoController extends Controller
                 } else {
                     $vacancy->days_available = now()->addDays($payment->description === 'Normal' ? 30 : 15);
                 }
+                Artisan::call('cache:clear');
                 Mail::to('henriquersilva.al@gmail.com')->send(new NewVacancyAdded($vacancy->id));
             } elseif ($payment->status === 'pending' || $payment->status === 'in_process') {
                 $vacancy->paid_status = 'in process';

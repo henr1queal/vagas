@@ -3,46 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Events\ViewedVacancy;
-use App\Jobs\SendDailyCandidatesJob;
 use App\Models\Vacancy;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 
 class VacanciesController extends Controller
 {
-    public function teste()
-    {
-        $currentHour = Carbon::now();
-
-        $startMargin = $currentHour->copy()->subMinutes(10)->format('H:i:s');
-        $endMargin = $currentHour->copy()->addMinutes(10)->format('H:i:s');
-
-        $vacancies = Vacancy::whereHas('candidateFields', function (Builder $query) {
-                $query->where('created_at', '>=', now()->subDay())->where('created_at', '<=', now());
-            })
-            ->orWhereHas('candidateFiles', function (Builder $query) {
-                $query->where('created_at', '>=', now()->subDay())->where('created_at', '<=', now());
-            })
-            ->where('days_available', '>', now())
-            ->where('approved_by_admin', 1)
-            ->where('paid_status', 'paid out')
-            ->where('email_receiver', 1)
-            ->whereTime('hour_receive_email', '>=', $startMargin)
-            ->whereTime('hour_receive_email', '<=', $endMargin)
-            ->get();
-
-            if($vacancies->count() > 0) {
-                foreach ($vacancies as $vacancy) {
-                    // dispatch(new SendDailyCandidatesJob($vacancy->user->email));
-                    Log::info('success', ['success' => 'Aqui!']);
-                }
-            }
-    }
-
     public function dashboard()
     {
         $user = Auth::user();
@@ -282,6 +250,7 @@ class VacanciesController extends Controller
         $this->verifyDoubleFields('receive_notification', 'notifications_views', $validated, $vacancy);
 
         $vacancy->user_id = $user->id;
+        $vacancy->paid_value = 79.9;
         $vacancy->save();
 
         return redirect()->route('payment.checkout', ['vacancy' => $vacancy]);

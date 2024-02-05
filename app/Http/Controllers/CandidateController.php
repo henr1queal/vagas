@@ -35,7 +35,7 @@ class CandidateController extends Controller
      */
     public function storeFile(Request $request)
     {
-        $vacancy = Vacancy::withCount(['candidateFiles', 'candidateFields'])->find('9b29f616-d347-439e-b8e0-6746392224e2');
+        $vacancy = Vacancy::withCount(['candidateFiles', 'candidateFields'])->find($request->vacancy);
         if ($vacancy->max_candidates === null || $vacancy->max_candidates > $vacancy->candidate_files_count + $vacancy->candidate_fields_count) {
             try {
                 $request->validateWithBag(
@@ -65,7 +65,7 @@ class CandidateController extends Controller
                 $file = $request->file('curriculum');
                 $originalName = $file->getClientOriginalName();
                 $extension = $file->getClientOriginalExtension();
-                $filename = $originalName . '_' . date('d_m_Y_H_i_s') . '.' . $extension;
+                $filename = pathinfo($originalName, PATHINFO_FILENAME) . '_' . date('d_m_Y_H_i_s') . '.' . $extension;
                 $file->storeAs('curriculos', $filename);
 
                 $candidate = Candidate::firstOrNew(
@@ -103,7 +103,7 @@ class CandidateController extends Controller
 
     public function storeFields(Request $request)
     {
-        $vacancy = Vacancy::withCount(['candidateFiles', 'candidateFields'])->find('9b29f616-d347-439e-b8e0-6746392224e2');
+        $vacancy = Vacancy::withCount(['candidateFiles', 'candidateFields'])->find($request->vacancy);
         if ($vacancy->max_candidates === null || $vacancy->max_candidates > $vacancy->candidate_files_count + $vacancy->candidate_fields_count) {
             try {
                 $request->validateWithBag(

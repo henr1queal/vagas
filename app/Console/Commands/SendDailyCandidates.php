@@ -53,7 +53,7 @@ class SendDailyCandidates extends Command
         
         if ($vacancies->count() > 0) {
             foreach ($vacancies as $vacancy) {
-                Log::info('success-cron', ['success-cron' => 'success-cron!']);
+                Log::info('success-cron', ['success-cron' => 'success-cron kkk! ' . $currentHour]);
                 dispatch(new SendDailyCandidatesJob($vacancy->user->email));
             }
         }
