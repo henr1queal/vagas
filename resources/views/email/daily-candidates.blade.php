@@ -87,7 +87,16 @@
             <tr>
                 <td width="75" style="width: 75px;"></td>
                 <td width="450" style="width: 450px; text-align: center;" align="center">
-                    <span style="color: #000000; font-size: 16px;"><b>Nova vaga adicionada!</b></span>
+                    <span style="color: #000000; font-size: 18px;"><b>Sua lista diários de candidatos está pronta!</b></span>
+                    <table align="center" margin="0" padding="0" cellpadding="0" cellspacing="0"
+                        style="margin: 0px auto !important; padding: 0px !important; border-spacing: 0px;">
+                        <tbody>
+                            <tr>
+                                <td height="14px" width="450" style="width: 450px; height: 14px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span style="color: #000000; font-size: 16px;">Na sequência, você terá acesso aos currículos que se candidataram nas últimas 24 horas.</span>
                     <table align="center" margin="0" padding="0" cellpadding="0" cellspacing="0"
                         style="margin: 0px auto !important; padding: 0px !important; border-spacing: 0px;">
                         <tbody>
@@ -96,7 +105,19 @@
                             </tr>
                         </tbody>
                     </table>
-                    <span style="color: #000000; font-size: 16px;">Clique <a href="{{ route('vacancy.pendent', ['id' => $vacancy_id]) }}"><b>aqui</b></a> para aceitar ou recusá-la.</span>
+                    <span style="color: #000000; font-size: 16px;">Para visualizá-los, <a
+                            href="{{ route('dashboard') }}"><b>clique aqui</b></a>.</span>
+                    <table align="center" margin="0" padding="0" cellpadding="0" cellspacing="0"
+                        style="margin: 0px auto !important; padding: 0px !important; border-spacing: 0px;">
+                        <tbody>
+                            <tr>
+                                <td height="40px" width="450" style="width: 450px; height: 40px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span style="color: #000000; font-size: 16px;">Atenciosamente,</span>
+                    <br>
+                    <span style="color: #000000; font-size: 16px;"><b>vagasmaceio.com.br.</b></span>
                 </td>
                 <td width="75" style="width: 75px;"></td>
             </tr>

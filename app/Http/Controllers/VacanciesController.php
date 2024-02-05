@@ -3,14 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Events\ViewedVacancy;
+use App\Jobs\SendDailyCandidatesJob;
 use App\Models\Vacancy;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class VacanciesController extends Controller
 {
+    public function teste()
+    {
+        $currentHour = Carbon::now();
+
+        $startMargin = $currentHour->copy()->subMinutes(10)->format('H:i:s');
+        $endMargin = $currentHour->copy()->addMinutes(10)->format('H:i:s');
+
+        $vacancies = Vacancy::whereHas('candidateFields', function (Builder $query) {
+                $query->where('created_at', '>=', now()->subDay())->where('created_at', '<=', now());
+            })
+            ->orWhereHas('candidateFiles', function (Builder $query) {
+                $query->where('created_at', '>=', now()->subDay())->where('created_at', '<=', now());
+            })
+            ->where('days_available', '>', now())
+            ->where('approved_by_admin', 1)
+            ->where('paid_status', 'paid out')
+            ->where('email_receiver', 1)
+            ->whereTime('hour_receive_email', '>=', $startMargin)
+            ->whereTime('hour_receive_email', '<=', $endMargin)
+            ->get();
+
+            if($vacancies->count() > 0) {
+                foreach ($vacancies as $vacancy) {
+                    // dispatch(new SendDailyCandidatesJob($vacancy->user->email));
+                    Log::info('success', ['success' => 'Aqui!']);
+                }
+            }
+    }
+
     public function dashboard()
     {
         $user = Auth::user();
@@ -48,32 +80,32 @@ class VacanciesController extends Controller
             'created_at',
             'days_available',
         ])
-        ->whereIn('choiced_plan', ['Destaque', 'Normal'])
-        ->where('paid_status', 'paid out')
-        ->where('approved_by_admin', 1)
-        ->where('days_available', '>', now())
-        ->when($request->has('search') && $request->search !== null, function ($query) use ($request) {
-            $query->where('title', 'like', '%' . $request->search . '%');
-        })
-        ->when($request->has('contract_type'), function ($query) use ($request) {
-            $query->where('employment_type', $request->contract_type);
-        })
-        ->when($request->has('journey_hour'), function ($query) use ($request) {
-            $query->where('work_schedule', $request->journey_hour);
-        })
-        ->when($request->has('work_type'), function ($query) use ($request) {
-            $query->where('job_type', $request->work_type);
-        })
-        ->where(function ($query) {
-            $query->whereNull('max_candidates')
-                ->orWhere(function ($query) {
-                    $query->whereRaw('(SELECT COUNT(*) FROM candidate_files WHERE vacancy_id = vacancies.id) + 
+            ->whereIn('choiced_plan', ['Destaque', 'Normal'])
+            ->where('paid_status', 'paid out')
+            ->where('approved_by_admin', 1)
+            ->where('days_available', '>', now())
+            ->when($request->has('search') && $request->search !== null, function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->search . '%');
+            })
+            ->when($request->has('contract_type'), function ($query) use ($request) {
+                $query->where('employment_type', $request->contract_type);
+            })
+            ->when($request->has('journey_hour'), function ($query) use ($request) {
+                $query->where('work_schedule', $request->journey_hour);
+            })
+            ->when($request->has('work_type'), function ($query) use ($request) {
+                $query->where('job_type', $request->work_type);
+            })
+            ->where(function ($query) {
+                $query->whereNull('max_candidates')
+                    ->orWhere(function ($query) {
+                        $query->whereRaw('(SELECT COUNT(*) FROM candidate_files WHERE vacancy_id = vacancies.id) + 
                                       (SELECT COUNT(*) FROM candidate_fields WHERE vacancy_id = vacancies.id) < max_candidates');
-                });
-        })
-        ->orderBy('created_at', 'desc')
-        ->get();
-    
+                    });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
 
         $count_vacancies = $query->count();
 
@@ -278,7 +310,7 @@ class VacanciesController extends Controller
         $vacancy->views_count++;
         $vacancy->save();
 
-        if($vacancy->views_count % $vacancy->notification_views == 0) {
+        if ($vacancy->views_count % $vacancy->notification_views == 0) {
             return event(new ViewedVacancy($vacancy->views_count, $vacancy->user->email));
         };
     }
