@@ -64,39 +64,42 @@ class MercadoPagoController extends Controller
 
     public function webhook(Request $request)
     {
-        $payment_id = $request->data['id'];
-        $access_token = env('MP_ACCESS_TOKEN');
-        $unique_id = uniqid();
-        MercadoPagoConfig::setAccessToken($access_token);
-        $request_options = new RequestOptions();
-        $request_options->setCustomHeaders(["X-Idempotency-Key: {$unique_id}"]);
-
-        $client = new PaymentClient();
-        $payment = $client->get($payment_id, $request_options);
-
-        $vacancy = Vacancy::find($payment->external_reference);
-
-        $vacancy->paid_value = $payment->transaction_amount;
-        $vacancy->payment_id = $payment_id;
-
-        if ($payment->status === 'approved') {
-            $vacancy->paid_status = 'paid out';
-            $now_datetime = now();
-
-            if ($vacancy->approved_by_admin === 1 && $vacancy->days_available > $now_datetime) {
-                $vacancy->days_available->addDays($payment->description === 'Normal' ? 30 : 15);
-            } else {
-                $vacancy->days_available = now()->addDays($payment->description === 'Normal' ? 30 : 15);
-            }
-            Mail::to('henriquersilva.al@gmail.com')->send(new NewVacancyAdded($vacancy->id));
-        } elseif ($payment->status === 'pending' || $payment->status === 'in_process') {
-            $vacancy->paid_status = 'in process';
+        $payment_id = isset($request->data['id']) ? $request->data['id'] : null;
+        if ($payment_id === null) {
+            return;
         } else {
-            $vacancy->paid_status = 'rejected';
-        }
-        $vacancy->updated_at = now();
-        $vacancy->save();
+            $access_token = env('MP_ACCESS_TOKEN');
+            $unique_id = uniqid();
+            MercadoPagoConfig::setAccessToken($access_token);
+            $request_options = new RequestOptions();
+            $request_options->setCustomHeaders(["X-Idempotency-Key: {$unique_id}"]);
 
+            $client = new PaymentClient();
+            $payment = $client->get($payment_id, $request_options);
+
+            $vacancy = Vacancy::find($payment->external_reference);
+
+            $vacancy->paid_value = $payment->transaction_amount;
+            $vacancy->payment_id = $payment_id;
+
+            if ($payment->status === 'approved') {
+                $vacancy->paid_status = 'paid out';
+                $now_datetime = now();
+
+                if ($vacancy->approved_by_admin === 1 && $vacancy->days_available > $now_datetime) {
+                    $vacancy->days_available->addDays($payment->description === 'Normal' ? 30 : 15);
+                } else {
+                    $vacancy->days_available = now()->addDays($payment->description === 'Normal' ? 30 : 15);
+                }
+                Mail::to('henriquersilva.al@gmail.com')->send(new NewVacancyAdded($vacancy->id));
+            } elseif ($payment->status === 'pending' || $payment->status === 'in_process') {
+                $vacancy->paid_status = 'in process';
+            } else {
+                $vacancy->paid_status = 'rejected';
+            }
+            $vacancy->updated_at = now();
+            $vacancy->save();
+        }
     }
 
     public function process(Request $request, Vacancy $vacancy)
