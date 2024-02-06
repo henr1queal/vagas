@@ -273,7 +273,7 @@ class VacanciesController extends Controller
         $vacancy->views_count++;
         $vacancy->save();
 
-        if ($vacancy->views_count % $vacancy->notification_views == 0) {
+        if ($vacancy->notification_views != 0 && $vacancy->views_count % $vacancy->notification_views == 0) {
             return event(new ViewedVacancy($vacancy->views_count, $vacancy->user->email));
         };
     }
