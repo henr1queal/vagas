@@ -3,6 +3,19 @@
     <title>Vaga de {{ $vacancy->title }} em Maceió | VagasMaceio.com.br</title>
 @endsection
 @section('css')
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha_v3.siteKey') }}"></script>
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('services.recaptcha_v3.siteKey') }}', {
+                action: 'forms'
+            }).then(function(token) {
+                var recaptchaElements = document.getElementsByName('g-recaptcha-response');
+                for (var i = 0; i < recaptchaElements.length; i++) {
+                    recaptchaElements[i].value = token;
+                }
+            });
+        });
+    </script>
     <style>
         .preview-banner {
             position: absolute;
@@ -223,7 +236,7 @@
                         </div>
                         <div>
                             <h4 class="montserrat fs-18 text-black"><strong>Descrição da vaga:</strong></h4>
-                            <p class="montserrat fs-18 text-black fw-medium">{{ $vacancy->description }}</p>
+                            <p class="montserrat fs-18 text-black fw-medium">{!! nl2br(e($vacancy->description)) !!}</p>
                         </div>
                         <button type="button" class="btn btn-submit text-white fs-18 montserrat py-4"
                             data-bs-toggle="modal" data-bs-target="#curriculumModal"><strong>Eu quero
@@ -280,8 +293,9 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form class="row g-3 needs-validation" action="{{ route('candidate.store-file') }}"
-                                method="POST" enctype="multipart/form-data" novalidate>
+                            <form id="contactFormFile" class="row g-3 needs-validation"
+                                action="{{ route('candidate.store-file') }}" method="POST"
+                                enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="mb-3 fs-16">
                                     <label for="name_form_file">Nome completo</label>
@@ -321,10 +335,12 @@
                                         Você precisa adicionar um arquivo.
                                     </div>
                                     <input type="hidden" name="vacancy" value="{{ $vacancy->id }}">
+                                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+                                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
                                 </div>
                                 <div>
                                     <button type="submit"
-                                        class="btn btn-success fs-16 w-100 py-3 d-flex flex-row justify-content-center gap-4 align-items-center"><svg
+                                        class="g-recaptcha btn btn-success fs-16 w-100 py-3 d-flex flex-row justify-content-center gap-4 align-items-center"><svg
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             fill="currentColor" class="bi bi-send-check" viewBox="0 0 16 16">
                                             <path
@@ -368,7 +384,7 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form action="{{ route('candidate.store-fields') }}" method="post"
+                            <form id="contactFormFields" action="{{ route('candidate.store-fields') }}" method="post"
                                 class="fs-16 needs-validation" novalidate>
                                 @csrf
                                 <div class="mb-3">
@@ -456,6 +472,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" name="vacancy" value="{{ $vacancy->id }}">
+                                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
                                     <div class="ms-lg-5">
                                         <label class="form-check-label">Filhos:<span
                                                 class="text-danger fs-14">*</span></label>
@@ -609,8 +626,9 @@
                                             Experiência</div>
                                     </button>
                                 </div>
-                                <button type="submit"
-                                    class="btn btn-success fs-16 w-100 py-3 mt-5 d-flex flex-row justify-content-center gap-4 align-items-center"><svg
+                                <button data-sitekey="{{ config('services.recaptcha_v3_alternative.siteKey') }}"
+                                    data-callback="onSubmitFormFields" data-action="submitContact"
+                                    class="g-recaptcha btn btn-success fs-16 w-100 py-3 mt-5 d-flex flex-row justify-content-center gap-4 align-items-center"><svg
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         fill="currentColor" class="bi bi-send-check" viewBox="0 0 16 16">
                                         <path
@@ -657,24 +675,24 @@
             $('#whatsapp').mask(PhoneBehavior, spOptions);
             $('#phone_form_file').mask(PhoneBehavior, spOptions);
             $('#whatsapp_form_file').mask(PhoneBehavior, spOptions);
-            
+
             verificarRequisicao();
         })
     </script>
     <script>
         function verificarRequisicao() {
-            var identificacaoPagina = '{{$vacancy->id}}';
-            
+            var identificacaoPagina = '{{ $vacancy->id }}';
+
             var chaveCookie = 'requisicao_enviada_' + identificacaoPagina;
             var requisicaoEnviada = obterCookie(chaveCookie);
-            
+
             if (!requisicaoEnviada) {
                 enviarRequisicao();
-                
+
                 definirCookie(chaveCookie, 'true', 30);
             }
         }
-        
+
         function obterCookie(nome) {
             var cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
@@ -685,15 +703,15 @@
             }
             return null;
         }
-        
+
         function definirCookie(nome, valor, minutos) {
             var dataExpiracao = new Date();
             dataExpiracao.setTime(dataExpiracao.getTime() + (minutos * 60 * 1000));
             document.cookie = nome + '=' + valor + ';expires=' + dataExpiracao.toUTCString() + ';path=/';
         }
-        
+
         function enviarRequisicao() {
-            var url = '{{ route("vacancy.update-views", ['vacancy' => $vacancy]) }}';
+            var url = '{{ route('vacancy.update-views', ['vacancy' => $vacancy]) }}';
             $.ajax({
                 url: url,
                 type: 'POST',

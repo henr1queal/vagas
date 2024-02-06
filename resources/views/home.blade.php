@@ -421,11 +421,17 @@
                                     </a>
                                     <h3 class="montserrat fs-14 subtitle">Tipo de emprego: {{ $vacancy->job_type }}</h3>
                                     <h3 class="montserrat fs-14 subtitle">Regime: {{ $vacancy->employment_type }}</h3>
-                                    <h3 class="montserrat fs-14 subtitle">Carga horária: {{ $vacancy->workload }}h
-                                        semanais
-                                    </h3>
-                                    <h3 class="montserrat fs-14 subtitle">Salário: R$ {{ $vacancy->salary }}</h3>
-                                    <h3 class="montserrat fs-14 subtitle mb-0">Empresa: {{ $vacancy->company_name }}.</h3>
+                                    @if ($vacancy->workload)
+                                        <h3 class="montserrat fs-14 subtitle">Carga horária: {{ $vacancy->workload }}h
+                                            semanais</h3>
+                                    @endif
+                                    <h3 class="montserrat fs-14 subtitle">Salário:
+                                        {{ $vacancy->show_salary === 0 ? 'a combinar' : 'R$ ' . $vacancy->salary }}</h3>
+                                    <h3 class="montserrat fs-14 subtitle">Empresa:
+                                        {{ $vacancy->show_company === 0 ? 'confidencial' : $vacancy->company_name }}.</h3>
+                                    <h3 class="montserrat fs-14 subtitle mb-0">Envie seu currículo até:
+                                        {{ $vacancy->days_available->format('d/m/Y') }} às
+                                        {{ $vacancy->days_available->format('H:i') }}</h3>
                                 </div>
                             @endforeach
                         </div>

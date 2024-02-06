@@ -60,7 +60,6 @@
                         </svg> Publicar nova vaga</a>
                     <ol class="list-group list-group-numbered mt-3">
                         @foreach ($vacancies as $vacancy)
-                            {{-- {{dd($vacancy)}} --}}
                             <li
                                 class="list-group-item d-flex flex-column flex-lg-row justify-content-between align-items-start fs-15 p-4">
                                 <div class="ms-2 me-auto order-3 order-lg-2">

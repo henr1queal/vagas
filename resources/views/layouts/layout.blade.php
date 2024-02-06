@@ -33,6 +33,17 @@
         <meta property="og:description"
             content="Encontre as melhores vagas de emprego em Maceió. Vagas atualizadas diariamente. Envie seu currículo agora!">
     @endif
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TC62W5JBY8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-TC62W5JBY8');
+    </script>
     @php
         $currentUrl = url()->current();
         $newUrl = str_replace('://', '://www.', $currentUrl);

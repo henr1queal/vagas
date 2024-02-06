@@ -7,6 +7,7 @@ use App\Models\CandidateField;
 use App\Models\CandidateFile;
 use App\Models\Experience;
 use App\Models\Vacancy;
+use App\Rules\ReCaptchaV3;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -46,6 +47,7 @@ class CandidateController extends Controller
                         'phone_form_file' => [new CelularComDdd, 'required', 'string', 'max:15'],
                         'whatsapp_form_file' => [new CelularComDdd, 'required', 'string', 'max:15'],
                         'vacancy' => 'required|string|size:36',
+                        'g-recaptcha-response' => ['required', new ReCaptchaV3()]
                     ],
                     [],
                     [
@@ -125,6 +127,7 @@ class CandidateController extends Controller
                         'experiences.*.end_date' => 'nullable|date',
                         'experiences.*.description' => 'nullable|string',
                         'vacancy' => 'required|string|size:36',
+                        'g-recaptcha-response' => ['required', new ReCaptchaV3()]
                     ],
                     [],
                     [
