@@ -35,7 +35,6 @@ class VacanciesController extends Controller
         
         $cacheKey = 'index_cache_' . $user_id . '_' . md5(json_encode($request->all()));
 
-        // Check if the cache exists
         return Cache::remember($cacheKey, now()->addMinutes(30), function () use ($request, $user_id) {
             $query = Vacancy::select([
                 'id',
@@ -137,7 +136,6 @@ class VacanciesController extends Controller
                 $work_type = false;
             }
 
-            // Render the view
             return view('home', [
                 'highlighted_vacancies' => $highlighted_vacancies,
                 'normal_vacancies' => $normal_vacancies,

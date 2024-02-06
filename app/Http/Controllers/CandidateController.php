@@ -196,25 +196,45 @@ class CandidateController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($vacancy_id)
+    public function show($vacancy_id, $start_datetime = null)
     {
+        $vacancy = Vacancy::find($vacancy_id);
+
+        if (!$vacancy || $vacancy->user_id !== auth()->user()->id) {
+            return redirect()->route('dashboard')->with('error', 'Vaga não encontrada.');
+        }
+
         $perPage = 20;
+        
         $candidates = Candidate::with([
-            'candidateFiles',
+            'candidateFiles' => function ($query) use ($start_datetime) {
+                if ($start_datetime) {
+                    $query->where('created_at', '>=', $start_datetime)->orderBy('created_at', 'desc');
+                }
+            },
+            'candidateFields' => function ($query) use ($start_datetime) {
+                if ($start_datetime) {
+                    $query->where('created_at', '>=', $start_datetime);
+                }
+            },
             'candidateFields.experiences' => function ($query) {
-                $query->orderBy('start_date', 'desc'); // Ordena as experiências por start_date mais recentes
+                $query->orderBy('start_date', 'desc');
             },
         ])
-            ->where(function ($query) use ($vacancy_id) {
-                $query->whereHas('candidateFiles', function ($q) use ($vacancy_id) {
-                    $q->where('vacancy_id', $vacancy_id)->orderBy('created_at', 'asc');
-                })->orWhereHas('candidateFields', function ($q) use ($vacancy_id) {
+            ->where(function ($query) use ($vacancy_id, $start_datetime) {
+                $query->whereHas('candidateFiles', function ($q) use ($vacancy_id, $start_datetime) {
                     $q->where('vacancy_id', $vacancy_id);
+                    if ($start_datetime) {
+                        $q->where('created_at', '>=', $start_datetime);
+                    }
+                })->orWhereHas('candidateFields', function ($q) use ($vacancy_id, $start_datetime) {
+                    $q->where('vacancy_id', $vacancy_id);
+                    if ($start_datetime) {
+                        $q->where('created_at', '>=', $start_datetime);
+                    }
                 });
             })
             ->paginate($perPage);
-
-
         return view('candidates-vacancy', ['candidates' => $candidates]);
     }
 

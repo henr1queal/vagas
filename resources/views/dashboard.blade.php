@@ -43,6 +43,11 @@
                             {{ session('success') }}
                         </div>
                     @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger mb-5 fs-15 montserrat">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <h1 class="fs-20 text-center mb-5"><strong>Minhas vagas adicionadas ({{ $vacancies->count() }}):</strong>
                     </h1>
                     <a href="{{ route('vacancy.create') }}" target="_blank" rel="noopener noreferrer"

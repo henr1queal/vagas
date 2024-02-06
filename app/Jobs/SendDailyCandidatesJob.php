@@ -18,10 +18,16 @@ class SendDailyCandidatesJob implements ShouldQueue
      * Create a new job instance.
      */
     protected $email;
+    protected $subday;
+    protected $title;
+    protected $id;
 
-    public function __construct($email)
+    public function __construct($email, $subday, $title, $id)
     {
         $this->email = $email;
+        $this->subday = $subday;
+        $this->title = $title;
+        $this->id = $id;
     }
 
     /**
@@ -29,6 +35,6 @@ class SendDailyCandidatesJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->email)->send(new SendDailyCandidates());
+        Mail::to($this->email)->send(new SendDailyCandidates($this->subday, $this->title, $this->id));
     }
 }

@@ -59,7 +59,8 @@
                             </tr>
                         </tbody>
                     </table>
-                    <img src="https://vagasmaceio.com.br/public/logo.png" alt="Vagas Maceió" class="img-fluid" style="max-width: 100%;">
+                    <img src="https://vagasmaceio.com.br/public/logo.png" alt="Vagas Maceió" class="img-fluid"
+                        style="max-width: 100%;">
                     <table align="center" margin="0" padding="0" cellpadding="0" cellspacing="0"
                         style="margin: 0px auto !important; padding: 0px !important; border-spacing: 0px;">
                         <tbody>
@@ -87,7 +88,8 @@
             <tr>
                 <td width="75" style="width: 75px;"></td>
                 <td width="450" style="width: 450px; text-align: center;" align="center">
-                    <span style="color: #000000; font-size: 18px;"><b>Sua lista diários de candidatos está pronta!</b></span>
+                    <span style="color: #000000; font-size: 18px;"><b>Sua lista diários de candidatos está
+                            pronta!</b></span>
                     <table align="center" margin="0" padding="0" cellpadding="0" cellspacing="0"
                         style="margin: 0px auto !important; padding: 0px !important; border-spacing: 0px;">
                         <tbody>
@@ -96,7 +98,8 @@
                             </tr>
                         </tbody>
                     </table>
-                    <span style="color: #000000; font-size: 16px;">Na sequência, você terá acesso aos currículos que se candidataram nas últimas 24 horas.</span>
+                    <span style="color: #000000; font-size: 16px;">Na sequência, você terá acesso aos currículos que se
+                        candidataram nas últimas 24 horas.</span>
                     <table align="center" margin="0" padding="0" cellpadding="0" cellspacing="0"
                         style="margin: 0px auto !important; padding: 0px !important; border-spacing: 0px;">
                         <tbody>
@@ -106,7 +109,7 @@
                         </tbody>
                     </table>
                     <span style="color: #000000; font-size: 16px;">Para visualizá-los, <a
-                            href="{{ route('dashboard') }}"><b>clique aqui</b></a>.</span>
+                            href="{{ route('candidates.vacancy', ['vacancy_id' => $id, 'start_datetime' => $subday]) }}"><b>clique aqui</b></a>.</span>
                     <table align="center" margin="0" padding="0" cellpadding="0" cellspacing="0"
                         style="margin: 0px auto !important; padding: 0px !important; border-spacing: 0px;">
                         <tbody>
@@ -118,6 +121,20 @@
                     <span style="color: #000000; font-size: 16px;">Atenciosamente,</span>
                     <br>
                     <span style="color: #000000; font-size: 16px;"><b>vagasmaceio.com.br.</b></span>
+                    <table align="center" margin="0" padding="0" cellpadding="0" cellspacing="0"
+                        style="margin: 0px auto !important; padding: 0px !important; border-spacing: 0px;">
+                        <tbody>
+                            <tr>
+                                <td height="50px" width="450" style="width: 450px; height: 50px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span style="color: #000000; font-size: 14px;">Este e-mail é automático, não responda-o.</span>
+                    <br>
+                    <span style="color: #000000; font-size: 14px;">Caso precise entrar em contato:</span>
+                    <br>
+                    <a href="mailto:contato@vagasmaceio.com.br"
+                        style="color: #000000; font-size: 14px;">contato@vagasmaceio.com.br.</a>
                 </td>
                 <td width="75" style="width: 75px;"></td>
             </tr>

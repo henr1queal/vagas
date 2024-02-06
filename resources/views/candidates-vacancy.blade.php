@@ -150,7 +150,8 @@
                                                 <h2 class="mt-2 mb-4 fs-18"><strong>Currículo gerado (formulário):</strong>
                                                     <span
                                                         class="badge text-bg-info fs-14 ms-2 d-none d-lg-inline mb-1">Currículo
-                                                        por formulário</span></h2>
+                                                        por formulário</span>
+                                                </h2>
                                                 <div class="bg-white p-3 rounded-4">
                                                     <div class="col-12">
                                                         <p class="fw-medium"><strong>Bairro:</strong>
@@ -189,7 +190,7 @@
                                             @endif
                                             @if ($candidate->candidateFields->isNotEmpty() && $candidate->candidateFields->first()->experiences->isNotEmpty())
                                                 @php
-                                                    $count = 1;
+                                                    $new_count = 1;
                                                 @endphp
                                                 @foreach ($candidate->candidateFields->first()->experiences as $experience)
                                                     <hr class="mt-4">
@@ -198,7 +199,7 @@
                                                                 emprego:</strong></h2>
                                                     @endif
                                                     <p class="fw-medium"><strong>Experiência
-                                                            {{ $count }}:</strong></p>
+                                                            {{ $new_count }}:</strong></p>
                                                     <div class="bg-white p-3 rounded-4">
                                                         <div class="col-12">
                                                             <p class="fw-medium"><strong>Nome da empresa:</strong>
@@ -238,10 +239,10 @@
                                                                 @endif
                                                             </p>
                                                         </div>
-                                                        @php
-                                                            $count++;
-                                                        @endphp
                                                     </div>
+                                                    @php
+                                                    $new_count++;
+                                                @endphp
                                                 @endforeach
                                             @endif
                                         </div>

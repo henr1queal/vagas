@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/vagas-pendentes-de-aprovacao', [VacanciesController::class, 'pendentVacancies'])->name('vacancy.pendents');
     Route::get('/vaga-pendente-de-aprovacao/{id}', [VacanciesController::class, 'singlePendentVacancy'])->name('vacancy.pendent');
     Route::put('/aprovar-vaga/{vacancy}', [VacanciesController::class, 'approvePendentVacancy'])->name('vacancy.approve');
-    Route::get('/visualizar-candidatos/{vacancy_id}', [CandidateController::class, 'show'])->name('candidates.vacancy');
+    Route::get('/visualizar-candidatos/{vacancy_id}/{start_datetime?}', [CandidateController::class, 'show'])->name('candidates.vacancy');
     Route::get('/visualizar-curriculo-candidato/{filename}', [CandidateController::class, 'showCurriculum'])->name('candidates.curriculum');
 });
 

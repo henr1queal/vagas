@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -16,9 +15,15 @@ class SendDailyCandidates extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    protected $subday;
+    protected $title;
+    protected $id;
+
+    public function __construct($subday, $title, $id)
     {
-        //
+        $this->subday = $subday;
+        $this->title = $title;
+        $this->id = $id;
     }
 
     /**
@@ -27,7 +32,7 @@ class SendDailyCandidates extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Seus candidatos do dia estão aqui.',
+            subject: 'Os novos candidatos das últimas 24 horas da sua vaga de ' . $this->title . ' estão aqui.',
         );
     }
 
@@ -38,6 +43,10 @@ class SendDailyCandidates extends Mailable
     {
         return new Content(
             view: 'email.daily-candidates',
+            with: [
+                'subday' => $this->subday,
+                'id' => $this->id
+            ]
         );
     }
 
