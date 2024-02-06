@@ -412,11 +412,11 @@
                                                 d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
                                         </svg>
                                     </div>
-                                    <div class="form-floating notifications_views mt-3"
+                                    <div class="form-floating notification_views mt-3"
                                         @if (!old('receive_notification')) style="display: none;" @endif>
                                         <select class="form-select border-secondary rounded-0 fs-15"
-                                            id="notifications_views" aria-label="Receber notificações a cada"
-                                            name="notifications_views">
+                                            id="notification_views" aria-label="Receber notificações a cada"
+                                            name="notification_views">
                                             <option value="100" selected>100</option>
                                             <option value="150">150</option>
                                             <option value="200">200</option>
@@ -424,7 +424,7 @@
                                             <option value="500">500</option>
                                             <option value="1000">1000</option>
                                         </select>
-                                        <label class="fs-15 text-black" for="notifications_views">Receber notificações a
+                                        <label class="fs-15 text-black" for="notification_views">Receber notificações a
                                             cada</label>
                                         <div class="invalid-feedback fs-14">
                                             Insira um valor.
@@ -533,11 +533,11 @@
 
         $('#receive_notification').change(function() {
             if ($('#receive_notification').is(':checked')) {
-                $('.notifications_views').show()
-                $('#notifications_views').prop('required', true)
+                $('.notification_views').show()
+                $('#notification_views').prop('required', true)
             } else {
-                $('.notifications_views').hide()
-                $('#notifications_views').prop('required', false)
+                $('.notification_views').hide()
+                $('#notification_views').prop('required', false)
             }
         })
 

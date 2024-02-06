@@ -241,7 +241,7 @@ class VacanciesController extends Controller
 
         $this->verifyDoubleFields('email_receiver', 'hour_receive_email', $validated, $vacancy);
         $this->verifyDoubleFields('limit_candidates', 'max_candidates', $validated, $vacancy);
-        $this->verifyDoubleFields('receive_notification', 'notifications_views', $validated, $vacancy);
+        $this->verifyDoubleFields('receive_notification', 'notification_views', $validated, $vacancy);
 
         $vacancy->user_id = $user->id;
         $vacancy->paid_value = 79.9;
