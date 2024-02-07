@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 
 class VacanciesController extends Controller
 {
@@ -329,6 +330,7 @@ class VacanciesController extends Controller
             $vacancy->approved_by_admin = 1;
             $vacancy->save();
             Artisan::call('cache:clear');
+            Session::forget('success');
             return redirect()->route('home')->with('success', 'Vaga aprovada e já disponível no site.');
         } else {
             return redirect()->route('dashboard');
