@@ -184,7 +184,7 @@ class VacanciesController extends Controller
                 'limit_candidates' => 'in:on',
                 'max_candidates' => 'nullable|required_if:limit_candidates,on|integer',
                 'receive_notification' => 'in:on',
-                'notifications_views' => 'required_if:receive_notification,on|in:100,150,200,300,500,1000',
+                'notification_views' => 'required_if:receive_notification,on|in:100,150,200,300,500,1000',
             ],
             [],
             [
@@ -203,7 +203,7 @@ class VacanciesController extends Controller
                 'limit_candidates' => 'Limite de candidatos',
                 'max_candidates' => 'Quantidade limite de candidatos',
                 'receive_notification' => 'Receber notificação de visualizações',
-                'notifications_views' => 'Receber notificações a cada',
+                'notification_views' => 'Receber notificações a cada',
             ]
         );
 
@@ -385,7 +385,7 @@ class VacanciesController extends Controller
                 'limit_candidates' => 'in:on',
                 'max_candidates' => 'nullable|required_if:limit_candidates,on|integer',
                 'receive_notification' => 'in:on',
-                'notifications_views' => 'required_if:receive_notification,on|in:100,150,200,300,500,1000',
+                'notification_views' => 'required_if:receive_notification,on|in:100,150,200,300,500,1000',
             ],
             [],
             [
@@ -404,7 +404,7 @@ class VacanciesController extends Controller
                 'limit_candidates' => 'Limite de candidatos',
                 'max_candidates' => 'Quantidade limite de candidatos',
                 'receive_notification' => 'Receber notificação de visualizações',
-                'notifications_views' => 'Receber notificações a cada',
+                'notification_views' => 'Receber notificações a cada',
             ]
         );
 
@@ -413,7 +413,7 @@ class VacanciesController extends Controller
 
         $this->verifyDoubleFields('email_receiver', 'hour_receive_email', $validated, $vacancy);
         $this->verifyDoubleFields('limit_candidates', 'max_candidates', $validated, $vacancy);
-        $this->verifyDoubleFields('receive_notification', 'notifications_views', $validated, $vacancy);
+        $this->verifyDoubleFields('receive_notification', 'notification_views', $validated, $vacancy);
 
         if (isset($validated['choiced_plan'])) {
             $vacancy->choiced_plan = $validated['choiced_plan'];
