@@ -6,6 +6,7 @@ use App\Events\ViewedVacancy;
 use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -327,6 +328,7 @@ class VacanciesController extends Controller
         if (auth()->user()->id === 1) {
             $vacancy->approved_by_admin = 1;
             $vacancy->save();
+            Artisan::call('cache:clear');
             return redirect()->route('home')->with('success', 'Vaga aprovada e já disponível no site.');
         } else {
             return redirect()->route('dashboard');

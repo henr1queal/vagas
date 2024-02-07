@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Mail\NewVacancyAdded;
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use MercadoPago\Client\Common\RequestOptions;
 use MercadoPago\Client\Preference\PreferenceClient;
@@ -92,7 +91,6 @@ class MercadoPagoController extends Controller
                 } else {
                     $vacancy->days_available = now()->addDays($payment->description === 'Normal' ? 30 : 15);
                 }
-                Artisan::call('cache:clear');
                 Mail::to('henriquersilva.al@gmail.com')->send(new NewVacancyAdded($vacancy->id));
             } elseif ($payment->status === 'pending' || $payment->status === 'in_process') {
                 $vacancy->paid_status = 'in process';
