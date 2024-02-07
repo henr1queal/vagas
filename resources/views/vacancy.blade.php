@@ -347,11 +347,10 @@
                                     </div>
                                     <input type="hidden" name="vacancy" value="{{ $vacancy->id }}">
                                     <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-                                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
                                 </div>
                                 <div>
                                     <button type="submit"
-                                        class="g-recaptcha btn btn-success fs-16 w-100 py-3 d-flex flex-row justify-content-center gap-4 align-items-center"><svg
+                                        class="btn btn-success fs-16 w-100 py-3 d-flex flex-row justify-content-center gap-4 align-items-center"><svg
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             fill="currentColor" class="bi bi-send-check" viewBox="0 0 16 16">
                                             <path
@@ -483,7 +482,7 @@
                                         </div>
                                     </div>
                                     <input type="hidden" name="vacancy" value="{{ $vacancy->id }}">
-                                    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+                                    {{-- <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response"> --}}
                                     <div class="ms-lg-5">
                                         <label class="form-check-label">Filhos:<span
                                                 class="text-danger fs-14">*</span></label>
@@ -637,9 +636,8 @@
                                             Experiência</div>
                                     </button>
                                 </div>
-                                <button data-sitekey="{{ config('services.recaptcha_v3_alternative.siteKey') }}"
-                                    data-callback="onSubmitFormFields" data-action="submitContact"
-                                    class="g-recaptcha btn btn-success fs-16 w-100 py-3 mt-5 d-flex flex-row justify-content-center gap-4 align-items-center"><svg
+                                <button
+                                    class="btn btn-success fs-16 w-100 py-3 mt-5 d-flex flex-row justify-content-center gap-4 align-items-center"><svg
                                         xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         fill="currentColor" class="bi bi-send-check" viewBox="0 0 16 16">
                                         <path
