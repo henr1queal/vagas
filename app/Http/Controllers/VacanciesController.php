@@ -18,6 +18,7 @@ class VacanciesController extends Controller
         $user = Auth::user();
         $vacancies = Vacancy::where('user_id', $user->id)
             ->withCount(['candidateFiles', 'candidateFields'])
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $now_datetime = now();
