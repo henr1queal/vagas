@@ -69,7 +69,7 @@
                                         <hr class="vr my-0 px-0 h-75 align-self-center opacity-75" style="width: 1px;">
                                         <div>
                                             <a target="_blank"
-                                                href="{{ route('vacancy.preview', ['vacancy' => $vacancy]) }}">Aprovar</a>
+                                                href="{{ route('vacancy.approve', ['vacancy' => $vacancy]) }}">Aprovar</a>
                                         </div>
                                     </div>
                                 </div>
