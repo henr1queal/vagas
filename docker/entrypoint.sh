@@ -54,6 +54,7 @@ fi
 php artisan migrate --force
 
 php artisan view:clear 2>/dev/null || true
+php artisan cache:clear 2>/dev/null || true
 
 chown -R www-data:www-data storage bootstrap/cache public/build 2>/dev/null || true
 
