@@ -11,9 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('vacancies', function (Blueprint $table) {
-            $table->uuid('id')->change();
-        });
+        // A tabela vacancies já é criada com UUID em 2024_01_14_000001_create_vacancies_table.
     }
 
     /**
@@ -21,8 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('uuid_vacancies', function (Blueprint $table) {
-            //
-        });
+        //
     }
 };

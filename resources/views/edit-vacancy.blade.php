@@ -592,9 +592,9 @@
             })
         })()
     </script>
-    <script src="../public/build/assets/bundle.js"></script>
-    <script src="../public/build/assets/jquery.min.js"></script>
-    <script src="../public/build/assets/jquery.mask.js"></script>
+    <script src="{{ asset('build/assets/bundle.js') }}"></script>
+    <script src="{{ asset('build/assets/jquery.min.js') }}"></script>
+    <script src="{{ asset('build/assets/jquery.mask.js') }}"></script>
     <script>
         function hasVerticalScroll() {
             return document.body.scrollHeight > window.innerHeight;

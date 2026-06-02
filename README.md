@@ -1,3 +1,29 @@
+## Docker
+
+Requisitos: Docker e Docker Compose.
+
+```bash
+docker compose up --build
+```
+
+A aplicação ficará disponível em [http://localhost:8080](http://localhost:8080).
+
+| Serviço  | URL / Porta              |
+|----------|--------------------------|
+| App      | http://localhost:8080    |
+| MySQL    | localhost:3306           |
+| Mailpit  | http://localhost:8025    |
+
+Na primeira execução, o container instala dependências, gera a chave da aplicação, compila assets e roda as migrations automaticamente.
+
+Comandos úteis:
+
+```bash
+docker compose exec app php artisan migrate
+docker compose exec app php artisan tinker
+docker compose down
+```
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

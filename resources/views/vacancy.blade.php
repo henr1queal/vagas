@@ -662,13 +662,13 @@
             </div>
         </main>
         <a href="{{ route('whatsapp') }}" target="_blank" class="btn-whatsapp-pulse">
-            <img src="../public/build/images/whatsapp.png" alt="Receba vagas pelo Whatsapp" class="img-fluid">
+            <img src="{{ asset('build/images/whatsapp.png') }}" alt="Receba vagas pelo Whatsapp" class="img-fluid">
         </a>
     </div>
 @endsection
 @section('scripts')
-    <script src="../public/build/assets/jquery.min.js"></script>
-    <script src="../public/build/assets/jquery.mask.js"></script>
+    <script src="{{ asset('build/assets/jquery.min.js') }}"></script>
+    <script src="{{ asset('build/assets/jquery.mask.js') }}"></script>
     <script>
         $(document).ready(function() {
             var PhoneBehavior = function(val) {

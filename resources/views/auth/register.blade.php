@@ -189,8 +189,8 @@
         window.addEventListener('scroll', setFooterStyle);
         window.addEventListener('resize', setFooterStyle);
     </script>
-    <script src="./public/build/assets/jquery.min.js"></script>
-    <script src="./public/build/assets/jquery.mask.js"></script>
+    <script src="{{ asset('build/assets/jquery.min.js') }}"></script>
+    <script src="{{ asset('build/assets/jquery.mask.js') }}"></script>
     <script>
         $(document).ready(function() {
             var PhoneBehavior = function(val) {
