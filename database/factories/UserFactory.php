@@ -26,7 +26,30 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'company_name' => fake()->company(),
+            'cnpj' => fake()->numerify('##.###.###/####-##'),
+            'phone' => '(82) 9' . fake()->numerify('####-####'),
         ];
+    }
+
+    public function admin(): static
+    {
+        return $this->state(fn () => [
+            'name' => 'Administrador Vagas Maceió',
+            'email' => 'admin@vagasmaceio.test',
+            'company_name' => 'Vagas Maceió',
+            'cnpj' => '00.000.000/0001-00',
+            'phone' => '(82) 98765-4321',
+            'password' => Hash::make('VagasAdmin@2026'),
+        ]);
+    }
+
+    public function employer(): static
+    {
+        return $this->state(fn () => [
+            'name' => fake()->name(),
+            'company_name' => fake()->company(),
+        ]);
     }
 
     /**

@@ -14,16 +14,17 @@ class CandidateField extends Model
     const UPDATED_AT = null;
     
     protected $fillable = [
+        'candidate_id',
         'full_name',
         'district',
         'phone',
         'whatsapp',
         'experience_years',
-        'married',
+        'marital_status',
         'has_children',
         'availability',
         'birth_date',
-        'vacancy_id'
+        'vacancy_id',
     ];
 
     public function candidate(): BelongsTo

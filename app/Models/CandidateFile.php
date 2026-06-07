@@ -13,6 +13,7 @@ class CandidateFile extends Model
     const UPDATED_AT = null;
     
     protected $fillable = [
+        'candidate_id',
         'filename',
         'vacancy_id',
     ];
